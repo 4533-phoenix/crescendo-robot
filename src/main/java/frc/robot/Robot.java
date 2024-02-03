@@ -4,9 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
+import frc.robot.subsystems.Swerve;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,10 +23,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private String autoSelected = "Tutorial Auto";
+
+  private Command autoCommand = new InstantCommand();
+
+  private Pose2d autoPosition = new Pose2d();
+  
+  private final SendableChooser<String> autoChooser = new SendableChooser<String>();
+
+  public static final SysIdRoutine sysIDDriveRoutine = new SysIdRoutine(
+    new Config(), 
+    new Mechanism(
+      Swerve.getInstance()::sysIDDriveTest, 
+      Swerve.getInstance()::sysIDDriveLog, 
+      Swerve.getInstance(), 
+      "Test Drive Motors"
+    )
+  );
+
+  public static final SysIdRoutine sysIDSteerRoutine = new SysIdRoutine(
+    new Config(), 
+    new Mechanism(
+      Swerve.getInstance()::sysIDSteerTest, 
+      Swerve.getInstance()::sysIDSteerLog, 
+      Swerve.getInstance(), 
+      "Test Steer Motors"
+    )
+  );
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -26,9 +57,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    Swerve.getInstance().resetGyro();
+
+    RobotContainer.registerSubsystems();
+
+    RobotContainer.registerButtons();
+    
+    autoChooser.setDefaultOption("Tutorial Auto", "Tutorial Auto");
+
+    SmartDashboard.putData(autoChooser);
   }
 
   /**
@@ -39,7 +76,9 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
@@ -53,28 +92,26 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    autoSelected = autoChooser.getSelected();
+
+    autoCommand = RobotContainer.getAutonomous(autoSelected);
+
+    autoPosition = RobotContainer.getAutonomousPosition(autoSelected);
+
+    Swerve.getInstance().registerPoseEstimator(autoPosition);
+
+    // CommandScheduler.getInstance().schedule(autoCommand);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
-  }
+  public void autonomousPeriodic() {}
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    // CommandScheduler.getInstance().cancel(autoCommand);
+  }
 
   /** This function is called periodically during operator control. */
   @Override
@@ -90,7 +127,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when test mode is enabled. */
   @Override
-  public void testInit() {}
+  public void testInit() {} 
 
   /** This function is called periodically during test mode. */
   @Override
