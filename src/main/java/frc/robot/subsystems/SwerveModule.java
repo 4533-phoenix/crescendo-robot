@@ -18,7 +18,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Voltage;
-import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.subsystems.Constants.SwerveModuleConstants;
 
 public final class SwerveModule {
@@ -90,11 +89,11 @@ public final class SwerveModule {
     }
 
     public double getDriveMotorVoltage() {
-        return driveMotor.get() * RobotController.getBatteryVoltage();
+        return driveMotor.getAppliedOutput() * driveMotor.getBusVoltage();
     }
 
     public double getSteerMotorVoltage() {
-        return steerMotor.get() * RobotController.getBatteryVoltage();
+        return steerMotor.getAppliedOutput() * steerMotor.getBusVoltage();
     }
 
     public double getDriveMotorLinearPosition() {
@@ -162,7 +161,7 @@ public final class SwerveModule {
         //     + steerPIDValue
         // );
 
-        steerMotor.setVoltage(5.0);
+        driveMotor.setVoltage(5.0);
     }
 
     public void setDriveMotorVoltage(Measure<Voltage> voltage) {
