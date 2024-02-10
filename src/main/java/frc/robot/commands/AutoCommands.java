@@ -16,9 +16,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Constants.SwerveConstants;
 
 public final class AutoCommands {
     public static InstantCommand tutorialAuto() {

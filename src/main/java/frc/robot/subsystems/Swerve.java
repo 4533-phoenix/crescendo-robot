@@ -8,7 +8,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -19,12 +18,20 @@ import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Constants.SwerveConstants;
+import frc.robot.Constants.SwerveConstants;
 
+/**
+ * The class for the swerve drive subsystem.
+ */
 public final class Swerve extends SubsystemBase {
+    /**
+     * The instance of the class.
+     */
     private static Swerve swerve = null;
 
+    /**
+     * The front left swerve module.
+     */
     private final SwerveModule frontLeftSwerveModule = new SwerveModule(
         SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_ID, 
         SwerveConstants.FRONT_LEFT_STEER_MOTOR_ID, 
@@ -35,6 +42,9 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
     );
 
+    /**
+     * The front right swerve module.
+     */
     private final SwerveModule frontRightSwerveModule = new SwerveModule(
         SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_ID, 
         SwerveConstants.FRONT_RIGHT_STEER_MOTOR_ID, 
@@ -45,6 +55,9 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
     );
 
+    /**
+     * The back left swerve module.
+     */
     private final SwerveModule backLeftSwerveModule = new SwerveModule(
         SwerveConstants.BACK_LEFT_DRIVE_MOTOR_ID, 
         SwerveConstants.BACK_LEFT_STEER_MOTOR_ID, 
@@ -55,6 +68,9 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
     );
 
+    /**
+     * The back right swerve module.
+     */
     private final SwerveModule backRightSwerveModule = new SwerveModule(
         SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_ID, 
         SwerveConstants.BACK_RIGHT_STEER_MOTOR_ID, 
@@ -65,6 +81,11 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
     );
 
+    /**
+     * The array that contains the swerve modules.
+     * <br></br>
+     * The order is front left, front right, back left, back right.
+     */
     private final SwerveModule[] swerveModules = new SwerveModule[]{
         frontLeftSwerveModule,
         frontRightSwerveModule,
@@ -72,10 +93,19 @@ public final class Swerve extends SubsystemBase {
         backRightSwerveModule
     };
 
+    /**
+     * The robot's gyroscope.
+     */
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
+    /**
+     * The swerve drive position estimator.
+     */
     private SwerveDrivePoseEstimator poseEstimator = null;
 
+    /**
+     * The swerve drive holonomic drive controller.
+     */
     private final HolonomicDriveController swerveController = new HolonomicDriveController(
         new PIDController(
             SwerveConstants.X_CONTROLLER_KP, 
@@ -98,6 +128,11 @@ public final class Swerve extends SubsystemBase {
         )
     );
 
+    /**
+     * Gets the instance of the {@link Swerve} class.
+     * 
+     * @return The instance of the {@link Swerve} class.
+     */
     public static Swerve getInstance() {
         if (swerve == null) {
             swerve = new Swerve();
@@ -106,22 +141,52 @@ public final class Swerve extends SubsystemBase {
         return swerve;
     }
 
+    /**
+     * The constructor for the {@link Swerve} class.
+     */
     private Swerve() {
-        swerveController.getThetaController().enableContinuousInput(0.0, 2 * Math.PI);
+        // Set continous input for the theta controller.
+        swerveController.getThetaController().enableContinuousInput(0.0, (2 * Math.PI));
     }
 
+    /**
+     * Gets the swerve module from the swerve modules array corresponding
+     * to the given index.
+     * 
+     * @param index The index of the swerve module to get from the swerve modules array.
+     * @return The swerve module at the given index in the swerve modules array.
+     */
+    public SwerveModule getSwerveModule(int index) {
+        return swerveModules[index];
+    }
+
+    /**
+     * Gets the swerve drive holonomic drive controller.
+     * 
+     * @return The swerve drive holonomic drive controller.
+     */
     public HolonomicDriveController getHolonomicDriveController() {
         return swerveController;
     }
 
+    /**
+     * Resets the robot's gyroscope yaw to zero.
+     */
     public void resetGyro() {
         gyro.reset();
     }
 
+    /**
+     * Registers the swerve drive position estimator. This is done
+     * because the initial position of the robot is only known
+     * at the beginning of the autonomous period.
+     * 
+     * @param initialPose The initial position of the robot.
+     */
     public void registerPoseEstimator(Pose2d initialPose) {
         poseEstimator = new SwerveDrivePoseEstimator(
             SwerveConstants.SWERVE_DRIVE_KINEMATICS, 
-            Rotation2d.fromDegrees(-gyro.getYaw()), 
+            getRobotAngle(), 
             new SwerveModulePosition[]{
                 new SwerveModulePosition(),
                 new SwerveModulePosition(),
@@ -132,57 +197,134 @@ public final class Swerve extends SubsystemBase {
         );
     }
 
+    /**
+     * Returns the robot's accumulated yaw angle.
+     * 
+     * @return The robot's accumulated yaw angle.
+     */
     public Rotation2d getRobotAngle() {
-        return Rotation2d.fromDegrees(-gyro.getYaw());
+        return Rotation2d.fromDegrees(-gyro.getAngle());
     }
 
+    /**
+     * Returns the robot position reported by the swerve drive
+     * position estimator.
+     * 
+     * @return The robot position reported by the swerve drive
+     * position estimator.
+     */
     public Pose2d getRobotPose() {
         return poseEstimator.getEstimatedPosition();
     }
 
-    public void drive() {
-        Translation2d translation = new Translation2d(
-            RobotContainer.getController().getLeftX(), 
-            RobotContainer.getController().getLeftY()
-        );
-        double rotation = RobotContainer.getController().getRightX();
-
-        double xVelocity = translation.getX() * SwerveConstants.MAX_VELOCITY;
-        double yVelocity = translation.getY() * SwerveConstants.MAX_VELOCITY;
+    /**
+     * This method is used mainly for driving the swerve drive
+     * subsystem during the teleoperated period of the match.
+     * <br></br>
+     * It takes in x, y, and rotation velocity factors and sets
+     * the swerve drive subsystem to drive at the resulting
+     * velocities.
+     * 
+     * @param x The x velocity factor.
+     * @param y The y velocity factor.
+     * @param rotation The rotational velocity factor.
+     */
+    public void drive(double x, double y, double rotation) {
+        /*
+         * Get the velocities as the x, y, and rotation velocity factors
+         * multiplied by their respective velocities.
+         */
+        double xVelocity = x * SwerveConstants.MAX_VELOCITY;
+        double yVelocity = y * SwerveConstants.MAX_VELOCITY;
         double rotationalVelocity = rotation * SwerveConstants.MAX_ROTATIONAL_VELOCITY;
 
+        /*
+         * Get field relative chassis speeds from the velocities and
+         * current robot angle.
+         */
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             xVelocity, 
             yVelocity, 
             rotationalVelocity, 
-            Rotation2d.fromDegrees(-gyro.getYaw())
+            getRobotAngle()
         );
 
+        // Convert the chassis speeds to swerve module states.
         SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
+        // Set the swerve drive subsystem to drive at the swerve module states.
         setSwerveModuleStates(swerveModuleStates);
     }
 
+    /**
+     * Sets the swerve drive subsystem to drive at the given
+     * swerve module states.
+     * 
+     * @param swerveModuleStates The swerve module states for the
+     * swerve drive subsystem to drive at.
+     */
     public void setSwerveModuleStates(SwerveModuleState[] swerveModuleStates) {
+        /*
+         * Loop over the swerve modules and set the corresponding
+         * swerve module states.
+         */
         for (int i = 0; i < swerveModules.length; i++) {
             swerveModules[i].setState(swerveModuleStates[i]);
         }
     }
 
+    /**
+     * The drive test method for the SysID drive routine.
+     * Sets the drive motors of each swerve module to the 
+     * given voltage. 
+     * 
+     * @param voltage The voltage to set each swerve module
+     * drive motor to.
+     */
     public void sysIDDriveTest(Measure<Voltage> voltage) {
+        /*
+         * Loop over the swerve modules and set their
+         * drive motors to the given voltage.
+         */
         for (SwerveModule swerveModule : swerveModules) {
             swerveModule.setDriveMotorVoltage(voltage);
         }
     }
 
+    /**
+     * The steer test method for the SysID steer routine.
+     * Sets the steer motors of each swerve module to the
+     * given voltage.
+     * 
+     * @param voltage The voltage to set each swerve module
+     * steer motor to.
+     */
     public void sysIDSteerTest(Measure<Voltage> voltage) {
+        /*
+         * Loop over the swerve modules and set their
+         * steer motors to the given voltage.
+         */
         for (SwerveModule swerveModule : swerveModules) {
             swerveModule.setSteerMotorVoltage(voltage);
         }
     }
 
+    /**
+     * The drive log method for the SysID drive routine.
+     * Logs the voltage, linear position, and linear velocity
+     * of each swerve module drive motor to the given SysID log.
+     * 
+     * @param log The SysID log that records the voltage,
+     * linear position, and linear velocity of each swerve
+     * module drive motor.
+     */
     public void sysIDDriveLog(SysIdRoutineLog log) {
-        for (int i = 0; i < 4; i++) {
+        /*
+         * Loop over the swerve modules and log their
+         * drive motor voltage, linear position,
+         * and linear velocity.
+         */
+        for (int i = 0; i < swerveModules.length; i++) {
             SwerveModule swerveModule = swerveModules[i];
 
             String motorName = "";
@@ -207,8 +349,17 @@ public final class Swerve extends SubsystemBase {
         }
     }
 
+    /**
+     * The steer log method for the SysID steer routine.
+     * Logs the voltage, angular position, and angular velocity
+     * of each swerve module steer motor to the given SysID log.
+     * 
+     * @param log The SysID log that records the voltage,
+     * angular position, and angular velocity of each swerve
+     * module steer motor.
+     */
     public void sysIDSteerLog(SysIdRoutineLog log) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < swerveModules.length; i++) {
             SwerveModule swerveModule = swerveModules[i];
 
             String motorName = "";
@@ -233,33 +384,47 @@ public final class Swerve extends SubsystemBase {
         }
     }
 
+    /**
+     * The periodic method for the swerve drive subsystem. This method
+     * is run by the command scheduler every 20 ms.
+     */
     @Override
     public void periodic() {
-        for (int i = 0; i < 4; i++) {
-            SwerveModule swerveModule = swerveModules[i];
+        // for (int i = 0; i < swerveModules.length; i++) {
+        //     SwerveModule swerveModule = swerveModules[i];
 
-            if (i == 0) {
-                System.out.println("Front Left Encoder Angle: " + swerveModule.getSteerEncoderAngle());
-            }
-            else if (i == 1) {
-                System.out.println("Front Right Encoder Angle: " + swerveModule.getSteerEncoderAngle());
-            }
-            else if (i == 2) {
-                System.out.println("Back Left Encoder Angle: " + swerveModule.getSteerEncoderAngle());
-            }
-            else if (i == 3) {
-                System.out.println("Back Right Encoder Angle: " + swerveModule.getSteerEncoderAngle());
-            }
-        }
+        //     if (i == 0) {
+        //         System.out.println("Front Left Angle: " + swerveModule.getSteerEncoderAngle());
+        //     }
+        //     else if (i == 1) {
+        //         System.out.println("Front Right Angle: " + swerveModule.getSteerEncoderAngle());
+        //     }
+        //     else if (i == 2) {
+        //         System.out.println("Back Left Angle: " + swerveModule.getSteerEncoderAngle());
+        //     }
+        //     else if (i == 3) {
+        //         System.out.println("Back Right Angle: " + swerveModule.getSteerEncoderAngle());
+        //     }
+        // }
 
-        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
+        // Create an array to store the current swerve module positions.
+        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[swerveModules.length];
 
-        for (int i = 0; i < 4; i++) {
+        /*
+         * Loop over the swerve modules and set the corresponding current
+         * swerve module positions.
+         */
+        for (int i = 0; i < swerveModules.length; i++) {
             SwerveModule swerveModule = swerveModules[i];
 
             swerveModulePositions[i] = swerveModule.getSwerveModulePosition();
         }
 
+        /*
+         * If the swerve drive position estimator has been registered,
+         * then update it with the current robot angle and the current
+         * swerve module positions.
+         */
         if (poseEstimator != null) {
             poseEstimator.update(getRobotAngle(), swerveModulePositions);
         }

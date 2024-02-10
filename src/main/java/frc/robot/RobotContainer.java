@@ -8,13 +8,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoCommands;
+import frc.robot.commands.SwerveCommands;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Constants.MotorConstants;
 
 public final class RobotContainer {
-    private static final XboxController controller = new XboxController(0);
+    private static final XboxController driverController = new XboxController(ControllerConstants.DRIVER_CONTROLLER_ID);
+    private static final XboxController manipulatorController = new XboxController(ControllerConstants.MANIPULATOR_CONTROLLER_ID);
 
     private static final Map<String, Command> autoCommands = Map.ofEntries(
         Map.entry("Tutorial Auto", AutoCommands.tutorialAuto())
@@ -25,36 +27,36 @@ public final class RobotContainer {
     );
 
     public static void registerButtons() {
-        // JoystickButton runIntakeForwardButton = new JoystickButton(controller, 1);
+        // JoystickButton runIntakeForwardButton = new JoystickButton(driverController, 1);
         // runIntakeForwardButton.whileTrue(IntakeCommands.getRunIntakeForwardCommand());
         // runIntakeForwardButton.onFalse(IntakeCommands.getStopIntakeCommand());
 
-        // JoystickButton runIntakeBackwardButton = new JoystickButton(controller, 2);
+        // JoystickButton runIntakeBackwardButton = new JoystickButton(driverController, 2);
         // runIntakeBackwardButton.whileTrue(IntakeCommands.getRunIntakeBackwardCommand());
         // runIntakeBackwardButton.onFalse(IntakeCommands.getStopIntakeCommand());
 
-        JoystickButton runSysIDDriveQuasistaticForwardButton = new JoystickButton(controller, MotorConstants.BUTTON_A);
+        JoystickButton runSysIDDriveQuasistaticForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_A);
         runSysIDDriveQuasistaticForwardButton.whileTrue(Robot.sysIDDriveRoutine.quasistatic(Direction.kForward));
 
-        JoystickButton runSysIDDriveQuasistaticBackwardButton = new JoystickButton(controller, MotorConstants.BUTTON_B);
+        JoystickButton runSysIDDriveQuasistaticBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_B);
         runSysIDDriveQuasistaticBackwardButton.whileTrue(Robot.sysIDDriveRoutine.quasistatic(Direction.kReverse));
 
-        JoystickButton runSysIDDriveDynamicForwardButton = new JoystickButton(controller, MotorConstants.BUTTON_Y);
+        JoystickButton runSysIDDriveDynamicForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_Y);
         runSysIDDriveDynamicForwardButton.whileTrue(Robot.sysIDDriveRoutine.dynamic(Direction.kForward));
 
-        JoystickButton runSysIDDriveDynamicBackwardButton = new JoystickButton(controller, MotorConstants.BUTTON_X);
+        JoystickButton runSysIDDriveDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_X);
         runSysIDDriveDynamicBackwardButton.whileTrue(Robot.sysIDDriveRoutine.dynamic(Direction.kReverse));
 
-        JoystickButton runSysIDSteerQuasistaticForwardButton = new JoystickButton(controller, MotorConstants.BUTTON_START);
+        JoystickButton runSysIDSteerQuasistaticForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_START);
         runSysIDSteerQuasistaticForwardButton.whileTrue(Robot.sysIDSteerRoutine.quasistatic(Direction.kForward));
 
-        JoystickButton runSysIDSteerQuasistaticBackwardButton = new JoystickButton(controller, MotorConstants.BUTTON_RB);
+        JoystickButton runSysIDSteerQuasistaticBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_RB);
         runSysIDSteerQuasistaticBackwardButton.whileTrue(Robot.sysIDSteerRoutine.quasistatic(Direction.kReverse));
 
-        JoystickButton runSysIDSteerDynamicForwardButton = new JoystickButton(controller, MotorConstants.BUTTON_LB);
+        JoystickButton runSysIDSteerDynamicForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_LB);
         runSysIDSteerDynamicForwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kForward));
 
-        JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(controller, MotorConstants.BUTTON_BACK);
+        JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
         runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
     }
 
@@ -65,12 +67,24 @@ public final class RobotContainer {
 
         // commandScheduler.setDefaultCommand(
         //     Swerve.getInstance(), 
-        //     SwerveCommands.getDefaultDriveCommand()
+        //     SwerveCommands.getDefaultDriveCommand(
+        //         () -> { 
+        //             return Math.abs(driverController.getLeftX()) >= ControllerConstants.JOYSTICK_DEADBAND
+        //                 ? driverController.getLeftX()
+        //                 : 0.0;
+        //         },
+        //         () -> {
+        //             return Math.abs(driverController.getLeftY()) >= ControllerConstants.JOYSTICK_DEADBAND
+        //                 ? driverController.getLeftY()
+        //                 : 0.0;
+        //         },
+        //         () -> {
+        //             return Math.abs(driverController.getRightX()) >= ControllerConstants.JOYSTICK_DEADBAND
+        //                 ? driverController.getRightX()
+        //                 : 0.0;
+        //         }
+        //     )
         // );
-    }
-
-    public static XboxController getController() {
-        return controller;
     }
 
     public static Command getAutonomous(String key) {

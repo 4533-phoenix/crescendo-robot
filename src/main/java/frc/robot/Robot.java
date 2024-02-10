@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -67,6 +68,19 @@ public class Robot extends TimedRobot {
     autoChooser.setDefaultOption("Tutorial Auto", "Tutorial Auto");
 
     SmartDashboard.putData(autoChooser);
+
+    SmartDashboard.putNumber("Swerve Module ID", 0);
+
+    SmartDashboard.putBoolean("PID Test", false);
+
+    int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+
+    SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
+    SmartDashboard.putNumber("Angle Setpoint", 0.0);
+
+    SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
+    SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
+    SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
   }
 
   /**
@@ -101,7 +115,7 @@ public class Robot extends TimedRobot {
 
     Swerve.getInstance().registerPoseEstimator(autoPosition);
 
-    // CommandScheduler.getInstance().schedule(autoCommand);
+    CommandScheduler.getInstance().schedule(autoCommand);
   }
 
   /** This function is called periodically during autonomous. */
@@ -111,20 +125,31 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    // CommandScheduler.getInstance().cancel(autoCommand);
+    if (autoCommand.isScheduled()) {
+      CommandScheduler.getInstance().cancel(autoCommand);
+    }
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    Swerve.getInstance().setSwerveModuleStates(
-      new SwerveModuleState[]{
-        new SwerveModuleState(),
-        new SwerveModuleState(),
-        new SwerveModuleState(),
-        new SwerveModuleState()
-      }
-    );
+    if (SmartDashboard.getBoolean("PID Test", false)) {
+      int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+
+      double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
+      double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
+      double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
+
+      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setP(Kp);
+      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setI(Ki);
+      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setD(Kd);
+
+      SwerveModuleState swerveModuleState = new SwerveModuleState(0.0, Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle Setpoint", 0.0)));
+
+      Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
+
+      SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
+    }
   }
 
   /** This function is called once when the robot is disabled. */

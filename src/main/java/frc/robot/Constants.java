@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -9,31 +9,31 @@ public final class Constants {
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0); // m
         public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER; // m
 
-        public static final double DRIVE_GEAR_RATIO = 1.0 / 6.75;
-        public static final double STEER_GEAR_RATIO = 1.0 / 12.8;
+        public static final double DRIVE_GEAR_RATIO = 6.75 / 1.0;
+        public static final double STEER_GEAR_RATIO = 12.8 / 1.0;
 
         public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
         public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0);
 
-        public static final double DRIVE_MOTOR_KS = 0.0;
-        public static final double DRIVE_MOTOR_KV = 0.0;
+        public static final double DRIVE_MOTOR_KS = 0.0; // m
+        public static final double DRIVE_MOTOR_KV = 0.0; // m/s
 
         public static final double DRIVE_MOTOR_KP = 0.0;
         public static final double DRIVE_MOTOR_KI = 0.0;
         public static final double DRIVE_MOTOR_KD = 0.0;
 
-        public static final double STEER_MOTOR_KS = 0.0;
-        public static final double STEER_MOTOR_KV = 0.0;
+        public static final double STEER_MOTOR_KS = 0.07907; // rad
+        public static final double STEER_MOTOR_KV = 1.6004 / (2 * Math.PI); // rad/s
 
         public static final double STEER_MOTOR_KP = 0.0;
         public static final double STEER_MOTOR_KI = 0.0;
         public static final double STEER_MOTOR_KD = 0.0;
 
-        public static final double DRIVE_MOTOR_MAX_VELOCITY = 0.0; // m/s
-        public static final double DRIVE_MOTOR_MAX_ACCELERATION = 0.0; // m/s^2
+        public static final double DRIVE_MOTOR_MAX_VELOCITY = 5.0; // m/s
+        public static final double DRIVE_MOTOR_MAX_ACCELERATION = 2.5; // m/s^2
 
-        public static final double STEER_MOTOR_MAX_VELOCITY = 0.0; // rad/s
-        public static final double STEER_MOTOR_MAX_ACCELERATION = 0.0; // rad/s^2
+        public static final double STEER_MOTOR_MAX_VELOCITY = Math.PI; // rad/s
+        public static final double STEER_MOTOR_MAX_ACCELERATION = Math.PI / 2; // rad/s^2
     }
 
     public static final class SwerveConstants {
@@ -60,9 +60,9 @@ public final class Constants {
         public static final int BACK_LEFT_STEER_MOTOR_ID = 6;
         public static final int BACK_RIGHT_STEER_MOTOR_ID = 8;
 
-        public static final boolean FRONT_LEFT_DRIVE_MOTOR_REVERSED = true;
-        public static final boolean FRONT_RIGHT_DRIVE_MOTOR_REVERSED = false;
-        public static final boolean BACK_LEFT_DRIVE_MOTOR_REVERSED = false;
+        public static final boolean FRONT_LEFT_DRIVE_MOTOR_REVERSED = false;
+        public static final boolean FRONT_RIGHT_DRIVE_MOTOR_REVERSED = true;
+        public static final boolean BACK_LEFT_DRIVE_MOTOR_REVERSED = true;
         public static final boolean BACK_RIGHT_DRIVE_MOTOR_REVERSED = true;
 
         public static final boolean FRONT_LEFT_STEER_MOTOR_REVERSED = false;
@@ -97,13 +97,11 @@ public final class Constants {
         public static final double THETA_CONTROLLER_KI = 0.0;
         public static final double THETA_CONTROLLER_KD = 0.0;
 
-        public static final double MAX_VELOCITY = 0.0; // m/s
-        public static final double MAX_ACCELERATION = 0.0; // m/s^2
+        public static final double MAX_VELOCITY = 5.0; // m/s
+        public static final double MAX_ACCELERATION = 2.5; // m/s^2
 
-        public static final double MAX_ROTATIONAL_VELOCITY = 0.0; // rad/s
-        public static final double MAX_ROTATIONAL_ACCELERATION = 0.0; // rad/s^2
-
-        public static final double JOYSTICK_DEADBAND = 0.05;
+        public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
+        public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI / 2; // rad/s^2
     }
 
     public static final class IntakeConstants {
@@ -112,7 +110,11 @@ public final class Constants {
         public static final double INTAKE_MOTOR_VOLTAGE = 5.0;
     }
 
-    public static final class MotorConstants {
+    public static final class ControllerConstants {
+        // Drive controller IDs.
+        public static final int DRIVER_CONTROLLER_ID = 0;
+        public static final int MANIPULATOR_CONTROLLER_ID = 1;
+
         // Drive controller button IDs.
         public static final int BUTTON_A = 1;
         public static final int BUTTON_B = 2;
@@ -130,5 +132,8 @@ public final class Constants {
         public static final int RIGHT_STICK_AXIS = 5;
         public static final int LEFT_TRIGGER_AXIS = 2;
         public static final int RIGHT_TRIGGER_AXIS = 3;
+
+        // Defines the deadzone for the controller joysticks.
+        public static final double JOYSTICK_DEADBAND = 0.05;
     }
 }
