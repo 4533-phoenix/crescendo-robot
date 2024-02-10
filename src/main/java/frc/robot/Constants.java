@@ -110,6 +110,25 @@ public final class Constants {
         public static final double INTAKE_MOTOR_VOLTAGE = 5.0;
     }
 
+    public static final class ShooterConstants {
+        public static final double LEFT_SHOOTER_VOLTAGE = 9.2;
+        public static final int LEFT_SHOOTER_MOTOR_ID = 13;
+
+        public static final double RIGHT_SHOOTER_VOLTAGE = 9.2;
+        public static final int RIGHT_SHOOTER_MOTOR_ID = 14;
+
+        public static final double LIFT_VOLTAGE = 4.793;
+        public static final int LIFT_MOTOR_ID = 0;
+    }
+
+    public static final class ClimbConstants {
+        public static final double CLIMB_VOLTAGE = 5;
+        public static final int CLIMB_MOTOR_ID = 17;
+
+        public static final double CLIMB_TWO_VOLTAGE = 5;
+        public static final int CLIMB_TWO_MOTOR_ID = 18;
+    }
+
     public static final class ControllerConstants {
         // Drive controller IDs.
         public static final int DRIVER_CONTROLLER_ID = 0;

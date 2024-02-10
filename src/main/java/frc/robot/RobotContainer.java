@@ -7,9 +7,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoCommands;
+import frc.robot.commands.ShooterCommands;
 import frc.robot.commands.SwerveCommands;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
@@ -58,6 +60,14 @@ public final class RobotContainer {
 
         JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
         runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
+
+        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= 0.05; });
+        runRightShooterForwardsTrigger.whileTrue(ShooterCommands.getRunShooterForwardsCommand());
+        runRightShooterForwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
+
+        Trigger runShooterBackwardsTrigger = new Trigger(() -> { return driverController.getLeftTriggerAxis() >= 0.05; });
+        runShooterBackwardsTrigger.whileTrue(ShooterCommands.getRunShooterBackwardsCommand());
+        runShooterBackwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
     }
 
     public static void registerSubsystems() {
