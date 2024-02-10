@@ -150,6 +150,10 @@ public class Robot extends TimedRobot {
 
       SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
     }
+
+    Swerve.getInstance().getSwerveModule(0).setSteerMotorVelocity(2 * Math.PI);
+
+    System.out.println(Swerve.getInstance().getSwerveModule(0).getSteerEncoderAngularVelocity());
   }
 
   /** This function is called once when the robot is disabled. */
