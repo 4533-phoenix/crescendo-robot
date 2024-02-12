@@ -26,8 +26,8 @@ public final class Constants {
         public static final double STEER_MOTOR_KV = 1.6004 / (2 * Math.PI); // V / rad/s
 
         public static final double STEER_MOTOR_KP = 0.0; // V / rad
-        public static final double STEER_MOTOR_KI = 0.0; // V / ∫ ω(t) dt
-        public static final double STEER_MOTOR_KD = 0.0; // V / α(t)
+        public static final double STEER_MOTOR_KI = 0.0; // V / ∫ θ(t) dt
+        public static final double STEER_MOTOR_KD = 0.0; // V / ω(t)
 
         public static final double DRIVE_MOTOR_MAX_VELOCITY = 5.0; // m/s
         public static final double DRIVE_MOTOR_MAX_ACCELERATION = 2.5; // m/s^2
