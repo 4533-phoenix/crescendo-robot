@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoCommands;
+import frc.robot.commands.ClimbCommands;
+import frc.robot.commands.IntakeCommands;
 import frc.robot.commands.ShooterCommands;
 import frc.robot.commands.SwerveCommands;
 import frc.robot.subsystems.Intake;
@@ -29,14 +31,6 @@ public final class RobotContainer {
     );
 
     public static void registerButtons() {
-        // JoystickButton runIntakeForwardButton = new JoystickButton(driverController, 1);
-        // runIntakeForwardButton.whileTrue(IntakeCommands.getRunIntakeForwardCommand());
-        // runIntakeForwardButton.onFalse(IntakeCommands.getStopIntakeCommand());
-
-        // JoystickButton runIntakeBackwardButton = new JoystickButton(driverController, 2);
-        // runIntakeBackwardButton.whileTrue(IntakeCommands.getRunIntakeBackwardCommand());
-        // runIntakeBackwardButton.onFalse(IntakeCommands.getStopIntakeCommand());
-
         JoystickButton runSysIDDriveQuasistaticForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_A);
         runSysIDDriveQuasistaticForwardButton.whileTrue(Robot.sysIDDriveRoutine.quasistatic(Direction.kForward));
 
@@ -61,13 +55,29 @@ public final class RobotContainer {
         JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
         runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
 
-        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= 0.05; });
+        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= 0.05; });
         runRightShooterForwardsTrigger.whileTrue(ShooterCommands.getRunShooterForwardsCommand());
         runRightShooterForwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
 
-        Trigger runShooterBackwardsTrigger = new Trigger(() -> { return driverController.getLeftTriggerAxis() >= 0.05; });
+        Trigger runShooterBackwardsTrigger = new Trigger(() -> { return manipulatorController.getLeftTriggerAxis() >= 0.05; });
         runShooterBackwardsTrigger.whileTrue(ShooterCommands.getRunShooterBackwardsCommand());
         runShooterBackwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
+
+        Trigger runIntakeForwardTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= 0.05; });
+        runIntakeForwardTrigger.whileTrue(IntakeCommands.getRunIntakeForwardsCommand());
+        runIntakeForwardTrigger.onFalse(IntakeCommands.getStopIntakeCommand());
+
+        Trigger runIntakeBackwardTrigger = new Trigger(() -> { return manipulatorController.getLeftTriggerAxis() >= 0.05; });
+        runIntakeBackwardTrigger.whileTrue(IntakeCommands.getRunIntakeBackwardsCommand());
+        runIntakeBackwardTrigger.onFalse(IntakeCommands.getStopIntakeCommand());
+
+        JoystickButton runClimbForwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
+        runClimbForwardsButton.whileTrue(ClimbCommands.getRunClimbUpwardsCommand());
+        runClimbForwardsButton.onFalse(ClimbCommands.getStopClimbCommand());
+
+        JoystickButton runClimbBackwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
+        runClimbBackwardsButton.whileTrue(ClimbCommands.getRunClimbDownwardsCommand());
+        runClimbBackwardsButton.onFalse(ClimbCommands.getStopClimbCommand());
     }
 
     public static void registerSubsystems() {
