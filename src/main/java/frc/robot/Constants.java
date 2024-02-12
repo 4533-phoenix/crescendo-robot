@@ -12,34 +12,34 @@ public final class Constants {
         public static final double DRIVE_GEAR_RATIO = 6.75 / 1.0;
         public static final double STEER_GEAR_RATIO = 12.8 / 1.0;
 
-        public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
-        public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0);
+        public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO; // m / rot
+        public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0); // m/s / rpm
 
-        public static final double DRIVE_MOTOR_KS = 0.0; // m
-        public static final double DRIVE_MOTOR_KV = 0.0; // m/s
+        public static final double DRIVE_MOTOR_KS = 0.0; // V
+        public static final double DRIVE_MOTOR_KV = 0.0; // V / m/s
 
-        public static final double DRIVE_MOTOR_KP = 0.0;
-        public static final double DRIVE_MOTOR_KI = 0.0;
-        public static final double DRIVE_MOTOR_KD = 0.0;
+        public static final double DRIVE_MOTOR_KP = 0.0; // V / m/s
+        public static final double DRIVE_MOTOR_KI = 0.0; // V / ∫ v(t) dt
+        public static final double DRIVE_MOTOR_KD = 0.0; // V / a(t)
 
-        public static final double STEER_MOTOR_KS = 0.07907; // rad
-        public static final double STEER_MOTOR_KV = 1.6004 / (2 * Math.PI); // rad/s
+        public static final double STEER_MOTOR_KS = 0.07907; // V
+        public static final double STEER_MOTOR_KV = 1.6004 / (2 * Math.PI); // V / rad/s
 
-        public static final double STEER_MOTOR_KP = 0.0;
-        public static final double STEER_MOTOR_KI = 0.0;
-        public static final double STEER_MOTOR_KD = 0.0;
+        public static final double STEER_MOTOR_KP = 0.0; // V / rad
+        public static final double STEER_MOTOR_KI = 0.0; // V / ∫ θ(t) dt
+        public static final double STEER_MOTOR_KD = 0.0; // V / ω(t)
 
         public static final double DRIVE_MOTOR_MAX_VELOCITY = 5.0; // m/s
         public static final double DRIVE_MOTOR_MAX_ACCELERATION = 2.5; // m/s^2
 
-        public static final double STEER_MOTOR_MAX_VELOCITY = Math.PI; // rad/s
-        public static final double STEER_MOTOR_MAX_ACCELERATION = Math.PI / 2; // rad/s^2
+        public static final double STEER_MOTOR_MAX_VELOCITY = 3 * Math.PI; // rad/s
+        public static final double STEER_MOTOR_MAX_ACCELERATION = (3 * Math.PI) / 2; // rad/s^2
     }
 
     public static final class SwerveConstants {
-        public static final double TRACK_WIDTH = Units.inchesToMeters(22.5);
+        public static final double TRACK_WIDTH = Units.inchesToMeters(22.5); // m
 
-        public static final double WHEEL_BASE = Units.inchesToMeters(20.5);
+        public static final double WHEEL_BASE = Units.inchesToMeters(20.5); // m
 
         public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
             new Translation2d[]{
@@ -75,27 +75,27 @@ public final class Constants {
         public static final int BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID = 11;
         public static final int BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 12;
         
-        public static final double FRONT_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 0.90045;
-        public static final double FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 2.13684;
-        public static final double BACK_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 6.16660;
-        public static final double BACK_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 1.49717;
+        public static final double FRONT_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 0.90045; // rad
+        public static final double FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 2.13684; // rad
+        public static final double BACK_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 6.16660; // rad
+        public static final double BACK_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 1.49717; // rad
 
         public static final boolean FRONT_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
         public static final boolean FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
         public static final boolean BACK_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
         public static final boolean BACK_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
 
-        public static final double X_CONTROLLER_KP = 0.0;
-        public static final double X_CONTROLLER_KI = 0.0;
-        public static final double X_CONTROLLER_KD = 0.0;
+        public static final double X_CONTROLLER_KP = 0.0; // m/s / m
+        public static final double X_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
+        public static final double X_CONTROLLER_KD = 0.0; // m/s / v(t)
 
-        public static final double Y_CONTROLLER_KP = 0.0;
-        public static final double Y_CONTROLLER_KI = 0.0;
-        public static final double Y_CONTROLLER_KD = 0.0;
+        public static final double Y_CONTROLLER_KP = 0.0; // m/s / m
+        public static final double Y_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
+        public static final double Y_CONTROLLER_KD = 0.0; // m/s / v(t)
 
-        public static final double THETA_CONTROLLER_KP = 0.0;
-        public static final double THETA_CONTROLLER_KI = 0.0;
-        public static final double THETA_CONTROLLER_KD = 0.0;
+        public static final double THETA_CONTROLLER_KP = 0.0; // rad/s / rad
+        public static final double THETA_CONTROLLER_KI = 0.0; // rad/s / ∫ θ(t) dt
+        public static final double THETA_CONTROLLER_KD = 0.0; // rad/s / ω(t)
 
         public static final double MAX_VELOCITY = 5.0; // m/s
         public static final double MAX_ACCELERATION = 2.5; // m/s^2
@@ -106,26 +106,36 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final int INTAKE_MOTOR_ID = 0;
-        public static final double INTAKE_MOTOR_VOLTAGE = 5.0;
+
+        public static final double INTAKE_MOTOR_VOLTAGE = 5.0; // V
+    }
+
+    public static final class AmpConstants {
+        public static final int AMP_MOTOR_ID = 0;
+
+        public static final int RECEIVE_LIMIT_SWITCH_ID = 0;
+        public static final int DROP_LIMIT_SWITCH_ID = 0;
+
+        public static final double AMP_MOTOR_VOLTAGE = 5.0; // V
     }
 
     public static final class ShooterConstants {
-        public static final double LEFT_SHOOTER_VOLTAGE = 9.2;
-        public static final int LEFT_SHOOTER_MOTOR_ID = 0;
+        public static final double LEFT_SHOOTER_VOLTAGE = 9.2; // V
+        public static final int LEFT_SHOOTER_MOTOR_ID = 13;
 
-        public static final double RIGHT_SHOOTER_VOLTAGE = 9.2;
-        public static final int RIGHT_SHOOTER_MOTOR_ID = 0;
+        public static final double RIGHT_SHOOTER_VOLTAGE = 9.2; // V
+        public static final int RIGHT_SHOOTER_MOTOR_ID = 14;
 
-        public static final double LIFT_VOLTAGE = 4.793;
+        public static final double LIFT_VOLTAGE = 4.793; // V
         public static final int LIFT_MOTOR_ID = 0;
     }
 
     public static final class ClimbConstants {
-        public static final double CLIMB_LEFT_VOLTAGE = 5;
-        public static final int CLIMB_LEFT_MOTOR_ID = 17;
+        public static final double CLIMB_VOLTAGE = 5.0; // V
+        public static final int CLIMB_MOTOR_ID = 17;
 
-        public static final double CLIMB_RIGHT_VOLTAGE = 5;
-        public static final int CLIMB_RIGHT_MOTOR_ID = 18;
+        public static final double CLIMB_TWO_VOLTAGE = 5.0; // V
+        public static final int CLIMB_TWO_MOTOR_ID = 18;
     }
 
     public static final class ControllerConstants {
@@ -153,5 +163,23 @@ public final class Constants {
 
         // Defines the deadzone for the controller joysticks.
         public static final double JOYSTICK_DEADBAND = 0.05;
+    }
+
+    public static final class JoystickConstants {
+        public static final int DRIVER_JOYSTICK_ID = 0;
+        public static final int MANIPULATOR_JOYSTICK_ID = 1;
+        
+        public static final int BUTTON_TRIGGER = 1;
+        public static final int BUTTON_THUMB = 2;
+        public static final int BUTTON_3 = 3;
+        public static final int BUTTON_4 = 4;
+        public static final int BUTTON_5 = 5;
+        public static final int BUTTON_6 = 6;
+        public static final int BUTTON_7 = 7;
+        public static final int BUTTON_8 = 8;
+        public static final int BUTTON_9 = 9;
+        public static final int BUTTON_10 = 10;
+        public static final int BUTTON_11 = 11;
+        public static final int BUTTON_12 = 12;
     }
 }

@@ -352,4 +352,8 @@ public final class SwerveModule {
     public void setSteerMotorVoltage(Measure<Voltage> voltage) {
         steerMotor.setVoltage(voltage.magnitude());
     }
+
+    public void setSteerMotorVelocity(double velocity) {
+        steerMotor.setVoltage(steerFeedforward.calculate(velocity));
+    }
 }

@@ -25,7 +25,7 @@ import frc.robot.Constants.SwerveConstants;
  */
 public final class Swerve extends SubsystemBase {
     /**
-     * The instance of the class.
+     * The instance of the {@link Swerve} class.
      */
     private static Swerve swerve = null;
 
