@@ -32,8 +32,8 @@ public final class Constants {
         public static final double DRIVE_MOTOR_MAX_VELOCITY = 5.0; // m/s
         public static final double DRIVE_MOTOR_MAX_ACCELERATION = 2.5; // m/s^2
 
-        public static final double STEER_MOTOR_MAX_VELOCITY = Math.PI; // rad/s
-        public static final double STEER_MOTOR_MAX_ACCELERATION = Math.PI / 2; // rad/s^2
+        public static final double STEER_MOTOR_MAX_VELOCITY = 3 * Math.PI; // rad/s
+        public static final double STEER_MOTOR_MAX_ACCELERATION = (3 * Math.PI) / 2; // rad/s^2
     }
 
     public static final class SwerveConstants {
@@ -110,6 +110,15 @@ public final class Constants {
         public static final double INTAKE_MOTOR_VOLTAGE = 5.0; // V
     }
 
+    public static final class AmpConstants {
+        public static final int AMP_MOTOR_ID = 0;
+
+        public static final int RECEIVE_LIMIT_SWITCH_ID = 0;
+        public static final int DROP_LIMIT_SWITCH_ID = 0;
+
+        public static final double AMP_MOTOR_VOLTAGE = 5.0; // V
+    }
+
     public static final class ShooterConstants {
         public static final double LEFT_SHOOTER_VOLTAGE = 9.2; // V
         public static final int LEFT_SHOOTER_MOTOR_ID = 13;
@@ -154,5 +163,23 @@ public final class Constants {
 
         // Defines the deadzone for the controller joysticks.
         public static final double JOYSTICK_DEADBAND = 0.05;
+    }
+
+    public static final class JoystickConstants {
+        public static final int DRIVER_JOYSTICK_ID = 0;
+        public static final int MANIPULATOR_JOYSTICK_ID = 1;
+        
+        public static final int BUTTON_TRIGGER = 1;
+        public static final int BUTTON_THUMB = 2;
+        public static final int BUTTON_3 = 3;
+        public static final int BUTTON_4 = 4;
+        public static final int BUTTON_5 = 5;
+        public static final int BUTTON_6 = 6;
+        public static final int BUTTON_7 = 7;
+        public static final int BUTTON_8 = 8;
+        public static final int BUTTON_9 = 9;
+        public static final int BUTTON_10 = 10;
+        public static final int BUTTON_11 = 11;
+        public static final int BUTTON_12 = 12;
     }
 }
