@@ -18,6 +18,9 @@ import frc.robot.commands.SwerveCommands;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 
+/**
+ * The class for setting up the subsystems, buttons, and autonomous commands.
+ */
 public final class RobotContainer {
     private static final XboxController driverController = new XboxController(ControllerConstants.DRIVER_CONTROLLER_ID);
     private static final XboxController manipulatorController = new XboxController(ControllerConstants.MANIPULATOR_CONTROLLER_ID);

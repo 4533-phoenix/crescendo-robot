@@ -12,7 +12,7 @@ import frc.robot.Constants.AmpConstants;
  */
 public final class Amp extends SubsystemBase {
     /**
-     * The instance of the class.
+     * The instance of the {@link Amp} class.
      */
     private static Amp amp = null;
 

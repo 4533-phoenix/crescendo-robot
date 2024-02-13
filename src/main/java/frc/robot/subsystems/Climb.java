@@ -6,12 +6,30 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
+/**
+ * The class for the climb subsystem.
+ */
 public final class Climb extends SubsystemBase {
+    /**
+     * The instance of the {@link Climb} class.
+     */
     private static Climb climb = null;
 
-    private final CANSparkMax leftClimbMotor = new CANSparkMax(ClimbConstants.CLIMB_LEFT_MOTOR_ID, MotorType.kBrushed);
-    private final CANSparkMax rightClimbMotor = new CANSparkMax(ClimbConstants.CLIMB_RIGHT_MOTOR_ID, MotorType.kBrushed);
+    /**
+     * The left climb motor.
+     */
+    private final CANSparkMax leftClimbMotor = new CANSparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_ID, MotorType.kBrushed);
 
+    /**
+     * The right climb motor.
+     */
+    private final CANSparkMax rightClimbMotor = new CANSparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, MotorType.kBrushed);
+
+    /**
+     * Gets the instance of the {@link Climb} class.
+     * 
+     * @return The instance of the {@link Climb} class.
+     */
     public static Climb getInstance() {
         if (climb == null) {
             climb = new Climb();
@@ -20,24 +38,32 @@ public final class Climb extends SubsystemBase {
         return climb;
     }
 
-    private Climb() {
-    }
+    /**
+     * The constructor for the {@link Climb} class.
+     */
+    private Climb() {}
 
+    /**
+     * Runs the climb motors up.
+     */
     public void runClimbUp() {
-        System.out.println("up");
-        leftClimbMotor.setVoltage(ClimbConstants.CLIMB_LEFT_VOLTAGE);
-        rightClimbMotor.setVoltage(ClimbConstants.CLIMB_RIGHT_VOLTAGE);
+        leftClimbMotor.setVoltage(ClimbConstants.LEFT_CLIMB_VOLTAGE);
+        rightClimbMotor.setVoltage(ClimbConstants.RIGHT_CLIMB_VOLTAGE);
     }
 
+    /**
+     * Runs the climb motors down.
+     */
     public void runClimbDown() {
-        System.out.println("down");
-        leftClimbMotor.setVoltage(ClimbConstants.CLIMB_LEFT_VOLTAGE);
-        rightClimbMotor.setVoltage(ClimbConstants.CLIMB_RIGHT_VOLTAGE);
+        leftClimbMotor.setVoltage(-ClimbConstants.LEFT_CLIMB_VOLTAGE);
+        rightClimbMotor.setVoltage(-ClimbConstants.RIGHT_CLIMB_VOLTAGE);
     }
 
+    /**
+     * Stops the climb motors.
+     */
     public void stopClimb() {
-        System.out.println("stop");
-        leftClimbMotor.setVoltage(ClimbConstants.CLIMB_LEFT_VOLTAGE);
-        rightClimbMotor.setVoltage(ClimbConstants.CLIMB_RIGHT_VOLTAGE);
+        leftClimbMotor.setVoltage(0.0);
+        rightClimbMotor.setVoltage(0.0);
     }
 }
