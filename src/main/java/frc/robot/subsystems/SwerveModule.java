@@ -240,15 +240,29 @@ public final class SwerveModule {
      * steer encoder.
      */
     public double getSteerEncoderAngle() {
+        // Get the angle reading from the swerve module steer encoder in rotations.
         double angle = steerEncoder.getAbsolutePosition().getValueAsDouble();
 
+        // If the swerve module steer encoder is reversed, then flip the angle.
         if (steerEncoderReversed) {
             angle = 1.0 - angle;
         }
         
+        // Convert the angle into radians.
         angle *= (2 * Math.PI);
+
+        // Offset the angle by the swerve module steer encoder offset.
         angle -= steerEncoderOffset;
 
+        /*
+         * If the angle is less than 0, then add 2π.
+         * 
+         * This is caused by the swerve module steer encoder 
+         * being on a set interval of rotations of [0, 1), which
+         * with an offset causes the interval to start
+         * later and end earlier, causing the need
+         * for adding 2π when negative angles are produced.
+         */
         if (angle < 0) {
             angle += (2 * Math.PI);
         }
@@ -264,9 +278,16 @@ public final class SwerveModule {
      * steer encoder.
      */
     public double getSteerEncoderAngularVelocity() {
+        // Get the angular velocity reading from the swerve module steer encoder.
         double angularVelocity = steerEncoder.getVelocity().getValueAsDouble();
 
+        /*
+         * If the swerve module steer encoder is reversed, then reverse 
+         * the angular velocity.
+         */
         angularVelocity *= steerEncoderReversed ? -1.0 : 1.0;
+
+        // Convert the angular velocity into radians.
         angularVelocity *= (2 * Math.PI);
 
         return angularVelocity;
@@ -281,12 +302,15 @@ public final class SwerveModule {
      * steer encoder.
      */
     public double getSteerEncoderOffset() {
+        // Get the angle reading from the swerve module steer encoder in rotations.
         double angle = steerEncoder.getAbsolutePosition().getValueAsDouble();
 
+        // If the swerve module steer encoder is reversed, then flip the angle.
         if (steerEncoderReversed) {
             angle = 1.0 - angle;
         }
         
+        // Convert the angle into radians.
         angle *= (2 * Math.PI);
 
         return angle;
