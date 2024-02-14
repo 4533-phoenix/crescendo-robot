@@ -1,6 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
@@ -134,6 +136,13 @@ public final class Constants {
         public static final double LEFT_CLIMB_VOLTAGE = 5.0; // V
         public static final double RIGHT_CLIMB_VOLTAGE = 5.0; // V
         
+    }
+
+    public static final class AutoConstants {
+        // Example autonomous constants.
+        public static final String EXAMPLE_AUTO_PATH_FILE_NAME = "Example Path";
+        public static final ChassisSpeeds EXAMPLE_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
+        public static final Pose2d EXAMPLE_AUTO_INITIAL_POSITION = new Pose2d();
     }
 
     public static final class ControllerConstants {

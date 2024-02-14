@@ -331,14 +331,11 @@ public final class Swerve extends SubsystemBase {
 
             if (i == 0) {
                 motorName = "Front Left Drive Motor";
-            }
-            else if (i == 1) {
+            } else if (i == 1) {
                 motorName = "Front Right Drive Motor";
-            }
-            else if (i == 2) {
+            } else if (i == 2) {
                 motorName = "Back Left Drive Motor";
-            }
-            else if (i == 3) {
+            } else if (i == 3) {
                 motorName = "Back Right Drive Motor";
             }
 
@@ -366,14 +363,11 @@ public final class Swerve extends SubsystemBase {
 
             if (i == 0) {
                 motorName = "Front Left Steer Motor";
-            }
-            else if (i == 1) {
+            } else if (i == 1) {
                 motorName = "Front Right Steer Motor";
-            }
-            else if (i == 2) {
+            } else if (i == 2) {
                 motorName = "Back Left Steer Motor";
-            }
-            else if (i == 3) {
+            } else if (i == 3) {
                 motorName = "Back Right Steer Motor";
             }
 
@@ -395,14 +389,11 @@ public final class Swerve extends SubsystemBase {
 
         //     if (i == 0) {
         //         System.out.println("Front Left Angle: " + swerveModule.getSteerEncoderAngle());
-        //     }
-        //     else if (i == 1) {
+        //     } else if (i == 1) {
         //         System.out.println("Front Right Angle: " + swerveModule.getSteerEncoderAngle());
-        //     }
-        //     else if (i == 2) {
+        //     } else if (i == 2) {
         //         System.out.println("Back Left Angle: " + swerveModule.getSteerEncoderAngle());
-        //     }
-        //     else if (i == 3) {
+        //     } else if (i == 3) {
         //         System.out.println("Back Right Angle: " + swerveModule.getSteerEncoderAngle());
         //     }
         // }

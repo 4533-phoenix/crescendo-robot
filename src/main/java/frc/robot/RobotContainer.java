@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
@@ -26,11 +27,18 @@ public final class RobotContainer {
     private static final XboxController manipulatorController = new XboxController(ControllerConstants.MANIPULATOR_CONTROLLER_ID);
 
     private static final Map<String, Command> autoCommands = Map.ofEntries(
-        Map.entry("Tutorial Auto", AutoCommands.tutorialAuto())
+        Map.entry(
+            "Example Auto", 
+            AutoCommands.followPathAuto(
+                AutoConstants.EXAMPLE_AUTO_PATH_FILE_NAME,
+                AutoConstants.EXAMPLE_AUTO_INITIAL_CHASSIS_SPEEDS,
+                AutoConstants.EXAMPLE_AUTO_INITIAL_POSITION.getRotation()
+            )
+        )
     );
 
     private static final Map<String, Pose2d> autoPositions = Map.ofEntries(
-        Map.entry("Tutorial Auto", new Pose2d())
+        Map.entry("Example Auto", AutoConstants.EXAMPLE_AUTO_INITIAL_POSITION)
     );
 
     public static void registerButtons() {
