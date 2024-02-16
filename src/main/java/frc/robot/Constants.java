@@ -171,8 +171,8 @@ public final class Constants {
     }
 
     public static final class JoystickConstants {
-        public static final int DRIVER_JOYSTICK_ID = 0;
-        public static final int MANIPULATOR_JOYSTICK_ID = 1;
+        public static final int DRIVER_JOYSTICK_ID = 2;
+        public static final int MANIPULATOR_JOYSTICK_ID = 3;
         
         public static final int BUTTON_TRIGGER = 1;
         public static final int BUTTON_THUMB = 2;

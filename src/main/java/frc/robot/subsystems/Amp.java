@@ -53,7 +53,7 @@ public final class Amp extends SubsystemBase {
      * Runs the amp motor forwards, towards the
      * drop position of the amp subsystem.
      */
-    public void runAmpMotorForwards() {
+    public void runAmpForwards() {
         ampMotor.setVoltage(AmpConstants.AMP_MOTOR_VOLTAGE);
     }
 
@@ -61,14 +61,14 @@ public final class Amp extends SubsystemBase {
      * Runs the amp motor backwards, towards the
      * receive position of the amp subsystem.
      */
-    public void runAmpMotorBackwards() {
+    public void runAmpBackwards() {
         ampMotor.setVoltage(-AmpConstants.AMP_MOTOR_VOLTAGE);
     }
 
     /**
      * Stops the amp motor.
      */
-    public void stopAmpMotor() {
+    public void stopAmp() {
         ampMotor.setVoltage(0.0);
     }
 

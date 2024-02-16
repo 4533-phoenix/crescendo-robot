@@ -9,25 +9,25 @@ import frc.robot.subsystems.Climb;
  */
 public class ClimbCommands {
     /**
-     * Gets the command that runs the climb motors down.
-     * 
-     * @return The command that runs the climb motors down.
-     */
-    public static RunCommand getRunClimbDownwardsCommand() {
-        return new RunCommand(
-            () -> Climb.getInstance().runClimbDown(),
-            Climb.getInstance()
-        );
-    }
-
-    /**
      * Gets the command that runs the climb motors up.
      * 
      * @return The command that runs the climb motors up.
      */
-    public static RunCommand getRunClimbUpwardsCommand() {
+    public static RunCommand getRunClimbUpCommand() {
         return new RunCommand(
             () -> Climb.getInstance().runClimbUp(),
+            Climb.getInstance()
+        );
+    }
+    
+    /**
+     * Gets the command that runs the climb motors down.
+     * 
+     * @return The command that runs the climb motors down.
+     */
+    public static RunCommand getRunClimbDownCommand() {
+        return new RunCommand(
+            () -> Climb.getInstance().runClimbDown(),
             Climb.getInstance()
         );
     }

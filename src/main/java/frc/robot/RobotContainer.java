@@ -3,6 +3,7 @@ package frc.robot;
 import java.util.Map;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
 import frc.robot.commands.ShooterCommands;
@@ -26,10 +28,21 @@ public final class RobotContainer {
      * The driver controller.
      */
     private static final XboxController driverController = new XboxController(ControllerConstants.DRIVER_CONTROLLER_ID);
+
     /**
      * The manipulator controller.
      */
     private static final XboxController manipulatorController = new XboxController(ControllerConstants.MANIPULATOR_CONTROLLER_ID);
+
+    /**
+     * The driver joystick.
+     */
+    private static final Joystick driverJoystick = new Joystick(JoystickConstants.DRIVER_JOYSTICK_ID);
+
+    /**
+     * The manipulator joystick.
+     */
+    private static final Joystick manipulatorJoystick = new Joystick(JoystickConstants.MANIPULATOR_JOYSTICK_ID);
 
     /**
      * The auto commands.
@@ -89,11 +102,11 @@ public final class RobotContainer {
         runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
 
         JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
-        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpwardsCommand());
+        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
         runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
         JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
-        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownwardsCommand());
+        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
         runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
     }
 

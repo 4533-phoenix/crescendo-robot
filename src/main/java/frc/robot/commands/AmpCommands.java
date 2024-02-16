@@ -15,9 +15,9 @@ public final class AmpCommands {
      * 
      * @return The command that runs the amp motor forwards.
      */
-    public static Command getRunAmpMotorForwardsCommand() {
+    public static Command getRunAmpForwardsCommand() {
         return new RunCommand(
-            () -> Amp.getInstance().runAmpMotorForwards(),
+            () -> Amp.getInstance().runAmpForwards(),
             Amp.getInstance()
         );
     }
@@ -27,9 +27,9 @@ public final class AmpCommands {
      * 
      * @return The command that runs the amp motor backwards.
      */
-    public static Command getRunAmpMotorBackwardsCommand() {
+    public static Command getRunAmpBackwardsCommand() {
         return new RunCommand(
-            () -> Amp.getInstance().runAmpMotorBackwards(), 
+            () -> Amp.getInstance().runAmpBackwards(), 
             Amp.getInstance()
         );
     }
@@ -39,9 +39,9 @@ public final class AmpCommands {
      * 
      * @return The command that stops the amp motor.
      */
-    public static Command getStopAmpMotorCommand() {
+    public static Command getStopAmpCommand() {
         return new InstantCommand(
-            () -> Amp.getInstance().stopAmpMotor(),
+            () -> Amp.getInstance().stopAmp(),
             Amp.getInstance()
         );
     }
@@ -53,11 +53,11 @@ public final class AmpCommands {
      * @return The command that sets the amp subsystem position
      * to the receive position.
      */
-    public static Command getAmpMotorReceiveCommand() {
+    public static Command getAmpReceiveCommand() {
         return new FunctionalCommand(
             () -> {}, 
-            () -> Amp.getInstance().runAmpMotorForwards(), 
-            (isFinished) -> Amp.getInstance().stopAmpMotor(), 
+            () -> Amp.getInstance().runAmpForwards(), 
+            (isFinished) -> Amp.getInstance().stopAmp(), 
             () -> Amp.getInstance().getReceiveLimitSwitchPressed(), 
             Amp.getInstance()
         );
@@ -70,11 +70,11 @@ public final class AmpCommands {
      * @return The command that sets the amp subsystem position
      * to the drop position.
      */
-    public static Command getAmpMotorDropCommand() {
+    public static Command getAmpDropCommand() {
         return new FunctionalCommand(
             () -> {},
-            () -> Amp.getInstance().runAmpMotorBackwards(),
-            (isFinished) -> Amp.getInstance().stopAmpMotor(),
+            () -> Amp.getInstance().runAmpBackwards(),
+            (isFinished) -> Amp.getInstance().stopAmp(),
             () -> Amp.getInstance().getDropLimitSwitchPressed(),
             Amp.getInstance()
         );
