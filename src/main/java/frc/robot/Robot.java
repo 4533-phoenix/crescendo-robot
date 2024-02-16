@@ -69,18 +69,18 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData(autoChooser);
 
-    SmartDashboard.putNumber("Swerve Module ID", 0);
+    // SmartDashboard.putNumber("Swerve Module ID", 0);
 
-    SmartDashboard.putBoolean("PID Test", false);
+    // SmartDashboard.putBoolean("PID Test", false);
 
-    int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+    // int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
 
-    SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
-    SmartDashboard.putNumber("Angle Setpoint", 0.0);
+    // SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
+    // SmartDashboard.putNumber("Angle Setpoint", 0.0);
 
-    SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
-    SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
-    SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
+    // SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
+    // SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
+    // SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
   }
 
   /**
@@ -133,23 +133,23 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (SmartDashboard.getBoolean("PID Test", false)) {
-      int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+    // if (SmartDashboard.getBoolean("PID Test", false)) {
+    //   int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
 
-      double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
-      double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
-      double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
+    //   double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
+    //   double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
+    //   double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
 
-      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setP(Kp);
-      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setI(Ki);
-      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setD(Kd);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setP(Kp);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setI(Ki);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setD(Kd);
 
-      SwerveModuleState swerveModuleState = new SwerveModuleState(0.0, Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle Setpoint", 0.0)));
+    //   SwerveModuleState swerveModuleState = new SwerveModuleState(0.0, Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle Setpoint", 0.0)));
 
-      Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
 
-      SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
-    }
+    //   SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
+    // }
   }
 
   /** This function is called once when the robot is disabled. */

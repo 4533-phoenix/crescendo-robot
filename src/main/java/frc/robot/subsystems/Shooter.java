@@ -14,8 +14,8 @@ public final class Shooter extends SubsystemBase {
      * This motor also acts as the lift motor for
      * the shooter subsystem.
      */
-    private final CANSparkMax leftShooterMotor = new CANSparkMax(ShooterConstants.LEFT_SHOOTER_MOTOR_ID, MotorType.kBrushless);
-    private final CANSparkMax rightShooterMotor = new CANSparkMax(ShooterConstants.RIGHT_SHOOTER_MOTOR_ID, MotorType.kBrushless);
+    // private final CANSparkMax leftShooterMotor = new CANSparkMax(ShooterConstants.LEFT_SHOOTER_MOTOR_ID, MotorType.kBrushless);
+    // private final CANSparkMax rightShooterMotor = new CANSparkMax(ShooterConstants.RIGHT_SHOOTER_MOTOR_ID, MotorType.kBrushless);
 
     public static Shooter getInstance() {
         if (shooter == null) {
@@ -26,34 +26,34 @@ public final class Shooter extends SubsystemBase {
     }
 
     private Shooter() {
-        leftShooterMotor.setInverted(true);
-        rightShooterMotor.setInverted(true);
+        // leftShooterMotor.setInverted(true);
+        // rightShooterMotor.setInverted(true);
     }
 
     public void runShooterForwards() {
-        leftShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
-        rightShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        // leftShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        // rightShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
     }
 
     public void runShooterBackwards() {
-        leftShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
-        rightShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        // leftShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        // rightShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
     }
 
     public void stopShooter() {
-        leftShooterMotor.setVoltage(0.0);
-        rightShooterMotor.setVoltage(0.0);
+        // leftShooterMotor.setVoltage(0.0);
+        // rightShooterMotor.setVoltage(0.0);
     }
 
     public void runLiftForwards() {
-        leftShooterMotor.setVoltage(ShooterConstants.LIFT_MOTOR_VOLTAGE);
+        // leftShooterMotor.setVoltage(ShooterConstants.LIFT_MOTOR_VOLTAGE);
     }
 
     public void runLiftBackwards() {
-        leftShooterMotor.setVoltage(-ShooterConstants.LIFT_MOTOR_VOLTAGE);
+        // leftShooterMotor.setVoltage(-ShooterConstants.LIFT_MOTOR_VOLTAGE);
     }
 
     public void stopLift() {
-        leftShooterMotor.setVoltage(0.0);
+        // leftShooterMotor.setVoltage(0.0);
     }
 }

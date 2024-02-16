@@ -18,7 +18,7 @@ public final class Intake extends SubsystemBase {
     /**
      * The intake motor.
      */
-    private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+    // private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
 
     /**
      * Gets the instance of the {@link Intake} class.
@@ -42,20 +42,20 @@ public final class Intake extends SubsystemBase {
      * Runs the intake motor forwards.
      */
     public void runIntakeForward() {
-        intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+        // intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
     }
 
     /**
      * Runs the intake motor backwards.
      */
     public void runIntakeBackward() {
-        intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+        // intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
     }
 
     /**
      * Stops the intake motor.
      */
     public void stopIntake() {
-        intakeMotor.setVoltage(0.0);
+        // intakeMotor.setVoltage(0.0);
     }
 }

@@ -32,66 +32,66 @@ public final class Swerve extends SubsystemBase {
     /**
      * The front left swerve module.
      */
-    private final SwerveModule frontLeftSwerveModule = new SwerveModule(
-        SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_ID, 
-        SwerveConstants.FRONT_LEFT_STEER_MOTOR_ID, 
-        SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_REVERSED, 
-        SwerveConstants.FRONT_LEFT_STEER_MOTOR_REVERSED,
-        SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_ID, 
-        SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
-    );
+    // private final SwerveModule frontLeftSwerveModule = new SwerveModule(
+    //     SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_ID, 
+    //     SwerveConstants.FRONT_LEFT_STEER_MOTOR_ID, 
+    //     SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_REVERSED, 
+    //     SwerveConstants.FRONT_LEFT_STEER_MOTOR_REVERSED,
+    //     SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_ID, 
+    //     SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET, 
+    //     SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
+    // );
 
     /**
      * The front right swerve module.
      */
-    private final SwerveModule frontRightSwerveModule = new SwerveModule(
-        SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_ID, 
-        SwerveConstants.FRONT_RIGHT_STEER_MOTOR_ID, 
-        SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_REVERSED, 
-        SwerveConstants.FRONT_RIGHT_STEER_MOTOR_REVERSED,
-        SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_ID, 
-        SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
-    );
+    // private final SwerveModule frontRightSwerveModule = new SwerveModule(
+    //     SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_ID, 
+    //     SwerveConstants.FRONT_RIGHT_STEER_MOTOR_ID, 
+    //     SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_REVERSED, 
+    //     SwerveConstants.FRONT_RIGHT_STEER_MOTOR_REVERSED,
+    //     SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_ID, 
+    //     SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET, 
+    //     SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
+    // );
 
     /**
      * The back left swerve module.
      */
-    private final SwerveModule backLeftSwerveModule = new SwerveModule(
-        SwerveConstants.BACK_LEFT_DRIVE_MOTOR_ID, 
-        SwerveConstants.BACK_LEFT_STEER_MOTOR_ID, 
-        SwerveConstants.BACK_LEFT_DRIVE_MOTOR_REVERSED, 
-        SwerveConstants.BACK_LEFT_STEER_MOTOR_REVERSED,
-        SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID, 
-        SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
-    );
+    // private final SwerveModule backLeftSwerveModule = new SwerveModule(
+    //     SwerveConstants.BACK_LEFT_DRIVE_MOTOR_ID, 
+    //     SwerveConstants.BACK_LEFT_STEER_MOTOR_ID, 
+    //     SwerveConstants.BACK_LEFT_DRIVE_MOTOR_REVERSED, 
+    //     SwerveConstants.BACK_LEFT_STEER_MOTOR_REVERSED,
+    //     SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID, 
+    //     SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET, 
+    //     SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
+    // );
 
     /**
      * The back right swerve module.
      */
-    private final SwerveModule backRightSwerveModule = new SwerveModule(
-        SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_ID, 
-        SwerveConstants.BACK_RIGHT_STEER_MOTOR_ID, 
-        SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_REVERSED, 
-        SwerveConstants.BACK_RIGHT_STEER_MOTOR_REVERSED,
-        SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID, 
-        SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
-    );
+    // private final SwerveModule backRightSwerveModule = new SwerveModule(
+    //     SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_ID, 
+    //     SwerveConstants.BACK_RIGHT_STEER_MOTOR_ID, 
+    //     SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_REVERSED, 
+    //     SwerveConstants.BACK_RIGHT_STEER_MOTOR_REVERSED,
+    //     SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID, 
+    //     SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET, 
+    //     SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
+    // );
 
     /**
      * The array that contains the swerve modules.
      * <br></br>
      * The order is front left, front right, back left, back right.
      */
-    private final SwerveModule[] swerveModules = new SwerveModule[]{
-        frontLeftSwerveModule,
-        frontRightSwerveModule,
-        backLeftSwerveModule,
-        backRightSwerveModule
-    };
+    // private final SwerveModule[] swerveModules = new SwerveModule[]{
+    //     frontLeftSwerveModule,
+    //     frontRightSwerveModule,
+    //     backLeftSwerveModule,
+    //     backRightSwerveModule
+    // };
 
     /**
      * The robot's gyroscope.
@@ -156,9 +156,9 @@ public final class Swerve extends SubsystemBase {
      * @param index The index of the swerve module to get from the swerve modules array.
      * @return The swerve module at the given index in the swerve modules array.
      */
-    public SwerveModule getSwerveModule(int index) {
-        return swerveModules[index];
-    }
+    // public SwerveModule getSwerveModule(int index) {
+    //     return swerveModules[index];
+    // }
 
     /**
      * Gets the swerve drive holonomic drive controller.
@@ -268,9 +268,9 @@ public final class Swerve extends SubsystemBase {
          * Loop over the swerve modules and set the corresponding
          * swerve module states.
          */
-        for (int i = 0; i < swerveModules.length; i++) {
-            swerveModules[i].setState(swerveModuleStates[i]);
-        }
+        // for (int i = 0; i < swerveModules.length; i++) {
+        //     swerveModules[i].setState(swerveModuleStates[i]);
+        // }
     }
 
     /**
@@ -286,9 +286,9 @@ public final class Swerve extends SubsystemBase {
          * Loop over the swerve modules and set their
          * drive motors to the given voltage.
          */
-        for (SwerveModule swerveModule : swerveModules) {
-            swerveModule.setDriveMotorVoltage(voltage);
-        }
+        // for (SwerveModule swerveModule : swerveModules) {
+        //     swerveModule.setDriveMotorVoltage(voltage);
+        // }
     }
 
     /**
@@ -304,9 +304,9 @@ public final class Swerve extends SubsystemBase {
          * Loop over the swerve modules and set their
          * steer motors to the given voltage.
          */
-        for (SwerveModule swerveModule : swerveModules) {
-            swerveModule.setSteerMotorVoltage(voltage);
-        }
+        // for (SwerveModule swerveModule : swerveModules) {
+        //     swerveModule.setSteerMotorVoltage(voltage);
+        // }
     }
 
     /**
@@ -324,26 +324,26 @@ public final class Swerve extends SubsystemBase {
          * drive motor voltage, linear position,
          * and linear velocity.
          */
-        for (int i = 0; i < swerveModules.length; i++) {
-            SwerveModule swerveModule = swerveModules[i];
+        // for (int i = 0; i < swerveModules.length; i++) {
+        //     SwerveModule swerveModule = swerveModules[i];
 
-            String motorName = "";
+        //     String motorName = "";
 
-            if (i == 0) {
-                motorName = "Front Left Drive Motor";
-            } else if (i == 1) {
-                motorName = "Front Right Drive Motor";
-            } else if (i == 2) {
-                motorName = "Back Left Drive Motor";
-            } else if (i == 3) {
-                motorName = "Back Right Drive Motor";
-            }
+        //     if (i == 0) {
+        //         motorName = "Front Left Drive Motor";
+        //     } else if (i == 1) {
+        //         motorName = "Front Right Drive Motor";
+        //     } else if (i == 2) {
+        //         motorName = "Back Left Drive Motor";
+        //     } else if (i == 3) {
+        //         motorName = "Back Right Drive Motor";
+        //     }
 
-            log.motor(motorName)
-                .voltage(Units.Volts.of(swerveModule.getDriveMotorVoltage()))
-                .linearPosition(Units.Meters.of(swerveModule.getDriveMotorLinearPosition()))
-                .linearVelocity(Units.MetersPerSecond.of(swerveModule.getDriveMotorLinearVelocity()));
-        }
+        //     log.motor(motorName)
+        //         .voltage(Units.Volts.of(swerveModule.getDriveMotorVoltage()))
+        //         .linearPosition(Units.Meters.of(swerveModule.getDriveMotorLinearPosition()))
+        //         .linearVelocity(Units.MetersPerSecond.of(swerveModule.getDriveMotorLinearVelocity()));
+        // }
     }
 
     /**
@@ -356,26 +356,26 @@ public final class Swerve extends SubsystemBase {
      * module steer motor.
      */
     public void sysIDSteerLog(SysIdRoutineLog log) {
-        for (int i = 0; i < swerveModules.length; i++) {
-            SwerveModule swerveModule = swerveModules[i];
+        // for (int i = 0; i < swerveModules.length; i++) {
+        //     SwerveModule swerveModule = swerveModules[i];
 
-            String motorName = "";
+        //     String motorName = "";
 
-            if (i == 0) {
-                motorName = "Front Left Steer Motor";
-            } else if (i == 1) {
-                motorName = "Front Right Steer Motor";
-            } else if (i == 2) {
-                motorName = "Back Left Steer Motor";
-            } else if (i == 3) {
-                motorName = "Back Right Steer Motor";
-            }
+        //     if (i == 0) {
+        //         motorName = "Front Left Steer Motor";
+        //     } else if (i == 1) {
+        //         motorName = "Front Right Steer Motor";
+        //     } else if (i == 2) {
+        //         motorName = "Back Left Steer Motor";
+        //     } else if (i == 3) {
+        //         motorName = "Back Right Steer Motor";
+        //     }
 
-            log.motor(motorName)
-                .voltage(Units.Volts.of(swerveModule.getSteerMotorVoltage()))
-                .angularPosition(Units.Radians.of(swerveModule.getSteerEncoderAngle()))
-                .angularVelocity(Units.RadiansPerSecond.of(swerveModule.getSteerEncoderAngularVelocity()));
-        }
+        //     log.motor(motorName)
+        //         .voltage(Units.Volts.of(swerveModule.getSteerMotorVoltage()))
+        //         .angularPosition(Units.Radians.of(swerveModule.getSteerEncoderAngle()))
+        //         .angularVelocity(Units.RadiansPerSecond.of(swerveModule.getSteerEncoderAngularVelocity()));
+        // }
     }
 
     /**
@@ -399,25 +399,25 @@ public final class Swerve extends SubsystemBase {
         // }
 
         // Create an array to store the current swerve module positions.
-        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[swerveModules.length];
+        // SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[swerveModules.length];
 
         /*
          * Loop over the swerve modules and set the corresponding current
          * swerve module positions.
          */
-        for (int i = 0; i < swerveModules.length; i++) {
-            SwerveModule swerveModule = swerveModules[i];
+        // for (int i = 0; i < swerveModules.length; i++) {
+        //     SwerveModule swerveModule = swerveModules[i];
 
-            swerveModulePositions[i] = swerveModule.getSwerveModulePosition();
-        }
+        //     swerveModulePositions[i] = swerveModule.getSwerveModulePosition();
+        // }
 
         /*
          * If the swerve drive position estimator has been registered,
          * then update it with the current robot angle and the current
          * swerve module positions.
          */
-        if (poseEstimator != null) {
-            poseEstimator.update(getRobotAngle(), swerveModulePositions);
-        }
+        // if (poseEstimator != null) {
+        //     poseEstimator.update(getRobotAngle(), swerveModulePositions);
+        // }
     }
 }
