@@ -15,7 +15,20 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve;
 
+/**
+ * The class for the auto commands.
+ */
 public final class AutoCommands {
+    /**
+     * Gets an auto command that follows the path corresponding to the given
+     * path file name given the initial chassis speeds and the initial rotation.
+     * 
+     * @param pathFile The path file name.
+     * @param initialChassisSpeeds The initial chassis speeds.
+     * @param initialRotation The initial rotation.
+     * @return An auto command that follows the path corresponding to the given
+     * path file name given the initial chassis speeds and the initial rotation.
+     */
     public static Command followPathAuto(String pathFile, ChassisSpeeds initialChassisSpeeds, Rotation2d initialRotation) {
         /*
          * Check if the path file exists. If it does not,

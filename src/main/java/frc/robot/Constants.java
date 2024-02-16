@@ -107,35 +107,33 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final int INTAKE_MOTOR_ID = 0;
+        public static final int INTAKE_MOTOR_ID = 13;
 
-        public static final double INTAKE_MOTOR_VOLTAGE = 5.0; // V
+        public static final double INTAKE_MOTOR_VOLTAGE = 12.0; // V
+    }
+
+    public static final class ShooterConstants {
+        public static final int LEFT_SHOOTER_MOTOR_ID = 14;
+        public static final int RIGHT_SHOOTER_MOTOR_ID = 15;
+
+        public static final double LIFT_MOTOR_VOLTAGE = 6.0; // V
+        public static final double SHOOTER_MOTOR_VOLTAGE = 12.0; // V
+    }
+
+    public static final class ClimbConstants {
+        public static final int LEFT_CLIMB_MOTOR_ID = 16;
+        public static final int RIGHT_CLIMB_MOTOR_ID = 17;
+
+        public static final double CLIMB_MOTOR_VOLTAGE = 5.0; // V
     }
 
     public static final class AmpConstants {
-        public static final int AMP_MOTOR_ID = 0;
+        public static final int AMP_MOTOR_ID = 18;
 
         public static final int RECEIVE_LIMIT_SWITCH_ID = 0;
         public static final int DROP_LIMIT_SWITCH_ID = 0;
 
         public static final double AMP_MOTOR_VOLTAGE = 5.0; // V
-    }
-
-    public static final class ShooterConstants {
-        public static final int LEFT_SHOOTER_MOTOR_ID = 13;
-        public static final int RIGHT_SHOOTER_MOTOR_ID = 14;
-
-        public static final double LEFT_SHOOTER_VOLTAGE = 9.2; // V
-        public static final double RIGHT_SHOOTER_VOLTAGE = 9.2; // V
-    }
-
-    public static final class ClimbConstants {
-        public static final int LEFT_CLIMB_MOTOR_ID = 16;
-        public static final int RIGHT_CLIMB_MOTOR_ID = 18;
-
-        public static final double LEFT_CLIMB_VOLTAGE = 5.0; // V
-        public static final double RIGHT_CLIMB_VOLTAGE = 5.0; // V
-        
     }
 
     public static final class AutoConstants {
@@ -168,8 +166,8 @@ public final class Constants {
         public static final int LEFT_TRIGGER_AXIS = 2;
         public static final int RIGHT_TRIGGER_AXIS = 3;
 
-        // Defines the deadzone for the controller joysticks.
-        public static final double JOYSTICK_DEADBAND = 0.05;
+        // Defines the deadzone for the controller analog inputs.
+        public static final double ANALOG_INPUT_DEADBAND = 0.05;
     }
 
     public static final class JoystickConstants {

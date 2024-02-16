@@ -47,16 +47,16 @@ public final class Climb extends SubsystemBase {
      * Runs the climb motors up.
      */
     public void runClimbUp() {
-        leftClimbMotor.setVoltage(ClimbConstants.LEFT_CLIMB_VOLTAGE);
-        rightClimbMotor.setVoltage(ClimbConstants.RIGHT_CLIMB_VOLTAGE);
+        leftClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        rightClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
      * Runs the climb motors down.
      */
     public void runClimbDown() {
-        leftClimbMotor.setVoltage(-ClimbConstants.LEFT_CLIMB_VOLTAGE);
-        rightClimbMotor.setVoltage(-ClimbConstants.RIGHT_CLIMB_VOLTAGE);
+        leftClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        rightClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
