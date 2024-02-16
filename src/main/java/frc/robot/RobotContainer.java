@@ -13,7 +13,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
-import frc.robot.commands.IntakeCommands;
 import frc.robot.commands.ShooterCommands;
 import frc.robot.commands.SwerveCommands;
 import frc.robot.subsystems.Intake;
@@ -23,9 +22,18 @@ import frc.robot.subsystems.Swerve;
  * The class for setting up the subsystems, buttons, and autonomous commands.
  */
 public final class RobotContainer {
+    /**
+     * The driver controller.
+     */
     private static final XboxController driverController = new XboxController(ControllerConstants.DRIVER_CONTROLLER_ID);
+    /**
+     * The manipulator controller.
+     */
     private static final XboxController manipulatorController = new XboxController(ControllerConstants.MANIPULATOR_CONTROLLER_ID);
 
+    /**
+     * The auto commands.
+     */
     private static final Map<String, Command> autoCommands = Map.ofEntries(
         Map.entry(
             "Example Auto", 
@@ -37,60 +45,62 @@ public final class RobotContainer {
         )
     );
 
+    /**
+     * The auto positions corresponding to the auto commands.
+     */
     private static final Map<String, Pose2d> autoPositions = Map.ofEntries(
         Map.entry("Example Auto", AutoConstants.EXAMPLE_AUTO_INITIAL_POSITION)
     );
 
+    /**
+     * This method registers the controller buttons with their corresponding commands.
+     */
     public static void registerButtons() {
-        JoystickButton runSysIDDriveQuasistaticForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_A);
-        runSysIDDriveQuasistaticForwardButton.whileTrue(Robot.sysIDDriveRoutine.quasistatic(Direction.kForward));
+        // JoystickButton runSysIDDriveQuasistaticForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_A);
+        // runSysIDDriveQuasistaticForwardButton.whileTrue(Robot.sysIDDriveRoutine.quasistatic(Direction.kForward));
 
-        JoystickButton runSysIDDriveQuasistaticBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_B);
-        runSysIDDriveQuasistaticBackwardButton.whileTrue(Robot.sysIDDriveRoutine.quasistatic(Direction.kReverse));
+        // JoystickButton runSysIDDriveQuasistaticBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_B);
+        // runSysIDDriveQuasistaticBackwardButton.whileTrue(Robot.sysIDDriveRoutine.quasistatic(Direction.kReverse));
 
-        JoystickButton runSysIDDriveDynamicForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_Y);
-        runSysIDDriveDynamicForwardButton.whileTrue(Robot.sysIDDriveRoutine.dynamic(Direction.kForward));
+        // JoystickButton runSysIDDriveDynamicForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_Y);
+        // runSysIDDriveDynamicForwardButton.whileTrue(Robot.sysIDDriveRoutine.dynamic(Direction.kForward));
 
-        JoystickButton runSysIDDriveDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_X);
-        runSysIDDriveDynamicBackwardButton.whileTrue(Robot.sysIDDriveRoutine.dynamic(Direction.kReverse));
+        // JoystickButton runSysIDDriveDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_X);
+        // runSysIDDriveDynamicBackwardButton.whileTrue(Robot.sysIDDriveRoutine.dynamic(Direction.kReverse));
 
-        JoystickButton runSysIDSteerQuasistaticForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_START);
-        runSysIDSteerQuasistaticForwardButton.whileTrue(Robot.sysIDSteerRoutine.quasistatic(Direction.kForward));
+        // JoystickButton runSysIDSteerQuasistaticForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_START);
+        // runSysIDSteerQuasistaticForwardButton.whileTrue(Robot.sysIDSteerRoutine.quasistatic(Direction.kForward));
 
-        JoystickButton runSysIDSteerQuasistaticBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_RB);
-        runSysIDSteerQuasistaticBackwardButton.whileTrue(Robot.sysIDSteerRoutine.quasistatic(Direction.kReverse));
+        // JoystickButton runSysIDSteerQuasistaticBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_RB);
+        // runSysIDSteerQuasistaticBackwardButton.whileTrue(Robot.sysIDSteerRoutine.quasistatic(Direction.kReverse));
 
-        JoystickButton runSysIDSteerDynamicForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_LB);
-        runSysIDSteerDynamicForwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kForward));
+        // JoystickButton runSysIDSteerDynamicForwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_LB);
+        // runSysIDSteerDynamicForwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kForward));
 
-        JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
-        runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
+        // JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
+        // runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
 
-        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= 0.05; });
+        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runRightShooterForwardsTrigger.whileTrue(ShooterCommands.getRunShooterForwardsCommand());
         runRightShooterForwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
 
-        Trigger runShooterBackwardsTrigger = new Trigger(() -> { return manipulatorController.getLeftTriggerAxis() >= 0.05; });
-        runShooterBackwardsTrigger.whileTrue(ShooterCommands.getRunShooterBackwardsCommand());
-        runShooterBackwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
+        Trigger runIntakeNoteTrigger = new Trigger(() -> { return manipulatorController.getLeftTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
+        runIntakeNoteTrigger.whileTrue(ShooterCommands.getIntakeNoteCommand());
+        runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
 
-        Trigger runIntakeForwardTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= 0.05; });
-        runIntakeForwardTrigger.whileTrue(IntakeCommands.getRunIntakeForwardsCommand());
-        runIntakeForwardTrigger.onFalse(IntakeCommands.getStopIntakeCommand());
+        JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
+        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpwardsCommand());
+        runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
-        Trigger runIntakeBackwardTrigger = new Trigger(() -> { return manipulatorController.getLeftTriggerAxis() >= 0.05; });
-        runIntakeBackwardTrigger.whileTrue(IntakeCommands.getRunIntakeBackwardsCommand());
-        runIntakeBackwardTrigger.onFalse(IntakeCommands.getStopIntakeCommand());
-
-        JoystickButton runClimbForwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
-        runClimbForwardsButton.whileTrue(ClimbCommands.getRunClimbUpwardsCommand());
-        runClimbForwardsButton.onFalse(ClimbCommands.getStopClimbCommand());
-
-        JoystickButton runClimbBackwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
-        runClimbBackwardsButton.whileTrue(ClimbCommands.getRunClimbDownwardsCommand());
-        runClimbBackwardsButton.onFalse(ClimbCommands.getStopClimbCommand());
+        JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
+        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownwardsCommand());
+        runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
     }
 
+    /**
+     * This method registers the subsystems and their corresponding
+     * default commands with the command scheduler.
+     */
     public static void registerSubsystems() {
         CommandScheduler commandScheduler = CommandScheduler.getInstance();
 
@@ -118,10 +128,22 @@ public final class RobotContainer {
         // );
     }
 
+    /**
+     * Gets the auto command corresponding to the given key.
+     * 
+     * @param key The key corresponding to the auto command.
+     * @return The auto command corresponding to the given key.
+     */
     public static Command getAutonomous(String key) {
         return autoCommands.get(key);
     }
 
+    /**
+     * Gets the auto position corresponding to the given key.
+     * 
+     * @param key The key corresponding to the auto position.
+     * @return The auto position corresponding to the given key.
+     */
     public static Pose2d getAutonomousPosition(String key) {
         return autoPositions.get(key);
     }

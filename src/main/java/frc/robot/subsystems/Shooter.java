@@ -26,17 +26,18 @@ public final class Shooter extends SubsystemBase {
     }
 
     private Shooter() {
-        
+        leftShooterMotor.setInverted(true);
+        rightShooterMotor.setInverted(true);
     }
 
     public void runShooterForwards() {
-        leftShooterMotor.setVoltage(ShooterConstants.LEFT_SHOOTER_VOLTAGE);
-        rightShooterMotor.setVoltage(ShooterConstants.LEFT_SHOOTER_VOLTAGE);
+        leftShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        rightShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
     }
 
     public void runShooterBackwards() {
-        leftShooterMotor.setVoltage(-ShooterConstants.LEFT_SHOOTER_VOLTAGE);
-        rightShooterMotor.setVoltage(-ShooterConstants.LEFT_SHOOTER_VOLTAGE);
+        leftShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        rightShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
     }
 
     public void stopShooter() {
@@ -45,13 +46,14 @@ public final class Shooter extends SubsystemBase {
     }
 
     public void runLiftForwards() {
-        leftShooterMotor.setVoltage(ShooterConstants.LEFT_SHOOTER_VOLTAGE);
-        rightShooterMotor.setVoltage(ShooterConstants.LEFT_SHOOTER_VOLTAGE);
+        leftShooterMotor.setVoltage(ShooterConstants.LIFT_MOTOR_VOLTAGE);
     }
 
     public void runLiftBackwards() {
-        leftShooterMotor.setVoltage(-ShooterConstants.LEFT_SHOOTER_VOLTAGE);
-        rightShooterMotor.setVoltage(-ShooterConstants.LEFT_SHOOTER_VOLTAGE);
+        leftShooterMotor.setVoltage(-ShooterConstants.LIFT_MOTOR_VOLTAGE);
     }
 
+    public void stopLift() {
+        leftShooterMotor.setVoltage(0.0);
+    }
 }
