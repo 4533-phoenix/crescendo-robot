@@ -130,7 +130,7 @@ public final class Constants {
     }
 
     public static final class ClimbConstants {
-        public static final int LEFT_CLIMB_MOTOR_ID = 17;
+        public static final int LEFT_CLIMB_MOTOR_ID = 16;
         public static final int RIGHT_CLIMB_MOTOR_ID = 18;
 
         public static final double LEFT_CLIMB_VOLTAGE = 5.0; // V
