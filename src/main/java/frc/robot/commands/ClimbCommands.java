@@ -9,9 +9,9 @@ import frc.robot.subsystems.Climb;
  */
 public class ClimbCommands {
     /**
-     * Gets the command that runs the climb motors up.
+     * Gets the command that runs the climb subsystem up.
      * 
-     * @return The command that runs the climb motors up.
+     * @return The command that runs the climb subsystem up.
      */
     public static RunCommand getRunClimbUpCommand() {
         return new RunCommand(
@@ -21,9 +21,9 @@ public class ClimbCommands {
     }
     
     /**
-     * Gets the command that runs the climb motors down.
+     * Gets the command that runs the climb subsystem down.
      * 
-     * @return The command that runs the climb motors down.
+     * @return The command that runs the climb subsystem down.
      */
     public static RunCommand getRunClimbDownCommand() {
         return new RunCommand(
@@ -33,9 +33,9 @@ public class ClimbCommands {
     }
 
     /**
-     * Gets the command that stops the climb motors.
+     * Gets the command that stops the climb subsystem.
      * 
-     * @return The command that stops the climb motors.
+     * @return The command that stops the climb subsystem.
      */
     public static InstantCommand getStopClimbCommand() {
         return new InstantCommand(

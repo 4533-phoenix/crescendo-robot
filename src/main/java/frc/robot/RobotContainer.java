@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.JoystickConstants;
+import frc.robot.commands.AmpCommands;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
 import frc.robot.commands.ShooterCommands;
@@ -93,9 +94,9 @@ public final class RobotContainer {
         // JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
         // runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
 
-        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
-        runRightShooterForwardsTrigger.whileTrue(ShooterCommands.getRunShooterForwardsCommand());
-        runRightShooterForwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
+        Trigger runShooterForwardsTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
+        runShooterForwardsTrigger.whileTrue(ShooterCommands.getRunShooterForwardsCommand());
+        runShooterForwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
 
         Trigger runIntakeNoteTrigger = new Trigger(() -> { return manipulatorController.getLeftTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runIntakeNoteTrigger.whileTrue(ShooterCommands.getIntakeNoteCommand());
@@ -108,6 +109,10 @@ public final class RobotContainer {
         JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
         runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
         runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
+
+        JoystickButton runAmpDropNoteButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_Y);
+        runAmpDropNoteButton.whileTrue(AmpCommands.getAmpDropCommand());
+        runAmpDropNoteButton.onFalse(AmpCommands.getAmpReceiveCommand());
     }
 
     /**
