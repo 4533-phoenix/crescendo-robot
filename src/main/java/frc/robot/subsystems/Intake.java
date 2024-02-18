@@ -41,14 +41,14 @@ public final class Intake extends SubsystemBase {
     /**
      * Runs the intake motor forwards.
      */
-    public void runIntakeForward() {
+    public void runIntakeForwards() {
         // intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
     }
 
     /**
      * Runs the intake motor backwards.
      */
-    public void runIntakeBackward() {
+    public void runIntakeBackwards() {
         // intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
     }
 

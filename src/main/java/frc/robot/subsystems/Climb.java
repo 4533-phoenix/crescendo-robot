@@ -18,12 +18,12 @@ public final class Climb extends SubsystemBase {
     /**
      * The left climb motor.
      */
-    private final CANSparkMax leftClimbMotor = new CANSparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_ID, MotorType.kBrushed);
+    // private final CANSparkMax leftClimbMotor = new CANSparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_ID, MotorType.kBrushed);
 
     /**
      * The right climb motor.
      */
-    private final CANSparkMax rightClimbMotor = new CANSparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, MotorType.kBrushed);
+    // private final CANSparkMax rightClimbMotor = new CANSparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, MotorType.kBrushed);
 
     /**
      * Gets the instance of the {@link Climb} class.
@@ -47,23 +47,23 @@ public final class Climb extends SubsystemBase {
      * Runs the climb motors up.
      */
     public void runClimbUp() {
-        leftClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
-        rightClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // leftClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // rightClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
      * Runs the climb motors down.
      */
     public void runClimbDown() {
-        leftClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
-        rightClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // leftClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // rightClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
      * Stops the climb motors.
      */
     public void stopClimb() {
-        leftClimbMotor.setVoltage(0.0);
-        rightClimbMotor.setVoltage(0.0);
+        // leftClimbMotor.setVoltage(0.0);
+        // rightClimbMotor.setVoltage(0.0);
     }
 }

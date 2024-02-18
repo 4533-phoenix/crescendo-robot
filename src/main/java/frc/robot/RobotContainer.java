@@ -6,11 +6,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.AmpCommands;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
 import frc.robot.commands.ShooterCommands;
@@ -89,12 +91,20 @@ public final class RobotContainer {
         runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
 
         JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
-        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpwardsCommand());
+        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
         runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
         JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
-        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownwardsCommand());
+        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
         runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
+
+        JoystickButton runAmpForwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_A);
+        runAmpForwardsButton.whileTrue(AmpCommands.getRunAmpForwardsCommand());
+        runAmpForwardsButton.onFalse(AmpCommands.getStopAmpCommand());
+
+        JoystickButton runAmpDropNoteButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_Y);
+        runAmpDropNoteButton.whileTrue(AmpCommands.getAmpDropCommand());
+        runAmpDropNoteButton.onFalse(AmpCommands.getAmpReceiveCommand());
     }
 
     /**

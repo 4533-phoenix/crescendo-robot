@@ -128,12 +128,23 @@ public final class Constants {
     }
 
     public static final class AmpConstants {
-        public static final int AMP_MOTOR_ID = 18;
+        public static final int AMP_MOTOR_ID = 16;
 
-        public static final int RECEIVE_LIMIT_SWITCH_ID = 0;
-        public static final int DROP_LIMIT_SWITCH_ID = 0;
+        public static final int AMP_LIMIT_SWITCH_ID = 0;
 
-        public static final double AMP_MOTOR_VOLTAGE = 5.0; // V
+        public static final double AMP_MOTOR_VOLTAGE = 8.0; // V
+
+        public static enum AMP_POSITION {
+            RECEIVE_POSITION,
+            DROP_POSITION
+        }
+
+        public static enum AMP_MOVEMENT_DIRECTION {
+            TOWARDS_RECEIVE_POSITION,
+            TOWARDS_DROP_POSITION
+        }
+
+        public static final double AMP_POSITION_DELAY = 0.1; // s
     }
 
     public static final class AutoConstants {
