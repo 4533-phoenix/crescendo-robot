@@ -63,10 +63,10 @@ public final class AmpCommands {
     public static Command getAmpReceiveCommand() {
         return new FunctionalCommand(
             () -> Amp.getInstance().setAmpMovementDirection(AMP_MOVEMENT_DIRECTION.TOWARDS_RECEIVE_POSITION), 
-            () -> Amp.getInstance().runAmpForwards(), 
+            () -> Amp.getInstance().runAmpBackwards(), 
             (isFinished) -> Amp.getInstance().stopAmp(), 
-            () -> Amp.getInstance().isLimitSwitchAtPosition(AMP_POSITION.RECEIVE_POSITION)
-                && Amp.getInstance().isLimitSwitchAtMagnet(), 
+            () -> Amp.getInstance().isAmpLimitSwitchAtPosition(AMP_POSITION.RECEIVE_POSITION)
+                && Amp.getInstance().isAmpLimitSwitchAtMagnet(), 
             Amp.getInstance()
         ).andThen(new WaitCommand(AmpConstants.AMP_POSITION_DELAY));
     }
@@ -84,10 +84,10 @@ public final class AmpCommands {
     public static Command getAmpDropCommand() {
         return new FunctionalCommand(
             () -> Amp.getInstance().setAmpMovementDirection(AMP_MOVEMENT_DIRECTION.TOWARDS_DROP_POSITION), 
-            () -> Amp.getInstance().runAmpBackwards(), 
+            () -> Amp.getInstance().runAmpForwards(), 
             (isFinished) -> Amp.getInstance().stopAmp(), 
-            () -> Amp.getInstance().isLimitSwitchAtPosition(AMP_POSITION.DROP_POSITION)
-                && Amp.getInstance().isLimitSwitchAtMagnet(), 
+            () -> Amp.getInstance().isAmpLimitSwitchAtPosition(AMP_POSITION.DROP_POSITION)
+                && Amp.getInstance().isAmpLimitSwitchAtMagnet(), 
             Amp.getInstance()
         ).andThen(new WaitCommand(AmpConstants.AMP_POSITION_DELAY));
     }

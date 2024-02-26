@@ -154,6 +154,7 @@ public final class Swerve extends SubsystemBase {
      * to the given index.
      * 
      * @param index The index of the swerve module to get from the swerve modules array.
+     * 
      * @return The swerve module at the given index in the swerve modules array.
      */
     public SwerveModule getSwerveModule(int index) {

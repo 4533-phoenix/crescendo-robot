@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -16,6 +17,8 @@ public final class Shooter extends SubsystemBase {
      */
     private final CANSparkMax leftShooterMotor = new CANSparkMax(ShooterConstants.LEFT_SHOOTER_MOTOR_ID, MotorType.kBrushless);
     private final CANSparkMax rightShooterMotor = new CANSparkMax(ShooterConstants.RIGHT_SHOOTER_MOTOR_ID, MotorType.kBrushless);
+
+    private final DigitalInput shooterLimitSwitch = new DigitalInput(ShooterConstants.SHOOTER_LIMIT_SWITCH_ID);
 
     public static Shooter getInstance() {
         if (shooter == null) {
@@ -55,5 +58,9 @@ public final class Shooter extends SubsystemBase {
 
     public void stopLift() {
         leftShooterMotor.setVoltage(0.0);
+    }
+
+    public boolean isLimitSwitchPressed() {
+        return !shooterLimitSwitch.get();
     }
 }

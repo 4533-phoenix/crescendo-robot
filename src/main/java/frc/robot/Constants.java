@@ -116,6 +116,8 @@ public final class Constants {
         public static final int LEFT_SHOOTER_MOTOR_ID = 14;
         public static final int RIGHT_SHOOTER_MOTOR_ID = 15;
 
+        public static final int SHOOTER_LIMIT_SWITCH_ID = 0;
+
         public static final double LIFT_MOTOR_VOLTAGE = 6.0; // V
         public static final double SHOOTER_MOTOR_VOLTAGE = 12.0; // V
     }
@@ -124,15 +126,30 @@ public final class Constants {
         public static final int LEFT_CLIMB_MOTOR_ID = 16;
         public static final int RIGHT_CLIMB_MOTOR_ID = 17;
 
+        public static final int LEFT_CLIMB_LIMIT_SWITCH_ID = 1;
+        public static final int RIGHT_CLIMB_LIMIT_SWITCH_ID = 2;
+
         public static final double CLIMB_MOTOR_VOLTAGE = 5.0; // V
+
+        public static enum CLIMB_POSITION {
+            DOWN_POSITION,
+            UP_POSITION
+        }
+
+        public static enum CLIMB_MOVEMENT_DIRECTION {
+            TOWARDS_DOWN_POSITION,
+            TOWARDS_UP_POSITION
+        }
+
+        public static final double CLIMB_POSITION_DELAY = 0.1; // s
     }
 
     public static final class AmpConstants {
-        public static final int AMP_MOTOR_ID = 16;
+        public static final int AMP_MOTOR_ID = 18;
 
-        public static final int AMP_LIMIT_SWITCH_ID = 0;
+        public static final int AMP_LIMIT_SWITCH_ID = 3;
 
-        public static final double AMP_MOTOR_VOLTAGE = 8.0; // V
+        public static final double AMP_MOTOR_VOLTAGE = 6.0; // V
 
         public static enum AMP_POSITION {
             RECEIVE_POSITION,

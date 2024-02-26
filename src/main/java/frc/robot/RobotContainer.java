@@ -18,7 +18,11 @@ import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
 import frc.robot.commands.ShooterCommands;
 import frc.robot.commands.SwerveCommands;
+import frc.robot.subsystems.Amp;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LeftClimb;
+import frc.robot.subsystems.RightClimb;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
 /**
@@ -110,6 +114,10 @@ public final class RobotContainer {
         runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
         runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
 
+        JoystickButton runAmpForwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_A);
+        runAmpForwardsButton.whileTrue(AmpCommands.getRunAmpForwardsCommand());
+        runAmpForwardsButton.onFalse(AmpCommands.getStopAmpCommand());
+
         JoystickButton runAmpDropNoteButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_Y);
         runAmpDropNoteButton.whileTrue(AmpCommands.getAmpDropCommand());
         runAmpDropNoteButton.onFalse(AmpCommands.getAmpReceiveCommand());
@@ -122,7 +130,14 @@ public final class RobotContainer {
     public static void registerSubsystems() {
         CommandScheduler commandScheduler = CommandScheduler.getInstance();
 
-        commandScheduler.registerSubsystem(Swerve.getInstance(), Intake.getInstance());
+        commandScheduler.registerSubsystem(
+            Swerve.getInstance(), 
+            Intake.getInstance(),
+            Shooter.getInstance(),
+            LeftClimb.getInstance(),
+            RightClimb.getInstance(),
+            Amp.getInstance()
+        );
 
         // commandScheduler.setDefaultCommand(
         //     Swerve.getInstance(), 
@@ -150,6 +165,7 @@ public final class RobotContainer {
      * Gets the auto command corresponding to the given key.
      * 
      * @param key The key corresponding to the auto command.
+     * 
      * @return The auto command corresponding to the given key.
      */
     public static Command getAutonomous(String key) {
@@ -160,6 +176,7 @@ public final class RobotContainer {
      * Gets the auto position corresponding to the given key.
      * 
      * @param key The key corresponding to the auto position.
+     * 
      * @return The auto position corresponding to the given key.
      */
     public static Pose2d getAutonomousPosition(String key) {

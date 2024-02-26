@@ -18,6 +18,7 @@ public final class SwerveCommands {
      * @param getX The function that returns the x velocity factor.
      * @param getY The function that returns the y velocity factor.
      * @param getRotation The function that returns the rotation velocity factor.
+     * 
      * @return The default drive command.
      */
     public static Command getDefaultDriveCommand(DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRotation) {

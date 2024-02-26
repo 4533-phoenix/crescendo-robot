@@ -30,8 +30,7 @@ public final class Amp extends SubsystemBase {
 
     /**
      * The current position of the amp subsystem.
-     * This position can either be where the amp
-     * subsystem is or where the amp subsystem
+     * Represents where the amp subsystem is or 
      * last was.
      */
     private AMP_POSITION ampPosition = AMP_POSITION.RECEIVE_POSITION;
@@ -91,10 +90,14 @@ public final class Amp extends SubsystemBase {
      * Gets whether or not the amp limit switch
      * is at the given position.
      * 
+     * @param ampPosition The amp position to
+     * check whether or not the amp limit switch
+     * is at.
+     * 
      * @return Whether or not the amp limit switch
      * is at the given position.
      */
-    public boolean isLimitSwitchAtPosition(AMP_POSITION ampPosition) {
+    public boolean isAmpLimitSwitchAtPosition(AMP_POSITION ampPosition) {
         return this.ampPosition == ampPosition;
     }
 
@@ -105,15 +108,15 @@ public final class Amp extends SubsystemBase {
      * @return Whether or not the amp limit switch
      * is at a magnet.
      */
-    public boolean isLimitSwitchAtMagnet() {
+    public boolean isAmpLimitSwitchAtMagnet() {
         return !ampLimitSwitch.get();
     }
 
     /**
      * Sets the amp subsystem movement direction to the
-     * given movement direction.
+     * given amp movement direction.
      * 
-     * @param ampMovementDirection The movement direction
+     * @param ampMovementDirection The amp movement direction
      * to set the amp subsystem movement direction to.
      */
     public void setAmpMovementDirection(AMP_MOVEMENT_DIRECTION ampMovementDirection) {
@@ -133,7 +136,7 @@ public final class Amp extends SubsystemBase {
          * if the amp subsystem position should 
          * be updated.
          */
-        if (!ampLimitSwitch.get() && prevAmpLimitSwitchState) {
+        if (isAmpLimitSwitchAtMagnet() && prevAmpLimitSwitchState) {
             /*
              * If the amp subsystem position is the receive position
              * and the amp subsystem movement direction is towards
@@ -152,9 +155,7 @@ public final class Amp extends SubsystemBase {
             }
         }
 
-        /*
-         * Update the previous amp limit switch state.
-         */
+        // Update the previous amp limit switch state.
         prevAmpLimitSwitchState = ampLimitSwitch.get();
     }
 }
