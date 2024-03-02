@@ -54,11 +54,11 @@ public final class RobotContainer {
      */
     private static final Map<String, Command> autoCommands = Map.ofEntries(
         Map.entry(
-            "Example Auto", 
+            AutoConstants.EXIT_AUTO_KEY,
             AutoCommands.followPathAuto(
-                AutoConstants.EXAMPLE_AUTO_PATH_FILE_NAME,
-                AutoConstants.EXAMPLE_AUTO_INITIAL_CHASSIS_SPEEDS,
-                AutoConstants.EXAMPLE_AUTO_INITIAL_POSITION.getRotation()
+                AutoConstants.EXIT_AUTO_PATH_FILE_NAME, 
+                AutoConstants.EXIT_AUTO_INITIAL_CHASSIS_SPEEDS, 
+                AutoConstants.EXIT_AUTO_INITIAL_POSITION.getRotation()
             )
         )
     );
@@ -67,7 +67,7 @@ public final class RobotContainer {
      * The auto positions corresponding to the auto commands.
      */
     private static final Map<String, Pose2d> autoPositions = Map.ofEntries(
-        Map.entry("Example Auto", AutoConstants.EXAMPLE_AUTO_INITIAL_POSITION)
+        Map.entry(AutoConstants.EXIT_AUTO_KEY, AutoConstants.EXIT_AUTO_INITIAL_POSITION)
     );
 
     /**
@@ -98,25 +98,25 @@ public final class RobotContainer {
         // JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
         // runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
 
-        Trigger runShooterForwardsTrigger = new Trigger(() -> { return manipulatorController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
+        Trigger runShooterForwardsTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runShooterForwardsTrigger.whileTrue(ShooterCommands.getRunShooterForwardsCommand());
         runShooterForwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
 
-        Trigger runIntakeNoteTrigger = new Trigger(() -> { return manipulatorController.getLeftTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
+        Trigger runIntakeNoteTrigger = new Trigger(() -> { return driverController.getLeftTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runIntakeNoteTrigger.whileTrue(ShooterCommands.getIntakeNoteCommand());
         runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
 
-        JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
-        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
-        runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
+        // JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
+        // runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
+        // runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
-        JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
-        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
-        runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
+        // JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
+        // runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
+        // runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
 
-        JoystickButton runAmpForwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_A);
-        runAmpForwardsButton.whileTrue(AmpCommands.getRunAmpForwardsCommand());
-        runAmpForwardsButton.onFalse(AmpCommands.getStopAmpCommand());
+        // JoystickButton runAmpForwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_A);
+        // runAmpForwardsButton.whileTrue(AmpCommands.getRunAmpForwardsCommand());
+        // runAmpForwardsButton.onFalse(AmpCommands.getStopAmpCommand());
 
         JoystickButton runAmpDropNoteButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_Y);
         runAmpDropNoteButton.whileTrue(AmpCommands.getAmpDropCommand());
@@ -139,26 +139,26 @@ public final class RobotContainer {
             Amp.getInstance()
         );
 
-        // commandScheduler.setDefaultCommand(
-        //     Swerve.getInstance(), 
-        //     SwerveCommands.getDefaultDriveCommand(
-        //         () -> { 
-        //             return Math.abs(driverController.getLeftX()) >= ControllerConstants.JOYSTICK_DEADBAND
-        //                 ? driverController.getLeftX()
-        //                 : 0.0;
-        //         },
-        //         () -> {
-        //             return Math.abs(driverController.getLeftY()) >= ControllerConstants.JOYSTICK_DEADBAND
-        //                 ? driverController.getLeftY()
-        //                 : 0.0;
-        //         },
-        //         () -> {
-        //             return Math.abs(driverController.getRightX()) >= ControllerConstants.JOYSTICK_DEADBAND
-        //                 ? driverController.getRightX()
-        //                 : 0.0;
-        //         }
-        //     )
-        // );
+        commandScheduler.setDefaultCommand(
+            Swerve.getInstance(), 
+            SwerveCommands.getDefaultDriveCommand(
+                () -> { 
+                    return Math.abs(driverController.getLeftY()) >= ControllerConstants.ANALOG_INPUT_DEADBAND
+                        ? -driverController.getLeftY()
+                        : 0.0;
+                },
+                () -> {
+                    return Math.abs(driverController.getLeftX()) >= ControllerConstants.ANALOG_INPUT_DEADBAND
+                        ? -driverController.getLeftX()
+                        : 0.0;
+                },
+                () -> {
+                    return Math.abs(driverController.getRightX()) >= ControllerConstants.ANALOG_INPUT_DEADBAND
+                        ? -driverController.getRightX()
+                        : 0.0;
+                }
+            )
+        );
     }
 
     /**

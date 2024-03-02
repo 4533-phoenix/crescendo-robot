@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -12,30 +13,12 @@ public final class Constants {
         public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER; // m
 
         public static final double DRIVE_GEAR_RATIO = 6.75 / 1.0;
-        public static final double STEER_GEAR_RATIO = 12.8 / 1.0;
 
         public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO; // m / rot
         public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0); // m/s / rpm
 
-        public static final double DRIVE_MOTOR_KS = 0.0; // V
-        public static final double DRIVE_MOTOR_KV = 0.0; // V / m/s
-
-        public static final double DRIVE_MOTOR_KP = 0.0; // V / m/s
-        public static final double DRIVE_MOTOR_KI = 0.0; // V / ∫ v(t) dt
-        public static final double DRIVE_MOTOR_KD = 0.0; // V / a(t)
-
-        public static final double STEER_MOTOR_KS = 0.07907; // V
-        public static final double STEER_MOTOR_KV = 1.6004 / (2 * Math.PI); // V / rad/s
-
-        public static final double STEER_MOTOR_KP = 0.0; // V / rad
-        public static final double STEER_MOTOR_KI = 0.0; // V / ∫ θ(t) dt
-        public static final double STEER_MOTOR_KD = 0.0; // V / ω(t)
-
-        public static final double DRIVE_MOTOR_MAX_VELOCITY = 5.0; // m/s
-        public static final double DRIVE_MOTOR_MAX_ACCELERATION = 2.5; // m/s^2
-
-        public static final double STEER_MOTOR_MAX_VELOCITY = 3 * Math.PI; // rad/s
-        public static final double STEER_MOTOR_MAX_ACCELERATION = (3 * Math.PI) / 2; // rad/s^2
+        public static final double STEER_MOTOR_MAX_VELOCITY = 30.0 * Math.PI; // rad/s
+        public static final double STEER_MOTOR_MAX_ACCELERATION = 60.0 * Math.PI; // rad/s^2
     }
 
     public static final class SwerveConstants {
@@ -63,8 +46,8 @@ public final class Constants {
         public static final int BACK_RIGHT_STEER_MOTOR_ID = 8;
 
         public static final boolean FRONT_LEFT_DRIVE_MOTOR_REVERSED = false;
-        public static final boolean FRONT_RIGHT_DRIVE_MOTOR_REVERSED = true;
-        public static final boolean BACK_LEFT_DRIVE_MOTOR_REVERSED = true;
+        public static final boolean FRONT_RIGHT_DRIVE_MOTOR_REVERSED = false;
+        public static final boolean BACK_LEFT_DRIVE_MOTOR_REVERSED = false;
         public static final boolean BACK_RIGHT_DRIVE_MOTOR_REVERSED = true;
 
         public static final boolean FRONT_LEFT_STEER_MOTOR_REVERSED = false;
@@ -77,15 +60,55 @@ public final class Constants {
         public static final int BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID = 11;
         public static final int BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID = 12;
         
-        public static final double FRONT_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 0.90045; // rad
-        public static final double FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 2.13684; // rad
-        public static final double BACK_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 6.16660; // rad
-        public static final double BACK_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 1.49717; // rad
+        public static final double FRONT_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 0.12885; // rad
+        public static final double FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 6.16660; // rad
+        public static final double BACK_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET = 2.13684; // rad
+        public static final double BACK_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET = 0.90045; // rad
 
         public static final boolean FRONT_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
         public static final boolean FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
         public static final boolean BACK_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
         public static final boolean BACK_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED = false;
+
+        public static final double FRONT_LEFT_DRIVE_MOTOR_KS = 0.30756; // V
+        public static final double FRONT_RIGHT_DRIVE_MOTOR_KS = 0.24138; // V
+        public static final double BACK_LEFT_DRIVE_MOTOR_KS = 0.31912; // V
+        public static final double BACK_RIGHT_DRIVE_MOTOR_KS = 0.20699; // V
+
+        public static final double FRONT_LEFT_DRIVE_MOTOR_KV = 2.3401; // V / m/s
+        public static final double FRONT_RIGHT_DRIVE_MOTOR_KV = 2.5475; // V / m/s
+        public static final double BACK_LEFT_DRIVE_MOTOR_KV = 2.5673; // V / m/s
+        public static final double BACK_RIGHT_DRIVE_MOTOR_KV = 2.536; // V / m/s
+
+        public static final double FRONT_LEFT_DRIVE_MOTOR_KP = 0.0; // V / m/s
+        public static final double FRONT_RIGHT_DRIVE_MOTOR_KP = 0.0; // V / m/s
+        public static final double BACK_LEFT_DRIVE_MOTOR_KP = 0.0; // V / m/s
+        public static final double BACK_RIGHT_DRIVE_MOTOR_KP = 0.0; // V / m/s
+
+        public static final double FRONT_LEFT_STEER_MOTOR_KP = 3.5; // V / rad
+        public static final double FRONT_RIGHT_STEER_MOTOR_KP = 7.0; // V / rad
+        public static final double BACK_LEFT_STEER_MOTOR_KP = 4.5; // V / rad
+        public static final double BACK_RIGHT_STEER_MOTOR_KP = 4.5; // V / rad
+
+        public static final double FRONT_LEFT_DRIVE_MOTOR_KI = 1.0; // V / ∫ v(t) dt
+        public static final double FRONT_RIGHT_DRIVE_MOTOR_KI = 0.08; // V / ∫ v(t) dt
+        public static final double BACK_LEFT_DRIVE_MOTOR_KI = 0.075; // V / ∫ v(t) dt
+        public static final double BACK_RIGHT_DRIVE_MOTOR_KI = 0.075; // V / ∫ v(t) dt
+
+        public static final double FRONT_LEFT_STEER_MOTOR_KI = 0.01; // V / ∫ θ(t) dt
+        public static final double FRONT_RIGHT_STEER_MOTOR_KI = 0.01; // V / ∫ θ(t) dt
+        public static final double BACK_LEFT_STEER_MOTOR_KI = 0.01; // V / ∫ θ(t) dt
+        public static final double BACK_RIGHT_STEER_MOTOR_KI = 0.01; // V / ∫ θ(t) dt
+
+        public static final double FRONT_LEFT_DRIVE_MOTOR_KD = 0.0; // V / a(t)
+        public static final double FRONT_RIGHT_DRIVE_MOTOR_KD = 0.0; // V / a(t)
+        public static final double BACK_LEFT_DRIVE_MOTOR_KD = 0.0; // V / a(t)
+        public static final double BACK_RIGHT_DRIVE_MOTOR_KD = 0.0; // V / a(t)
+
+        public static final double FRONT_LEFT_STEER_MOTOR_KD = 0.075; // V / ω(t)
+        public static final double FRONT_RIGHT_STEER_MOTOR_KD = 0.075; // V / ω(t)
+        public static final double BACK_LEFT_STEER_MOTOR_KD = 0.075; // V / ω(t)
+        public static final double BACK_RIGHT_STEER_MOTOR_KD = 0.075; // V / ω(t)
 
         public static final double X_CONTROLLER_KP = 0.0; // m/s / m
         public static final double X_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
@@ -99,17 +122,17 @@ public final class Constants {
         public static final double THETA_CONTROLLER_KI = 0.0; // rad/s / ∫ θ(t) dt
         public static final double THETA_CONTROLLER_KD = 0.0; // rad/s / ω(t)
 
-        public static final double MAX_VELOCITY = 5.0; // m/s
-        public static final double MAX_ACCELERATION = 2.5; // m/s^2
+        public static final double MAX_VELOCITY = 1.0; // m/s
+        public static final double MAX_ACCELERATION = 1.0; // m/s^2
 
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
-        public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI / 2; // rad/s^2
+        public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI; // rad/s^2
     }
 
     public static final class IntakeConstants {
         public static final int INTAKE_MOTOR_ID = 13;
 
-        public static final double INTAKE_MOTOR_VOLTAGE = 12.0; // V
+        public static final double INTAKE_MOTOR_VOLTAGE = 10.0; // V
     }
 
     public static final class ShooterConstants {
@@ -149,7 +172,7 @@ public final class Constants {
 
         public static final int AMP_LIMIT_SWITCH_ID = 3;
 
-        public static final double AMP_MOTOR_VOLTAGE = 6.0; // V
+        public static final double AMP_MOTOR_VOLTAGE = 4.0; // V
 
         public static enum AMP_POSITION {
             RECEIVE_POSITION,
@@ -165,10 +188,11 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        // Example autonomous constants.
-        public static final String EXAMPLE_AUTO_PATH_FILE_NAME = "Example Path";
-        public static final ChassisSpeeds EXAMPLE_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
-        public static final Pose2d EXAMPLE_AUTO_INITIAL_POSITION = new Pose2d();
+        // Exit autonomous constants.
+        public static final String EXIT_AUTO_KEY = "Exit Auto";
+        public static final String EXIT_AUTO_PATH_FILE_NAME = "Exit Auto";
+        public static final ChassisSpeeds EXIT_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
+        public static final Pose2d EXIT_AUTO_INITIAL_POSITION = new Pose2d(1.20, 1.94, new Rotation2d());
     }
 
     public static final class ControllerConstants {

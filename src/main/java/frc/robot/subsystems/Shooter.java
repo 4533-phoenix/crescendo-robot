@@ -61,6 +61,6 @@ public final class Shooter extends SubsystemBase {
     }
 
     public boolean isLimitSwitchPressed() {
-        return !shooterLimitSwitch.get();
+        return shooterLimitSwitch.get();
     }
 }

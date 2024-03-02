@@ -15,7 +15,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Voltage;
 import frc.robot.Constants.SwerveModuleConstants;
@@ -61,11 +60,6 @@ public final class SwerveModule {
     private SimpleMotorFeedforward driveFeedforward;
 
     /**
-     * The swerve module steer feedforward.
-     */
-    private SimpleMotorFeedforward steerFeedforward;
-
-    /**
      * The swerve module drive PID controller.
      */
     private PIDController drivePIDController;
@@ -81,8 +75,10 @@ public final class SwerveModule {
      * and steer motor IDs, whether or not the swerve module 
      * drive and steer motors are reversed, the swerve module 
      * steer encoder ID, the swerve module steer encoder
-     * offset, and whether or not the swerve module steer 
-     * encoder is reversed.
+     * offset, whether or not the swerve module steer 
+     * encoder is reversed, the swerve module drive
+     * feedfoward, the swerve module drive PID controller,
+     * and the swerve module steer PID controller.
      * 
      * @param driveMotorID The swerve module drive motor ID.
      * @param steerMotorID The swerve module steer motor ID.
@@ -95,10 +91,23 @@ public final class SwerveModule {
      * offset.
      * @param steerEncoderReversed Whether or not the swerve module
      * steer encoder is reversed.
+     * @param driveFeedforward The swerve module drive feedforward.
+     * @param drivePIDController The swerve module drive PID
+     * controller.
+     * @param steerPIDController The swerve module steer PID
+     * controller.
      */
-    public SwerveModule(int driveMotorID, int steerMotorID, boolean driveMotorReversed, boolean steerMotorReversed, 
-        int steerEncoderID, double steerEncoderOffset, boolean steerEncoderReversed
-    ) {
+    public SwerveModule(
+            int driveMotorID, 
+            int steerMotorID, 
+            boolean driveMotorReversed, 
+            boolean steerMotorReversed, 
+            int steerEncoderID, 
+            double steerEncoderOffset, 
+            boolean steerEncoderReversed,
+            SimpleMotorFeedforward driveFeedforward,
+            PIDController drivePIDController,
+            ProfiledPIDController steerPIDController) {
         // Create the swerve module drive and steer motors.
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         steerMotor = new CANSparkMax(steerMotorID, MotorType.kBrushless);
@@ -151,41 +160,20 @@ public final class SwerveModule {
          */
         this.steerEncoderReversed = steerEncoderReversed;
 
-        // Create the swerve module drive motor feedforward.
-        driveFeedforward = new SimpleMotorFeedforward(
-            SwerveModuleConstants.DRIVE_MOTOR_KS, 
-            SwerveModuleConstants.DRIVE_MOTOR_KV
-        );
-
-        // Create the swerve module steer motor feedforward.
-        steerFeedforward = new SimpleMotorFeedforward(
-            SwerveModuleConstants.STEER_MOTOR_KS, 
-            SwerveModuleConstants.STEER_MOTOR_KV
-        );
+        // Set the swerve module drive feedforward.
+        this.driveFeedforward = driveFeedforward;
         
-        // Create the swerve module drive motor PID controller.
-        drivePIDController = new PIDController(
-            SwerveModuleConstants.DRIVE_MOTOR_KP, 
-            SwerveModuleConstants.DRIVE_MOTOR_KI, 
-            SwerveModuleConstants.DRIVE_MOTOR_KD
-        );
+        // Set the swerve module drive PID controller.
+        this.drivePIDController = drivePIDController;
 
-        // Create the swerve module steer motor PID controller.
-        steerPIDController = new ProfiledPIDController(
-            SwerveModuleConstants.STEER_MOTOR_KP, 
-            SwerveModuleConstants.STEER_MOTOR_KI, 
-            SwerveModuleConstants.STEER_MOTOR_KD, 
-            new Constraints(
-                SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
-                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION
-            )
-        );
+        // Set the swerve module steer PID controller.
+        this.steerPIDController = steerPIDController;
 
         /*
          * Set continuous input for the swerve module 
          * steer PID controller. 
          */
-        steerPIDController.enableContinuousInput(0.0, (2 * Math.PI));
+        steerPIDController.enableContinuousInput(0.0, (2.0 * Math.PI));
     }
 
     /**
@@ -249,7 +237,7 @@ public final class SwerveModule {
         }
         
         // Convert the angle into radians.
-        angle *= (2 * Math.PI);
+        angle *= (2.0 * Math.PI);
 
         // Offset the angle by the swerve module steer encoder offset.
         angle -= steerEncoderOffset;
@@ -263,8 +251,8 @@ public final class SwerveModule {
          * later and end earlier, causing the need
          * for adding 2π when negative angles are produced.
          */
-        if (angle < 0) {
-            angle += (2 * Math.PI);
+        if (angle < 0.0) {
+            angle += (2.0 * Math.PI);
         }
 
         return angle;
@@ -288,7 +276,7 @@ public final class SwerveModule {
         angularVelocity *= steerEncoderReversed ? -1.0 : 1.0;
 
         // Convert the angular velocity into radians.
-        angularVelocity *= (2 * Math.PI);
+        angularVelocity *= (2.0 * Math.PI);
 
         return angularVelocity;
     }
@@ -311,11 +299,14 @@ public final class SwerveModule {
         }
         
         // Convert the angle into radians.
-        angle *= (2 * Math.PI);
+        angle *= (2.0 * Math.PI);
 
         return angle;
     }
 
+    public PIDController getDrivePIDController() {
+        return drivePIDController;
+    }
     /**
      * Gets the swerve module steer PID controller.
      * 
@@ -342,18 +333,21 @@ public final class SwerveModule {
      * the swerve module at.
      */
     public void setState(SwerveModuleState state) {
-        // SwerveModuleState.optimize(state, Rotation2d.fromRadians(getSteerEncoderAngle()));
+        state = SwerveModuleState.optimize(state, Rotation2d.fromRadians(getSteerEncoderAngle()));
+
+        double speed = Math.abs(state.speedMetersPerSecond) < 0.1 ? 0.0 : state.speedMetersPerSecond;
 
         driveMotor.setVoltage(
-            driveFeedforward.calculate(state.speedMetersPerSecond) 
-            + drivePIDController.calculate(driveEncoder.getVelocity(), state.speedMetersPerSecond)
+            driveFeedforward.calculate(speed) 
+            + drivePIDController.calculate(driveEncoder.getVelocity(), speed)
         );
 
-        double steerPIDValue = steerPIDController.calculate(getSteerEncoderAngle(), state.angle.getRadians());
+        double angle = state.angle.getRadians() < 0.0 ? state.angle.getRadians() + (2.0 * Math.PI) : state.angle.getRadians();
+
+        System.out.println(angle);
 
         steerMotor.setVoltage(
-            steerFeedforward.calculate(steerPIDController.getSetpoint().velocity)
-            + steerPIDValue
+            steerPIDController.calculate(getSteerEncoderAngle(), angle)
         );
     }
 
@@ -375,9 +369,5 @@ public final class SwerveModule {
      */
     public void setSteerMotorVoltage(Measure<Voltage> voltage) {
         steerMotor.setVoltage(voltage.magnitude());
-    }
-
-    public void setSteerMotorVelocity(double velocity) {
-        steerMotor.setVoltage(steerFeedforward.calculate(velocity));
     }
 }

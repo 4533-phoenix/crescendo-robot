@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.SwerveModuleConstants;
 
 /**
  * The class for the swerve drive subsystem.
@@ -39,7 +41,21 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.FRONT_LEFT_STEER_MOTOR_REVERSED,
         SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_ID, 
         SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
+        SwerveConstants.FRONT_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED,
+        new SimpleMotorFeedforward(
+            SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_KS, 
+            SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_KV),
+        new PIDController(
+            SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_KP, 
+            SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_KI, 
+            SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_KD),
+        new ProfiledPIDController(
+            SwerveConstants.FRONT_LEFT_STEER_MOTOR_KP, 
+            SwerveConstants.FRONT_LEFT_STEER_MOTOR_KI, 
+            SwerveConstants.FRONT_LEFT_STEER_MOTOR_KD, 
+            new Constraints(
+                SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
     );
 
     /**
@@ -52,7 +68,21 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.FRONT_RIGHT_STEER_MOTOR_REVERSED,
         SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_ID, 
         SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
+        SwerveConstants.FRONT_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED,
+        new SimpleMotorFeedforward(
+            SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_KS, 
+            SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_KV),
+        new PIDController(
+            SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_KP, 
+            SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_KI, 
+            SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_KD),
+        new ProfiledPIDController(
+            SwerveConstants.FRONT_RIGHT_STEER_MOTOR_KP, 
+            SwerveConstants.FRONT_RIGHT_STEER_MOTOR_KI, 
+            SwerveConstants.FRONT_RIGHT_STEER_MOTOR_KD, 
+            new Constraints(
+                SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
     );
 
     /**
@@ -65,7 +95,21 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.BACK_LEFT_STEER_MOTOR_REVERSED,
         SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_ID, 
         SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED
+        SwerveConstants.BACK_LEFT_STEER_ABSOLUTE_ENCODER_REVERSED,
+        new SimpleMotorFeedforward(
+            SwerveConstants.BACK_LEFT_DRIVE_MOTOR_KS, 
+            SwerveConstants.BACK_LEFT_DRIVE_MOTOR_KV),
+        new PIDController(
+            SwerveConstants.BACK_LEFT_DRIVE_MOTOR_KP, 
+            SwerveConstants.BACK_LEFT_DRIVE_MOTOR_KI, 
+            SwerveConstants.BACK_LEFT_DRIVE_MOTOR_KD),
+        new ProfiledPIDController(
+            SwerveConstants.BACK_LEFT_STEER_MOTOR_KP, 
+            SwerveConstants.BACK_LEFT_STEER_MOTOR_KI, 
+            SwerveConstants.BACK_LEFT_STEER_MOTOR_KD, 
+            new Constraints(
+                SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
     );
 
     /**
@@ -78,7 +122,21 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.BACK_RIGHT_STEER_MOTOR_REVERSED,
         SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_ID, 
         SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_OFFSET, 
-        SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED
+        SwerveConstants.BACK_RIGHT_STEER_ABSOLUTE_ENCODER_REVERSED,
+        new SimpleMotorFeedforward(
+            SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_KS, 
+            SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_KV),
+        new PIDController(
+            SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_KP, 
+            SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_KI, 
+            SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_KD),
+        new ProfiledPIDController(
+            SwerveConstants.BACK_RIGHT_STEER_MOTOR_KP, 
+            SwerveConstants.BACK_RIGHT_STEER_MOTOR_KI, 
+            SwerveConstants.BACK_RIGHT_STEER_MOTOR_KD, 
+            new Constraints(
+                SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
     );
 
     /**
@@ -101,7 +159,17 @@ public final class Swerve extends SubsystemBase {
     /**
      * The swerve drive position estimator.
      */
-    private SwerveDrivePoseEstimator poseEstimator = null;
+    private SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
+        SwerveConstants.SWERVE_DRIVE_KINEMATICS, 
+        getGyroAngle(), 
+        new SwerveModulePosition[]{
+            new SwerveModulePosition(),
+            new SwerveModulePosition(),
+            new SwerveModulePosition(),
+            new SwerveModulePosition()
+        }, 
+        new Pose2d()
+    );
 
     /**
      * The swerve drive holonomic drive controller.
@@ -146,7 +214,11 @@ public final class Swerve extends SubsystemBase {
      */
     private Swerve() {
         // Set continous input for the theta controller.
-        swerveController.getThetaController().enableContinuousInput(0.0, (2 * Math.PI));
+        swerveController.getThetaController().enableContinuousInput(0.0, (2.0 * Math.PI));
+    }
+
+    public SwerveModule[] getSwerveModules() {
+        return swerveModules;
     }
 
     /**
@@ -178,16 +250,15 @@ public final class Swerve extends SubsystemBase {
     }
 
     /**
-     * Registers the swerve drive position estimator. This is done
+     * Resets the swerve drive position estimator. This is done
      * because the initial position of the robot is only known
      * at the beginning of the autonomous period.
      * 
      * @param initialPose The initial position of the robot.
      */
-    public void registerPoseEstimator(Pose2d initialPose) {
-        poseEstimator = new SwerveDrivePoseEstimator(
-            SwerveConstants.SWERVE_DRIVE_KINEMATICS, 
-            getRobotAngle(), 
+    public void resetPoseEstimator(Pose2d initialPose) {
+        poseEstimator.resetPosition(
+            getGyroAngle(), 
             new SwerveModulePosition[]{
                 new SwerveModulePosition(),
                 new SwerveModulePosition(),
@@ -203,7 +274,7 @@ public final class Swerve extends SubsystemBase {
      * 
      * @return The robot's accumulated yaw angle.
      */
-    public Rotation2d getRobotAngle() {
+    public Rotation2d getGyroAngle() {
         return Rotation2d.fromDegrees(-gyro.getAngle());
     }
 
@@ -247,7 +318,7 @@ public final class Swerve extends SubsystemBase {
             xVelocity, 
             yVelocity, 
             rotationalVelocity, 
-            getRobotAngle()
+            getRobotPose().getRotation()
         );
 
         // Convert the chassis speeds to swerve module states.
@@ -413,12 +484,10 @@ public final class Swerve extends SubsystemBase {
         }
 
         /*
-         * If the swerve drive position estimator has been registered,
-         * then update it with the current robot angle and the current
+         * Update the swerve drive position estimator 
+         * with the current robot angle and the current
          * swerve module positions.
          */
-        if (poseEstimator != null) {
-            poseEstimator.update(getRobotAngle(), swerveModulePositions);
-        }
+        poseEstimator.update(getGyroAngle(), swerveModulePositions);
     }
 }

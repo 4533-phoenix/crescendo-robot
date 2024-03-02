@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveModule;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,7 +26,7 @@ import frc.robot.subsystems.Swerve;
  * project.
  */
 public class Robot extends TimedRobot {
-  private String autoSelected = "Tutorial Auto";
+  private String autoSelected = "Exit Auto";
 
   private Command autoCommand = new InstantCommand();
 
@@ -65,7 +66,7 @@ public class Robot extends TimedRobot {
 
     RobotContainer.registerButtons();
     
-    autoChooser.setDefaultOption("Tutorial Auto", "Tutorial Auto");
+    autoChooser.setDefaultOption("Exit Auto", "Exit Auto");
 
     SmartDashboard.putData(autoChooser);
 
@@ -75,12 +76,12 @@ public class Robot extends TimedRobot {
 
     int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
 
-    SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
-    SmartDashboard.putNumber("Angle Setpoint", 0.0);
+    SmartDashboard.putNumber("Current Velocity", Swerve.getInstance().getSwerveModule(swerveModuleID).getDriveMotorLinearVelocity());
+    SmartDashboard.putNumber("Velocity Setpoint", 0.0);
 
-    SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
-    SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
-    SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
+    SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getP());
+    SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getI());
+    SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getD());
   }
 
   /**
@@ -113,7 +114,7 @@ public class Robot extends TimedRobot {
 
     autoPosition = RobotContainer.getAutonomousPosition(autoSelected);
 
-    Swerve.getInstance().registerPoseEstimator(autoPosition);
+    Swerve.getInstance().resetPoseEstimator(autoPosition);
 
     CommandScheduler.getInstance().schedule(autoCommand);
   }
@@ -133,23 +134,27 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (SmartDashboard.getBoolean("PID Test", false)) {
-      int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+    // if (SmartDashboard.getBoolean("PID Test", false)) {
+    //   int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
 
-      double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
-      double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
-      double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
+    //   double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getP());
+    //   double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getI());
+    //   double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getD());
 
-      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setP(Kp);
-      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setI(Ki);
-      Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setD(Kd);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().setP(Kp);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().setI(Ki);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().setD(Kd);
 
-      SwerveModuleState swerveModuleState = new SwerveModuleState(0.0, Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle Setpoint", 0.0)));
+    //   SwerveModuleState swerveModuleState = new SwerveModuleState(SmartDashboard.getNumber("Velocity Setpoint", 0.0), new Rotation2d());
 
-      Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
 
-      SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
-    }
+    //   SmartDashboard.putNumber("Current Velocity", Swerve.getInstance().getSwerveModule(swerveModuleID).getDriveMotorLinearVelocity());
+    // }
+
+    // for (SwerveModule swerveModule : Swerve.getInstance().getSwerveModules()) {
+    //   swerveModule.setState(new SwerveModuleState(0.0, new Rotation2d(0.0)));
+    // }
   }
 
   /** This function is called once when the robot is disabled. */
