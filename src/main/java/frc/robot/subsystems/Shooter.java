@@ -33,18 +33,27 @@ public final class Shooter extends SubsystemBase {
         rightShooterMotor.setInverted(true);
     }
 
-    public void runShooterForwards() {
+    public void runLeftShooterForwards() {
         leftShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+    }
+
+    public void runLeftShooterBackwards() {
+        leftShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+    }
+
+    public void runRightShooterForwards() {
         rightShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
     }
 
-    public void runShooterBackwards() {
-        leftShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+    public void runRightShooterBackwards() {
         rightShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
     }
 
-    public void stopShooter() {
+    public void stopLeftShooter() {
         leftShooterMotor.setVoltage(0.0);
+    }
+
+    public void stopRightShooter() {
         rightShooterMotor.setVoltage(0.0);
     }
 

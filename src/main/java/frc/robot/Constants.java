@@ -93,7 +93,7 @@ public final class Constants {
         public static final double BACK_RIGHT_DRIVE_MOTOR_KP = 0.0; // V / m/s
 
         public static final double FRONT_LEFT_STEER_MOTOR_KP = 3.5; // V / rad
-        public static final double FRONT_RIGHT_STEER_MOTOR_KP = 7.0; // V / rad
+        public static final double FRONT_RIGHT_STEER_MOTOR_KP = 5.0; // V / rad
         public static final double BACK_LEFT_STEER_MOTOR_KP = 4.5; // V / rad
         public static final double BACK_RIGHT_STEER_MOTOR_KP = 4.5; // V / rad
 
@@ -148,7 +148,7 @@ public final class Constants {
 
         public static final int SHOOTER_LIMIT_SWITCH_ID = 0;
 
-        public static final double LIFT_MOTOR_VOLTAGE = 6.0; // V
+        public static final double LIFT_MOTOR_VOLTAGE = 5.0; // V
         public static final double SHOOTER_MOTOR_VOLTAGE = 12.0; // V
     }
 
@@ -156,10 +156,10 @@ public final class Constants {
         public static final int LEFT_CLIMB_MOTOR_ID = 16;
         public static final int RIGHT_CLIMB_MOTOR_ID = 17;
 
-        public static final int LEFT_CLIMB_LIMIT_SWITCH_ID = 1;
-        public static final int RIGHT_CLIMB_LIMIT_SWITCH_ID = 2;
+        public static final int LEFT_CLIMB_LIMIT_SWITCH_ID = 2;
+        public static final int RIGHT_CLIMB_LIMIT_SWITCH_ID = 1;
 
-        public static final double CLIMB_MOTOR_VOLTAGE = 5.0; // V
+        public static final double CLIMB_MOTOR_VOLTAGE = 10.0; // V
 
         public static enum CLIMB_POSITION {
             DOWN_POSITION,
@@ -220,19 +220,24 @@ public final class Constants {
         }
 
         public static final ApriltagCameraConfig[] PHOTON_CAMERAS = {
-            new ApriltagCameraConfig("photonvision-front", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
-            new ApriltagCameraConfig("photonvision-back", new Transform3d(new Translation3d(0.0381, 0.0381, 0.5), new Rotation3d(0, Math.PI, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+            new ApriltagCameraConfig("Front_Camera", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
+            new ApriltagCameraConfig("Back_Camera", new Transform3d(new Translation3d(0.0381, 0.0381, 0.5), new Rotation3d(0, Math.PI, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
         };
 
         public static final AprilTagFieldLayout FIELD_LAYOUT = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     }
 
     public static final class AutoConstants {
+        public static enum ALLIANCE {
+            BLUE_ALLIANCE,
+            RED_ALLIANCE
+        }
+
         // Exit autonomous constants.
-        public static final String EXIT_AUTO_KEY = "Exit Auto";
-        public static final String EXIT_AUTO_PATH_FILE_NAME = "Exit Auto";
-        public static final ChassisSpeeds EXIT_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
-        public static final Pose2d EXIT_AUTO_INITIAL_POSITION = new Pose2d(1.20, 1.94, new Rotation2d());
+        public static final String BLUE_EXIT_AUTO_KEY = "Blue Exit Auto";
+        public static final String BLUE_EXIT_AUTO_PATH_FILE_NAME = "Blue Exit Auto";
+        public static final ChassisSpeeds BLUE_EXIT_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
+        public static final Pose2d BLUE_EXIT_AUTO_INITIAL_POSITION = new Pose2d(1.20, 1.94, new Rotation2d());
     }
 
     public static final class ControllerConstants {

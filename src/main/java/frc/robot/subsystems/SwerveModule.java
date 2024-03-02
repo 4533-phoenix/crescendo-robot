@@ -344,8 +344,6 @@ public final class SwerveModule {
 
         double angle = state.angle.getRadians() < 0.0 ? state.angle.getRadians() + (2.0 * Math.PI) : state.angle.getRadians();
 
-        System.out.println(angle);
-
         steerMotor.setVoltage(
             steerPIDController.calculate(getSteerEncoderAngle(), angle)
         );

@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.SwerveModule;
+import frc.robot.Constants.AutoConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,13 +28,15 @@ import frc.robot.subsystems.SwerveModule;
  * project.
  */
 public class Robot extends TimedRobot {
-  private String autoSelected = "Exit Auto";
+  private String autoSelected = AutoConstants.BLUE_EXIT_AUTO_KEY;
 
   private Command autoCommand = new InstantCommand();
 
   private Pose2d autoPosition = new Pose2d();
   
   private final SendableChooser<String> autoChooser = new SendableChooser<String>();
+
+  private final Field2d field = new Field2d();
 
   public static final SysIdRoutine sysIDDriveRoutine = new SysIdRoutine(
     new Config(), 
@@ -66,22 +70,26 @@ public class Robot extends TimedRobot {
 
     RobotContainer.registerButtons();
     
-    autoChooser.setDefaultOption("Exit Auto", "Exit Auto");
+    autoChooser.setDefaultOption(AutoConstants.BLUE_EXIT_AUTO_KEY, AutoConstants.BLUE_EXIT_AUTO_KEY);
 
-    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    SmartDashboard.putNumber("Swerve Module ID", 0);
+    field.setRobotPose(Swerve.getInstance().getRobotPose());
 
-    SmartDashboard.putBoolean("PID Test", false);
+    SmartDashboard.putData("Field", field);
 
-    int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+    // SmartDashboard.putNumber("Swerve Module ID", 0);
 
-    SmartDashboard.putNumber("Current Velocity", Swerve.getInstance().getSwerveModule(swerveModuleID).getDriveMotorLinearVelocity());
-    SmartDashboard.putNumber("Velocity Setpoint", 0.0);
+    // SmartDashboard.putBoolean("PID Test", false);
 
-    SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getP());
-    SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getI());
-    SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getD());
+    // int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+
+    // SmartDashboard.putNumber("Current Velocity", Swerve.getInstance().getSwerveModule(swerveModuleID).getDriveMotorLinearVelocity());
+    // SmartDashboard.putNumber("Velocity Setpoint", 0.0);
+
+    // SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getP());
+    // SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getI());
+    // SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getD());
   }
 
   /**
@@ -94,6 +102,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    field.setRobotPose(Swerve.getInstance().getRobotPose());
   }
 
   /**

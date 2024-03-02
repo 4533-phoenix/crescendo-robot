@@ -466,20 +466,6 @@ public final class Swerve extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        // for (int i = 0; i < swerveModules.length; i++) {
-        //     SwerveModule swerveModule = swerveModules[i];
-
-        //     if (i == 0) {
-        //         System.out.println("Front Left Angle: " + swerveModule.getSteerEncoderAngle());
-        //     } else if (i == 1) {
-        //         System.out.println("Front Right Angle: " + swerveModule.getSteerEncoderAngle());
-        //     } else if (i == 2) {
-        //         System.out.println("Back Left Angle: " + swerveModule.getSteerEncoderAngle());
-        //     } else if (i == 3) {
-        //         System.out.println("Back Right Angle: " + swerveModule.getSteerEncoderAngle());
-        //     }
-        // }
-
         // Create an array to store the current swerve module positions.
         SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[swerveModules.length];
 

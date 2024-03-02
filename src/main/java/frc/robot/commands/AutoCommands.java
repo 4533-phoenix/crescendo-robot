@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.AutoConstants.ALLIANCE;
 import frc.robot.subsystems.Swerve;
 
 /**
@@ -30,7 +31,7 @@ public final class AutoCommands {
      * @return An auto command that follows the path corresponding to the given
      * path file name given the initial chassis speeds and the initial rotation.
      */
-    public static Command followPathAuto(String pathFile, ChassisSpeeds initialChassisSpeeds, Rotation2d initialRotation) {
+    public static Command followPathAuto(String pathFile, ChassisSpeeds initialChassisSpeeds, Rotation2d initialRotation, ALLIANCE alliance) {
         /*
          * Check if the path file exists. If it does not,
          * then print the stack trace of the error and
@@ -47,7 +48,9 @@ public final class AutoCommands {
         return new InstantCommand(
             () -> {
                 // Get the path from the path file.
-                PathPlannerPath path = PathPlannerPath.fromPathFile(pathFile);
+                PathPlannerPath path = alliance == ALLIANCE.RED_ALLIANCE 
+                    ? PathPlannerPath.fromPathFile(pathFile).flipPath()
+                    : PathPlannerPath.fromPathFile(pathFile);
 
                 // Create the trajectory from the path.
                 PathPlannerTrajectory trajectory = path.getTrajectory(initialChassisSpeeds, initialRotation);

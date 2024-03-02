@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -25,6 +27,7 @@ import frc.robot.subsystems.RightClimb;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Apriltag;
+import frc.robot.Constants.AutoConstants.ALLIANCE;
 
 /**
  * The class for setting up the subsystems, buttons, and autonomous commands.
@@ -55,11 +58,12 @@ public final class RobotContainer {
      */
     private static final Map<String, Command> autoCommands = Map.ofEntries(
         Map.entry(
-            AutoConstants.EXIT_AUTO_KEY,
+            AutoConstants.BLUE_EXIT_AUTO_KEY,
             AutoCommands.followPathAuto(
-                AutoConstants.EXIT_AUTO_PATH_FILE_NAME, 
-                AutoConstants.EXIT_AUTO_INITIAL_CHASSIS_SPEEDS, 
-                AutoConstants.EXIT_AUTO_INITIAL_POSITION.getRotation()
+                AutoConstants.BLUE_EXIT_AUTO_PATH_FILE_NAME, 
+                AutoConstants.BLUE_EXIT_AUTO_INITIAL_CHASSIS_SPEEDS, 
+                AutoConstants.BLUE_EXIT_AUTO_INITIAL_POSITION.getRotation(),
+                ALLIANCE.BLUE_ALLIANCE
             )
         )
     );
@@ -68,7 +72,7 @@ public final class RobotContainer {
      * The auto positions corresponding to the auto commands.
      */
     private static final Map<String, Pose2d> autoPositions = Map.ofEntries(
-        Map.entry(AutoConstants.EXIT_AUTO_KEY, AutoConstants.EXIT_AUTO_INITIAL_POSITION)
+        Map.entry(AutoConstants.BLUE_EXIT_AUTO_KEY, AutoConstants.BLUE_EXIT_AUTO_INITIAL_POSITION)
     );
 
     /**
@@ -99,25 +103,25 @@ public final class RobotContainer {
         // JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
         // runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
 
-        Trigger runShooterForwardsTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
-        runShooterForwardsTrigger.whileTrue(ShooterCommands.getRunShooterForwardsCommand());
-        runShooterForwardsTrigger.onFalse(ShooterCommands.getStopShooterCommand());
+        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
+        runRightShooterForwardsTrigger.whileTrue(ShooterCommands.getRunRightShooterForwardsCommand());
+        runRightShooterForwardsTrigger.onFalse(ShooterCommands.getStopRightShooterCommand());
+
+        JoystickButton runLeftShooterForwardsButton = new JoystickButton(driverController, ControllerConstants.BUTTON_A);
+        runLeftShooterForwardsButton.whileTrue(ShooterCommands.getRunLeftShooterForwardsCommand());
+        runLeftShooterForwardsButton.onFalse(ShooterCommands.getStopLeftShooterCommand());
 
         Trigger runIntakeNoteTrigger = new Trigger(() -> { return driverController.getLeftTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runIntakeNoteTrigger.whileTrue(ShooterCommands.getIntakeNoteCommand());
         runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
 
-        // JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
-        // runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
-        // runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
+        JoystickButton runClimbUpButton = new JoystickButton(driverController, ControllerConstants.BUTTON_RB);
+        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
+        runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
-        // JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
-        // runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
-        // runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
-
-        // JoystickButton runAmpForwardsButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_A);
-        // runAmpForwardsButton.whileTrue(AmpCommands.getRunAmpForwardsCommand());
-        // runAmpForwardsButton.onFalse(AmpCommands.getStopAmpCommand());
+        JoystickButton runClimbDownButton = new JoystickButton(driverController, ControllerConstants.BUTTON_LB);
+        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
+        runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
 
         JoystickButton runAmpDropNoteButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_Y);
         runAmpDropNoteButton.whileTrue(AmpCommands.getAmpDropCommand());

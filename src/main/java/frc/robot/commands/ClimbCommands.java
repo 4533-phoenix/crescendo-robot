@@ -127,7 +127,7 @@ public class ClimbCommands {
      * 
      * @return The command that stops the climb subsystem.
      */
-    public static InstantCommand getStopClimbCommand() {
+    public static Command getStopClimbCommand() {
         return new InstantCommand(
             () -> {
                 LeftClimb.getInstance().stopLeftClimb();

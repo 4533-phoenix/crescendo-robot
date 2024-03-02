@@ -8,23 +8,44 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCommands {
-    public static Command getRunShooterForwardsCommand() {
+    public static Command getRunLeftShooterForwardsCommand() {
         return new RunCommand(
-            () -> Shooter.getInstance().runShooterForwards(), 
+            () -> Shooter.getInstance().runLeftShooterForwards(), 
             Shooter.getInstance()
         );
     }
 
-    public static Command getRunShooterBackwardsCommand() {
+    public static Command getRunLeftShooterBackwardsCommand() {
         return new RunCommand(
-            () -> Shooter.getInstance().runShooterBackwards(), 
+            () -> Shooter.getInstance().runLeftShooterBackwards(), 
             Shooter.getInstance()
         );
     }
 
-    public static Command getStopShooterCommand() {
+    public static Command getRunRightShooterForwardsCommand() {
+        return new RunCommand(
+            () -> Shooter.getInstance().runRightShooterForwards(), 
+            Shooter.getInstance()
+        );
+    }
+
+    public static Command getRunRightShooterBackwardsCommand() {
+        return new RunCommand(
+            () -> Shooter.getInstance().runRightShooterBackwards(), 
+            Shooter.getInstance()
+        );
+    }
+
+    public static Command getStopLeftShooterCommand() {
         return new InstantCommand(
-            () -> Shooter.getInstance().stopShooter(),
+            () -> Shooter.getInstance().stopLeftShooter(),
+            Shooter.getInstance()
+        );
+    }
+
+    public static Command getStopRightShooterCommand() {
+        return new InstantCommand(
+            () -> Shooter.getInstance().stopRightShooter(),
             Shooter.getInstance()
         );
     }
