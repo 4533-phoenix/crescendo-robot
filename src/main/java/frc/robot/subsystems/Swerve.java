@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -287,6 +288,15 @@ public final class Swerve extends SubsystemBase {
      */
     public Pose2d getRobotPose() {
         return poseEstimator.getEstimatedPosition();
+    }
+
+    /**
+     * Returns the Pose Estimator
+     * 
+     * @return the robot pose estimator
+     */
+    public PoseEstimator getPoseEstimator() {
+        return poseEstimator;
     }
 
     /**
