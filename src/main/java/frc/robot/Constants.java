@@ -5,8 +5,10 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -195,8 +197,8 @@ public final class Constants {
         }
 
         public static final ApriltagCameraConfig[] PHOTON_CAMERAS = {
-            new ApriltagCameraConfig("photonvision-front", new Transform3d(), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
-            new ApriltagCameraConfig("photonvision-back", new Transform3d(), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+            new ApriltagCameraConfig("photonvision-front", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
+            new ApriltagCameraConfig("photonvision-back", new Transform3d(new Translation3d(0.0381, 0.0381, 0.5), new Rotation3d(0, Math.PI, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
         };
 
         public static final AprilTagFieldLayout FIELD_LAYOUT = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
