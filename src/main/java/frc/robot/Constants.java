@@ -227,6 +227,10 @@ public final class Constants {
         public static final AprilTagFieldLayout FIELD_LAYOUT = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     }
 
+    public static final class NoteDetectorConstants {
+        public static final String NOTE_DETECTOR_NAME = "note-detector";
+    }
+
     public static final class AutoConstants {
         // Exit autonomous constants.
         public static final String EXIT_AUTO_KEY = "Exit Auto";
