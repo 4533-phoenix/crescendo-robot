@@ -1,6 +1,11 @@
 package frc.robot;
 
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -162,6 +167,39 @@ public final class Constants {
         }
 
         public static final double AMP_POSITION_DELAY = 0.1; // s
+    }
+
+    public static final class ApriltagConstants {
+        public static final class  ApriltagCameraConfig {
+            private String name;
+            private Transform3d transform;
+            private PoseStrategy strategy;
+
+            public ApriltagCameraConfig(String name, Transform3d transform, PoseStrategy strategy) {
+                this.name = name;
+                this.transform = transform;
+                this.strategy = strategy;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public Transform3d getTransform() {
+                return transform;
+            }
+
+            public PoseStrategy getStrategy() {
+                return strategy;
+            }
+        }
+
+        public static final ApriltagCameraConfig[] PHOTON_CAMERAS = {
+            new ApriltagCameraConfig("photonvision-front", new Transform3d(), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
+            new ApriltagCameraConfig("photonvision-back", new Transform3d(), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+        };
+
+        public static final AprilTagFieldLayout FIELD_LAYOUT = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     }
 
     public static final class AutoConstants {

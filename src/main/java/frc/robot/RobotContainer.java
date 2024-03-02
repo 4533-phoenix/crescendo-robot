@@ -24,6 +24,7 @@ import frc.robot.subsystems.LeftClimb;
 import frc.robot.subsystems.RightClimb;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Apriltag;
 
 /**
  * The class for setting up the subsystems, buttons, and autonomous commands.
@@ -136,7 +137,8 @@ public final class RobotContainer {
             Shooter.getInstance(),
             LeftClimb.getInstance(),
             RightClimb.getInstance(),
-            Amp.getInstance()
+            Amp.getInstance(),
+            Apriltag.getInstance()
         );
 
         // commandScheduler.setDefaultCommand(
