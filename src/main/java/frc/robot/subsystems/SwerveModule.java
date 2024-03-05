@@ -122,6 +122,8 @@ public final class SwerveModule {
         driveMotor.setInverted(driveMotorReversed);
         steerMotor.setInverted(steerMotorReversed);
 
+        driveMotor.setOpenLoopRampRate(SwerveModuleConstants.RAMP_RATE);
+
         /*
          * Set the swerve module drive encoder position
          * conversion factor to convert from rotations
@@ -316,6 +318,10 @@ public final class SwerveModule {
         return steerPIDController;
     }
 
+    public SwerveModuleState getSwerveModuleState() {
+        return new SwerveModuleState(getDriveMotorLinearVelocity(), new Rotation2d(getSteerEncoderAngle()));
+    }
+
     /**
      * Gets the current swerve module position.
      * 
@@ -335,7 +341,7 @@ public final class SwerveModule {
     public void setState(SwerveModuleState state) {
         state = SwerveModuleState.optimize(state, Rotation2d.fromRadians(getSteerEncoderAngle()));
 
-        double speed = Math.abs(state.speedMetersPerSecond) < 0.1 ? 0.0 : state.speedMetersPerSecond;
+        double speed = Math.abs(state.speedMetersPerSecond) <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND ? 0.0 : state.speedMetersPerSecond;
 
         driveMotor.setVoltage(
             driveFeedforward.calculate(speed) 

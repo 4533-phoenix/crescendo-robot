@@ -32,8 +32,7 @@ public final class SwerveCommands {
             () -> Swerve.getInstance().drive(
                 getX.getAsDouble(), 
                 getY.getAsDouble(), 
-                getRotation.getAsDouble(),
-                false
+                getRotation.getAsDouble()
             ),
             Swerve.getInstance()
         );
@@ -120,6 +119,20 @@ public final class SwerveCommands {
                 && (Swerve.getInstance().getNoteDetector().getNoteHeight() / 3.0)
                     * Swerve.getInstance().getNoteDetector().getNoteWidth()
                     >= SwerveConstants.NOTE_DIMENSIONS_DEADBAND
+        );
+    }
+
+    public static Command getSetSlowModeCommand(boolean isTrue) {
+        return new InstantCommand(
+            () -> Swerve.getInstance().setSlowMode(isTrue),
+            Swerve.getInstance()
+        );
+    }
+
+    public static Command getToggleRobotRelativeModeCommand() {
+        return new InstantCommand(
+            () -> Swerve.getInstance().toggleRobotRelativeMode(),
+            Swerve.getInstance()
         );
     }
 }

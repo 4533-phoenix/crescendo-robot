@@ -4,13 +4,10 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
@@ -23,6 +20,10 @@ public final class Constants {
 
         public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO; // m / rot
         public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0); // m/s / rpm
+
+        public static final double RAMP_RATE = 0.5; // s
+
+        public static final double DRIVE_MOTOR_VELOCITY_DEADBAND = 0.2; // m/s
 
         public static final double STEER_MOTOR_MAX_VELOCITY = 30.0 * Math.PI; // rad/s
         public static final double STEER_MOTOR_MAX_ACCELERATION = 60.0 * Math.PI; // rad/s^2
@@ -129,8 +130,10 @@ public final class Constants {
         public static final double THETA_CONTROLLER_KI = 0.0; // rad/s / ∫ θ(t) dt
         public static final double THETA_CONTROLLER_KD = 0.0; // rad/s / ω(t)
 
-        public static final double MAX_VELOCITY = 1.0; // m/s
+        public static final double MAX_VELOCITY = 2.5; // m/s
         public static final double MAX_ACCELERATION = 1.0; // m/s^2
+
+        public static final double SLOW_VELOCITY = 1.0; // m/s
 
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
         public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI; // rad/s^2
@@ -228,8 +231,8 @@ public final class Constants {
         }
 
         public static final ApriltagCameraConfig[] PHOTON_CAMERAS = {
-            new ApriltagCameraConfig("Front_Camera", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
-            new ApriltagCameraConfig("Back_Camera", new Transform3d(new Translation3d(0.0381, 0.0381, 0.5), new Rotation3d(0, Math.PI, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+            new ApriltagCameraConfig("Front_Camera", new Transform3d(new Translation3d(0.0381, 0.0381, 0.4953), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
+            new ApriltagCameraConfig("Back_Camera", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0, Math.PI, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
         };
 
         public static final AprilTagFieldLayout FIELD_LAYOUT = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
@@ -240,22 +243,18 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static enum ALLIANCE {
-            BLUE_ALLIANCE,
-            RED_ALLIANCE
-        }
+        public static final double FIELD_LENGTH = 16.54; // m
 
-        // Blue exit autonomous constants.
-        public static final String BLUE_EXIT_AUTO_KEY = "Blue Exit Auto";
-        public static final String BLUE_EXIT_AUTO_PATH_FILE_NAME = "Blue Exit Auto";
-        public static final ChassisSpeeds BLUE_EXIT_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
-        public static final Pose2d BLUE_EXIT_AUTO_INITIAL_POSITION = new Pose2d(1.20, 1.94, new Rotation2d());
+        // Source exit autonomous constants.
+        public static final String SOURCE_EXIT_AUTO_KEY = "Source Exit Auto";
+        public static final String SOURCE_EXIT_AUTO_PATH_FILE_NAME = "Source Exit Auto";
 
-        // Red exit autonomous constants.
-        public static final String RED_EXIT_AUTO_KEY = "Red Exit Auto";
-        public static final String RED_EXIT_AUTO_PATH_FILE_NAME = "Red Exit Auto";
-        public static final ChassisSpeeds RED_EXIT_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
-        public static final Pose2d RED_EXIT_AUTO_INITIAL_POSITION = BLUE_EXIT_AUTO_INITIAL_POSITION; // will be inverted
+        // Amp exit autonomous constants.
+        public static final String AMP_EXIT_AUTO_KEY = "Amp Exit Auto";
+        public static final String AMP_EXIT_AUTO_PATH_FILE_NAME = "Amp Exit Auto";
+
+        // Pathplanner commands.
+        public static final String INTAKE_NOTE_COMMAND = "Intake Note Command";
     }
 
     public static final class ControllerConstants {
@@ -282,7 +281,7 @@ public final class Constants {
         public static final int RIGHT_TRIGGER_AXIS = 3;
 
         // Defines the deadzone for the controller analog inputs.
-        public static final double ANALOG_INPUT_DEADBAND = 0.05;
+        public static final double ANALOG_INPUT_DEADBAND = 0.1;
     }
 
     public static final class JoystickConstants {

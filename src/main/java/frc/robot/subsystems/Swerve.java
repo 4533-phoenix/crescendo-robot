@@ -153,6 +153,10 @@ public final class Swerve extends SubsystemBase {
         backRightSwerveModule
     };
 
+    private boolean isSlow = false;
+
+    private boolean isRobotRelative = false;
+
     /**
      * The robot's gyroscope.
      */
@@ -240,6 +244,20 @@ public final class Swerve extends SubsystemBase {
         return swerveModules[index];
     }
 
+    public ChassisSpeeds getChassisSpeeds() {
+        return SwerveConstants.SWERVE_DRIVE_KINEMATICS.toChassisSpeeds(getSwerveModuleStates());
+    }
+
+    public SwerveModuleState[] getSwerveModuleStates() {
+        SwerveModuleState[] swerveModuleStates = new SwerveModuleState[swerveModules.length];
+
+        for (int i = 0; i < swerveModules.length; i++) {
+            swerveModuleStates[i] = swerveModules[i].getSwerveModuleState();
+        }
+
+        return swerveModuleStates;
+    }
+
     /**
      * Gets the swerve drive holonomic drive controller.
      * 
@@ -309,6 +327,14 @@ public final class Swerve extends SubsystemBase {
         return poseEstimator;
     }
 
+    public void setSlowMode(boolean isSlow) {
+        this.isSlow = isSlow;
+    }
+
+    public void toggleRobotRelativeMode() {
+        isRobotRelative = !isRobotRelative;
+    }
+
     /**
      * This method is used mainly for driving the swerve drive
      * subsystem during the teleoperated period of the match.
@@ -321,20 +347,22 @@ public final class Swerve extends SubsystemBase {
      * @param y The y velocity factor.
      * @param rotation The rotational velocity factor.
      */
-    public void drive(double x, double y, double rotation, boolean isRobotRelative) {
+    public void drive(double x, double y, double rotation) {
+        double velocity = isSlow ? SwerveConstants.SLOW_VELOCITY : SwerveConstants.MAX_VELOCITY;
+
         /*
          * Get the velocities as the x, y, and rotation velocity factors
          * multiplied by their respective velocities.
          */
-        double xVelocity = x * SwerveConstants.MAX_VELOCITY;
-        double yVelocity = y * SwerveConstants.MAX_VELOCITY;
+        double xVelocity = x * velocity;
+        double yVelocity = y * velocity;
         double rotationalVelocity = rotation * SwerveConstants.MAX_ROTATIONAL_VELOCITY;
 
         /*
          * Get field relative chassis speeds from the velocities and
          * current robot angle.
          */
-        ChassisSpeeds chassisSpeeds = isRobotRelative 
+        ChassisSpeeds chassisSpeeds = isRobotRelative
             ? ChassisSpeeds.fromRobotRelativeSpeeds(
                 xVelocity, 
                 yVelocity, 

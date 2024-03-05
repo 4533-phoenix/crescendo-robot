@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.commands.AutoCommands;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,13 +31,11 @@ import frc.robot.Constants.AutoConstants;
  * project.
  */
 public class Robot extends TimedRobot {
-  private String autoSelected = AutoConstants.BLUE_EXIT_AUTO_KEY;
+  private Supplier<Command> autoSelected = () -> { return new InstantCommand(); };
 
   private Command autoCommand = new InstantCommand();
-
-  private Pose2d autoPosition = new Pose2d();
   
-  private final SendableChooser<String> autoChooser = new SendableChooser<String>();
+  private final SendableChooser<Supplier<Command>> autoChooser = new SendableChooser<Supplier<Command>>();
 
   private final Field2d field = new Field2d();
 
@@ -70,7 +71,15 @@ public class Robot extends TimedRobot {
 
     RobotContainer.registerButtons();
     
-    autoChooser.setDefaultOption(AutoConstants.BLUE_EXIT_AUTO_KEY, AutoConstants.BLUE_EXIT_AUTO_KEY);
+    autoChooser.setDefaultOption(
+      AutoConstants.SOURCE_EXIT_AUTO_KEY, 
+      () -> AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
+    );
+
+    autoChooser.addOption(
+      AutoConstants.AMP_EXIT_AUTO_KEY, 
+      () -> AutoCommands.followPathAuto(AutoConstants.AMP_EXIT_AUTO_PATH_FILE_NAME)
+    );
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -120,11 +129,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     autoSelected = autoChooser.getSelected();
 
-    autoCommand = RobotContainer.getAutonomous(autoSelected);
-
-    autoPosition = RobotContainer.getAutonomousPosition(autoSelected);
-
-    Swerve.getInstance().resetPoseEstimator(autoPosition);
+    autoCommand = autoSelected.get();
 
     CommandScheduler.getInstance().schedule(autoCommand);
   }
