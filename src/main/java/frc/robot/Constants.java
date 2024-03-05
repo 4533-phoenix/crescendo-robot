@@ -41,7 +41,7 @@ public final class Constants {
                 new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)
             }
         );
-
+        
         public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 1;
         public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 3;
         public static final int BACK_LEFT_DRIVE_MOTOR_ID = 5;
@@ -134,6 +134,14 @@ public final class Constants {
 
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
         public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI; // rad/s^2
+
+        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.1;
+        public static final double TRACK_NOTE_ROTATIONAL_VELOCITY = Math.PI / 4.0; // rad/s
+        
+        public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 0.5; // m/s
+        public static final double ACQUIRE_NOTE_TIMEOUT = 5.0; // s
+
+        public static final double NOTE_DIMENSIONS_DEADBAND = 0.0; // px^2
     }
 
     public static final class IntakeConstants {
@@ -237,11 +245,17 @@ public final class Constants {
             RED_ALLIANCE
         }
 
-        // Exit autonomous constants.
+        // Blue exit autonomous constants.
         public static final String BLUE_EXIT_AUTO_KEY = "Blue Exit Auto";
         public static final String BLUE_EXIT_AUTO_PATH_FILE_NAME = "Blue Exit Auto";
         public static final ChassisSpeeds BLUE_EXIT_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
         public static final Pose2d BLUE_EXIT_AUTO_INITIAL_POSITION = new Pose2d(1.20, 1.94, new Rotation2d());
+
+        // Red exit autonomous constants.
+        public static final String RED_EXIT_AUTO_KEY = "Red Exit Auto";
+        public static final String RED_EXIT_AUTO_PATH_FILE_NAME = "Red Exit Auto";
+        public static final ChassisSpeeds RED_EXIT_AUTO_INITIAL_CHASSIS_SPEEDS = new ChassisSpeeds();
+        public static final Pose2d RED_EXIT_AUTO_INITIAL_POSITION = BLUE_EXIT_AUTO_INITIAL_POSITION; // will be inverted
     }
 
     public static final class ControllerConstants {

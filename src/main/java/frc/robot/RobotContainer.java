@@ -103,6 +103,10 @@ public final class RobotContainer {
         // JoystickButton runSysIDSteerDynamicBackwardButton = new JoystickButton(driverController, ControllerConstants.BUTTON_BACK);
         // runSysIDSteerDynamicBackwardButton.whileTrue(Robot.sysIDSteerRoutine.dynamic(Direction.kReverse));
 
+        Trigger runIntakeNoteTrigger = new Trigger(() -> { return driverController.getLeftTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
+        runIntakeNoteTrigger.whileTrue(ShooterCommands.getIntakeNoteCommand());
+        runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
+        
         Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runRightShooterForwardsTrigger.whileTrue(ShooterCommands.getRunRightShooterForwardsCommand());
         runRightShooterForwardsTrigger.onFalse(ShooterCommands.getStopRightShooterCommand());
@@ -111,15 +115,11 @@ public final class RobotContainer {
         runLeftShooterForwardsButton.whileTrue(ShooterCommands.getRunLeftShooterForwardsCommand());
         runLeftShooterForwardsButton.onFalse(ShooterCommands.getStopLeftShooterCommand());
 
-        Trigger runIntakeNoteTrigger = new Trigger(() -> { return driverController.getLeftTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
-        runIntakeNoteTrigger.whileTrue(ShooterCommands.getIntakeNoteCommand());
-        runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
-
-        JoystickButton runClimbUpButton = new JoystickButton(driverController, ControllerConstants.BUTTON_RB);
+        JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
         runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
         runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
-        JoystickButton runClimbDownButton = new JoystickButton(driverController, ControllerConstants.BUTTON_LB);
+        JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
         runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
         runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
 

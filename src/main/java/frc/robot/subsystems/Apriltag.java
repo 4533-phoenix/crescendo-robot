@@ -6,7 +6,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 
-import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ApriltagConstants;
 
@@ -57,7 +57,7 @@ public final class Apriltag extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        PoseEstimator robotEstimator = Swerve.getInstance().getPoseEstimator();
+        SwerveDrivePoseEstimator robotEstimator = Swerve.getInstance().getPoseEstimator();
 
         for (PhotonPoseEstimator estimator : estimators) {
             Optional<EstimatedRobotPose> pose = estimator.update();

@@ -12,7 +12,7 @@ public class NoteDetector {
     /**
      * The instance of the {@link NetworkTable} class.
      */
-    private static NetworkTable networkTable;
+    private NetworkTable networkTable;
 
     /**
      * The constructor for the {@link NoteDetector} class.

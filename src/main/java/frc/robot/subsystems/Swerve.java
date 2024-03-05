@@ -6,7 +6,6 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,8 +19,10 @@ import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.NoteDetectorConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveModuleConstants;
+import frc.robot.helpers.NoteDetector;
 
 /**
  * The class for the swerve drive subsystem.
@@ -168,7 +169,7 @@ public final class Swerve extends SubsystemBase {
             new SwerveModulePosition(),
             new SwerveModulePosition(),
             new SwerveModulePosition()
-        }, 
+        },
         new Pose2d()
     );
 
@@ -196,6 +197,11 @@ public final class Swerve extends SubsystemBase {
             )
         )
     );
+    
+    /**
+     * The note detector for the swerve drive subsystem.
+     */
+    private final NoteDetector noteDetector = new NoteDetector(NoteDetectorConstants.NOTE_DETECTOR_NAME);
 
     /**
      * Gets the instance of the {@link Swerve} class.
@@ -241,6 +247,10 @@ public final class Swerve extends SubsystemBase {
      */
     public HolonomicDriveController getHolonomicDriveController() {
         return swerveController;
+    }
+
+    public NoteDetector getNoteDetector() {
+        return noteDetector;
     }
 
     /**
@@ -295,7 +305,7 @@ public final class Swerve extends SubsystemBase {
      * 
      * @return the robot pose estimator
      */
-    public PoseEstimator getPoseEstimator() {
+    public SwerveDrivePoseEstimator getPoseEstimator() {
         return poseEstimator;
     }
 
@@ -311,7 +321,7 @@ public final class Swerve extends SubsystemBase {
      * @param y The y velocity factor.
      * @param rotation The rotational velocity factor.
      */
-    public void drive(double x, double y, double rotation) {
+    public void drive(double x, double y, double rotation, boolean isRobotRelative) {
         /*
          * Get the velocities as the x, y, and rotation velocity factors
          * multiplied by their respective velocities.
@@ -324,12 +334,19 @@ public final class Swerve extends SubsystemBase {
          * Get field relative chassis speeds from the velocities and
          * current robot angle.
          */
-        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            xVelocity, 
-            yVelocity, 
-            rotationalVelocity, 
-            getRobotPose().getRotation()
-        );
+        ChassisSpeeds chassisSpeeds = isRobotRelative 
+            ? ChassisSpeeds.fromRobotRelativeSpeeds(
+                xVelocity, 
+                yVelocity, 
+                rotationalVelocity, 
+                getRobotPose().getRotation()
+            )
+            : ChassisSpeeds.fromFieldRelativeSpeeds(
+                xVelocity, 
+                yVelocity, 
+                rotationalVelocity, 
+                getRobotPose().getRotation()
+            );
 
         // Convert the chassis speeds to swerve module states.
         SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
