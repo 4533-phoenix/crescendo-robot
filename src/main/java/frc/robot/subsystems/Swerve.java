@@ -20,6 +20,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -157,9 +158,17 @@ public final class Swerve extends SubsystemBase {
         backLeftSwerveModule,
         backRightSwerveModule
     };
-
+    
+    /**
+     * Whether or not the swerve drive subsystem
+     * is in slow mode.
+     */
     private boolean isSlow = false;
 
+    /**
+     * Whether or not the swerve drive subsystem
+     * is in robot relative mode.
+     */
     private boolean isRobotRelative = false;
 
     /**
@@ -356,12 +365,28 @@ public final class Swerve extends SubsystemBase {
         // Get the current alliance from driver station.
         Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
 
+        /*
+         * If the current alliance from driver station is
+         * not present, then set the alliance to blue
+         * alliance, and if it is, set the alliance
+         * to the current alliance from driver station.
+         */
         Alliance alliance = !driverStationAlliance.isPresent() 
             ? Alliance.Blue
             : driverStationAlliance.get(); 
 
+        /*
+         * If the swerve drive subsystem is in slow mode,
+         * then set the velocity to the slow mode velocity,
+         * and if it is not, then set it to the max velocity.
+         */
         double velocity = isSlow ? SwerveConstants.SLOW_VELOCITY : SwerveConstants.MAX_VELOCITY;
-        velocity *= alliance == Alliance.Red ? -1.0 : 1.0;
+
+        /*
+         * If the alliance is the red alliance, then reverse
+         * the velocity, and if it is not, keep it the same.
+         */
+        velocity *= (alliance == Alliance.Red && !isRobotRelative) ? -1.0 : 1.0;
 
         /*
          * Get the velocities as the x, y, and rotation velocity factors
@@ -372,15 +397,17 @@ public final class Swerve extends SubsystemBase {
         double rotationalVelocity = rotation * SwerveConstants.MAX_ROTATIONAL_VELOCITY;
 
         /*
-         * Get field relative chassis speeds from the velocities and
+         * If the swerve drive subsystem is in robot relative mode,
+         * then get the robot relative chassis speeds from the velocities
+         * and current robot angle, and if it is not, then get the field 
+         * relative chassis speeds from the velocities and 
          * current robot angle.
          */
         ChassisSpeeds chassisSpeeds = isRobotRelative
-            ? ChassisSpeeds.fromRobotRelativeSpeeds(
+            ? new ChassisSpeeds(
                 xVelocity, 
                 yVelocity, 
-                rotationalVelocity, 
-                getRobotPose().getRotation()
+                rotationalVelocity
             )
             : ChassisSpeeds.fromFieldRelativeSpeeds(
                 xVelocity, 

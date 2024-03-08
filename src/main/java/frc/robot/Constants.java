@@ -170,19 +170,9 @@ public final class Constants {
         public static final int LEFT_CLIMB_LIMIT_SWITCH_ID = 2;
         public static final int RIGHT_CLIMB_LIMIT_SWITCH_ID = 1;
 
-        public static final double CLIMB_MOTOR_VOLTAGE = 10.0; // V
+        public static final double CLIMB_MOTOR_VOLTAGE = 11.0; // V
 
-        public static enum CLIMB_POSITION {
-            DOWN_POSITION,
-            UP_POSITION
-        }
-
-        public static enum CLIMB_MOVEMENT_DIRECTION {
-            TOWARDS_DOWN_POSITION,
-            TOWARDS_UP_POSITION
-        }
-
-        public static final double CLIMB_POSITION_DELAY = 0.1; // s
+        public static final double CLIMB_CURRENT_DEADBAND = 0.0; // amperes
     }
 
     public static final class AmpConstants {

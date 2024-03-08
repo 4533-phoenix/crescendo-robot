@@ -93,13 +93,13 @@ public final class RobotContainer {
         runLeftShooterForwardsButton.whileTrue(ShooterCommands.getRunLeftShooterForwardsCommand());
         runLeftShooterForwardsButton.onFalse(ShooterCommands.getStopLeftShooterCommand());
 
-        // JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
-        // runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
-        // runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
+        JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
+        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
+        runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
-        // JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
-        // runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
-        // runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
+        JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
+        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
+        runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
 
         JoystickButton runAmpDropNoteButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_Y);
         runAmpDropNoteButton.whileTrue(AmpCommands.getAmpDropCommand());

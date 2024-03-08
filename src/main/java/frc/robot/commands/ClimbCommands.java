@@ -4,10 +4,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.Constants.ClimbConstants.CLIMB_MOVEMENT_DIRECTION;
-import frc.robot.Constants.ClimbConstants.CLIMB_POSITION;
 import frc.robot.subsystems.LeftClimb;
 import frc.robot.subsystems.RightClimb;
 
@@ -28,13 +27,12 @@ public class ClimbCommands {
      */
     public static Command getRunLeftClimbUpCommand() {
         return new FunctionalCommand(
-            () -> LeftClimb.getInstance().setLeftClimbMovementDirection(CLIMB_MOVEMENT_DIRECTION.TOWARDS_UP_POSITION), 
+            () -> {}, 
             () -> LeftClimb.getInstance().runLeftClimbUp(), 
             (isFinished) -> LeftClimb.getInstance().stopLeftClimb(), 
-            () -> LeftClimb.getInstance().isLeftClimbLimitSwitchAtPosition(CLIMB_POSITION.UP_POSITION)
-                && LeftClimb.getInstance().isLeftClimbLimitSwitchAtMagnet(), 
+            () -> LeftClimb.getInstance().isLeftClimbLimitSwitchAtMagnet(), 
             LeftClimb.getInstance()
-        ).andThen(new WaitCommand(ClimbConstants.CLIMB_POSITION_DELAY));
+        );
     }
 
     /**
@@ -50,13 +48,12 @@ public class ClimbCommands {
      */
     public static Command getRunRightClimbUpCommand() {
         return new FunctionalCommand(
-            () -> RightClimb.getInstance().setRightClimbMovementDirection(CLIMB_MOVEMENT_DIRECTION.TOWARDS_UP_POSITION), 
+            () -> {}, 
             () -> RightClimb.getInstance().runRightClimbUp(), 
             (isFinished) -> RightClimb.getInstance().stopRightClimb(), 
-            () -> RightClimb.getInstance().isRightClimbLimitSwitchAtPosition(CLIMB_POSITION.UP_POSITION)
-                && RightClimb.getInstance().isRightClimbLimitSwitchAtMagnet(), 
+            () -> RightClimb.getInstance().isRightClimbLimitSwitchAtMagnet(), 
             RightClimb.getInstance()
-        ).andThen(new WaitCommand(ClimbConstants.CLIMB_POSITION_DELAY));
+        );
     }
 
     public static Command getRunClimbUpCommand() {
@@ -78,14 +75,10 @@ public class ClimbCommands {
      * @return The command that runs the left climb up.
      */
     public static Command getRunLeftClimbDownCommand() {
-        return new FunctionalCommand(
-            () -> LeftClimb.getInstance().setLeftClimbMovementDirection(CLIMB_MOVEMENT_DIRECTION.TOWARDS_DOWN_POSITION), 
-            () -> LeftClimb.getInstance().runLeftClimbDown(), 
-            (isFinished) -> LeftClimb.getInstance().stopLeftClimb(), 
-            () -> LeftClimb.getInstance().isLeftClimbLimitSwitchAtPosition(CLIMB_POSITION.DOWN_POSITION)
-                && LeftClimb.getInstance().isLeftClimbLimitSwitchAtMagnet(), 
+        return new RunCommand(
+            () -> LeftClimb.getInstance().runLeftClimbDown(),
             LeftClimb.getInstance()
-        ).andThen(new WaitCommand(ClimbConstants.CLIMB_POSITION_DELAY));
+        );
     }
 
     /**
@@ -100,14 +93,10 @@ public class ClimbCommands {
      * @return The command that runs the right climb up.
      */
     public static Command getRunRightClimbDownCommand() {
-        return new FunctionalCommand(
-            () -> RightClimb.getInstance().setRightClimbMovementDirection(CLIMB_MOVEMENT_DIRECTION.TOWARDS_DOWN_POSITION), 
-            () -> RightClimb.getInstance().runRightClimbDown(), 
-            (isFinished) -> RightClimb.getInstance().stopRightClimb(), 
-            () -> RightClimb.getInstance().isRightClimbLimitSwitchAtPosition(CLIMB_POSITION.DOWN_POSITION)
-                && RightClimb.getInstance().isRightClimbLimitSwitchAtMagnet(), 
+        return new RunCommand(
+            () -> RightClimb.getInstance().runRightClimbDown(),
             RightClimb.getInstance()
-        ).andThen(new WaitCommand(ClimbConstants.CLIMB_POSITION_DELAY));
+        );
     }
     
     /**

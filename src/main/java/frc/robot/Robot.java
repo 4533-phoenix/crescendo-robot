@@ -75,6 +75,8 @@ public class Robot extends TimedRobot {
       AutoConstants.SOURCE_EXIT_AUTO_KEY, 
       () -> AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
     );
+    
+    autoChooser.addOption("Do Nothing", () -> { return new InstantCommand(); });
 
     // autoChooser.addOption(
     //   AutoConstants.AMP_EXIT_AUTO_KEY, 
