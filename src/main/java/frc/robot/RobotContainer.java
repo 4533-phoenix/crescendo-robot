@@ -93,17 +93,13 @@ public final class RobotContainer {
         runLeftShooterForwardsButton.whileTrue(ShooterCommands.getRunLeftShooterForwardsCommand());
         runLeftShooterForwardsButton.onFalse(ShooterCommands.getStopLeftShooterCommand());
 
-        JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
-        runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
-        runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
+        // JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
+        // runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
+        // runClimbUpButton.onFalse(ClimbCommands.getStopClimbCommand());
 
-        JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
-        runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
-        runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
-
-        JoystickButton runRightClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_X);
-        runRightClimbDownButton.whileTrue(ClimbCommands.getRunRightClimbDownCommand());
-        runRightClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
+        // JoystickButton runClimbDownButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_LB);
+        // runClimbDownButton.whileTrue(ClimbCommands.getRunClimbDownCommand());
+        // runClimbDownButton.onFalse(ClimbCommands.getStopClimbCommand());
 
         JoystickButton runAmpDropNoteButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_Y);
         runAmpDropNoteButton.whileTrue(AmpCommands.getAmpDropCommand());
@@ -111,10 +107,14 @@ public final class RobotContainer {
 
         JoystickButton runSetSlowModeButton = new JoystickButton(driverController, ControllerConstants.BUTTON_LB);
         runSetSlowModeButton.whileTrue(SwerveCommands.getSetSlowModeCommand(true));
-        runAmpDropNoteButton.onFalse(SwerveCommands.getSetSlowModeCommand(false));
+        runSetSlowModeButton.onFalse(SwerveCommands.getSetSlowModeCommand(false));
 
         JoystickButton runToggleRobotRelativeModeButton = new JoystickButton(driverController, ControllerConstants.BUTTON_START);
         runToggleRobotRelativeModeButton.onTrue(SwerveCommands.getToggleRobotRelativeModeCommand());
+
+        // JoystickButton runTrackAndAcquireNoteButton = new JoystickButton(driverController, ControllerConstants.BUTTON_Y);
+        // runTrackAndAcquireNoteButton.whileTrue(SwerveCommands.getTrackAndAcquireNoteCommand());
+        // runTrackAndAcquireNoteButton.onFalse(SwerveCommands.getStopTrackAndAcquireNoteCommand());
     }
 
     /**

@@ -21,12 +21,12 @@ public class LeftClimb extends SubsystemBase {
     /**
      * The left climb motor.
      */
-    private final CANSparkMax leftClimbMotor = new CANSparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_ID, MotorType.kBrushed);
+    // private final CANSparkMax leftClimbMotor = new CANSparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_ID, MotorType.kBrushed);
 
     /**
      * The left climb limit switch.
      */
-    private final DigitalInput leftClimbLimitSwitch = new DigitalInput(ClimbConstants.LEFT_CLIMB_LIMIT_SWITCH_ID);
+    // private final DigitalInput leftClimbLimitSwitch = new DigitalInput(ClimbConstants.LEFT_CLIMB_LIMIT_SWITCH_ID);
 
     /**
      * The current position of the left climb subsystem.
@@ -69,21 +69,21 @@ public class LeftClimb extends SubsystemBase {
      * Runs the left climb motor up.
      */
     public void runLeftClimbUp() {
-        leftClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // leftClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
      * Runs the left climb motor down.
      */
     public void runLeftClimbDown() {
-        leftClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // leftClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
      * Stops the left climb motor.
      */
     public void stopLeftClimb() {
-        leftClimbMotor.setVoltage(0.0);
+        // leftClimbMotor.setVoltage(0.0);
     }
 
     /**
@@ -109,7 +109,8 @@ public class LeftClimb extends SubsystemBase {
      * is at a magnet.
      */
     public boolean isLeftClimbLimitSwitchAtMagnet() {
-        return !leftClimbLimitSwitch.get();
+        // return !leftClimbLimitSwitch.get();
+        return true;
     }
 
     /**
@@ -158,6 +159,6 @@ public class LeftClimb extends SubsystemBase {
         }
 
         // Update the previous left climb limit switch state.
-        prevLeftClimbLimitSwitchState = leftClimbLimitSwitch.get();
+        // prevLeftClimbLimitSwitchState = leftClimbLimitSwitch.get();
     }
 }

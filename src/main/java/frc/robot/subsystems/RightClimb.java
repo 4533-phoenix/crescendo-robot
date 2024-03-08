@@ -21,12 +21,12 @@ public class RightClimb extends SubsystemBase {
     /**
      * The right climb motor.
      */
-    private final CANSparkMax rightClimbMotor = new CANSparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, MotorType.kBrushed);
+    // private final CANSparkMax rightClimbMotor = new CANSparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, MotorType.kBrushed);
 
     /**
      * The right climb limit switch.
      */
-    private final DigitalInput rightClimbLimitSwitch = new DigitalInput(ClimbConstants.RIGHT_CLIMB_LIMIT_SWITCH_ID);
+    // private final DigitalInput rightClimbLimitSwitch = new DigitalInput(ClimbConstants.RIGHT_CLIMB_LIMIT_SWITCH_ID);
 
     /**
      * The current position of the right climb subsystem.
@@ -69,21 +69,21 @@ public class RightClimb extends SubsystemBase {
      * Runs the right climb motor up.
      */
     public void runRightClimbUp() {
-        rightClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // rightClimbMotor.setVoltage(ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
      * Runs the right climb motor down.
      */
     public void runRightClimbDown() {
-        rightClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
+        // rightClimbMotor.setVoltage(-ClimbConstants.CLIMB_MOTOR_VOLTAGE);
     }
 
     /**
      * Stops the right climb motor.
      */
     public void stopRightClimb() {
-        rightClimbMotor.setVoltage(0.0);
+        // rightClimbMotor.setVoltage(0.0);
     }
 
     /**
@@ -109,7 +109,8 @@ public class RightClimb extends SubsystemBase {
      * is at a magnet.
      */
     public boolean isRightClimbLimitSwitchAtMagnet() {
-        return !rightClimbLimitSwitch.get();
+        // return !rightClimbLimitSwitch.get();
+        return true;
     }
 
     /**
@@ -158,6 +159,6 @@ public class RightClimb extends SubsystemBase {
         }
 
         // Update the previous right climb limit switch state.
-        prevRightClimbLimitSwitchState = rightClimbLimitSwitch.get();
+        // prevRightClimbLimitSwitchState = rightClimbLimitSwitch.get();
     }
 }

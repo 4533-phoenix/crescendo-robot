@@ -231,7 +231,7 @@ public final class Constants {
         }
 
         public static final ApriltagCameraConfig[] PHOTON_CAMERAS = {
-            new ApriltagCameraConfig("Front_Camera", new Transform3d(new Translation3d(0.0381, 0.0381, 0.4953), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
+            new ApriltagCameraConfig("Front_Camera", new Transform3d(new Translation3d(0.0381, 0.29845, 0.4953), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
             new ApriltagCameraConfig("Back_Camera", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0, Math.PI, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
         };
 

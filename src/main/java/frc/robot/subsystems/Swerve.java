@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.HolonomicDriveController;
@@ -16,8 +18,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.NoteDetectorConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -348,7 +353,15 @@ public final class Swerve extends SubsystemBase {
      * @param rotation The rotational velocity factor.
      */
     public void drive(double x, double y, double rotation) {
+        // Get the current alliance from driver station.
+        Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
+
+        Alliance alliance = !driverStationAlliance.isPresent() 
+            ? Alliance.Blue
+            : driverStationAlliance.get(); 
+
         double velocity = isSlow ? SwerveConstants.SLOW_VELOCITY : SwerveConstants.MAX_VELOCITY;
+        velocity *= alliance == Alliance.Red ? -1.0 : 1.0;
 
         /*
          * Get the velocities as the x, y, and rotation velocity factors

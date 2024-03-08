@@ -137,7 +137,7 @@ public final class AutoCommands {
                      * with the command scheduler and remove it from the front
                      * of the event commands list.
                      */
-                    if (eventCommands.get(0).getFirst() >= trajectoryState.timeSeconds) {
+                    if (eventCommands.size() != 0 && eventCommands.get(0).getFirst() >= trajectoryState.timeSeconds) {
                         CommandScheduler.getInstance().schedule(eventCommands.remove(0).getSecond());
                     }
 

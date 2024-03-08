@@ -44,6 +44,8 @@ public final class SwerveCommands {
             () -> {
                 double deltaX = Swerve.getInstance().getNoteDetector().getNoteX();
 
+                // System.out.println(deltaX);
+
                 Swerve.getInstance().setSwerveModuleStates(
                     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                         new ChassisSpeeds(
@@ -119,6 +121,24 @@ public final class SwerveCommands {
                 && (Swerve.getInstance().getNoteDetector().getNoteHeight() / 3.0)
                     * Swerve.getInstance().getNoteDetector().getNoteWidth()
                     >= SwerveConstants.NOTE_DIMENSIONS_DEADBAND
+        );
+    }
+
+    public static Command getStopTrackAndAcquireNoteCommand() {
+        return new InstantCommand(
+            () -> {
+                Intake.getInstance().stopIntake();
+                Shooter.getInstance().stopLift();
+
+                Swerve.getInstance().setSwerveModuleStates(
+                    SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                        new ChassisSpeeds()
+                    )
+                );
+            },
+            Intake.getInstance(),
+            Shooter.getInstance(),
+            Swerve.getInstance()
         );
     }
 

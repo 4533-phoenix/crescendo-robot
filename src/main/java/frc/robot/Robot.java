@@ -76,10 +76,10 @@ public class Robot extends TimedRobot {
       () -> AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
     );
 
-    autoChooser.addOption(
-      AutoConstants.AMP_EXIT_AUTO_KEY, 
-      () -> AutoCommands.followPathAuto(AutoConstants.AMP_EXIT_AUTO_PATH_FILE_NAME)
-    );
+    // autoChooser.addOption(
+    //   AutoConstants.AMP_EXIT_AUTO_KEY, 
+    //   () -> AutoCommands.followPathAuto(AutoConstants.AMP_EXIT_AUTO_PATH_FILE_NAME)
+    // );
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
