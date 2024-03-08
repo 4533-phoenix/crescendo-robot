@@ -130,7 +130,7 @@ public final class Constants {
         public static final double THETA_CONTROLLER_KI = 0.0; // rad/s / ∫ θ(t) dt
         public static final double THETA_CONTROLLER_KD = 0.0; // rad/s / ω(t)
 
-        public static final double MAX_VELOCITY = 2.5; // m/s
+        public static final double MAX_VELOCITY = 3.0; // m/s
         public static final double MAX_ACCELERATION = 1.0; // m/s^2
 
         public static final double SLOW_VELOCITY = 1.0; // m/s
