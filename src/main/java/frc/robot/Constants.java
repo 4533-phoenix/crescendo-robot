@@ -4,6 +4,7 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -130,8 +131,8 @@ public final class Constants {
         public static final double THETA_CONTROLLER_KI = 0.0; // rad/s / ∫ θ(t) dt
         public static final double THETA_CONTROLLER_KD = 0.0; // rad/s / ω(t)
 
-        public static final double MAX_VELOCITY = 2.5; // m/s
-        public static final double MAX_ACCELERATION = 1.0; // m/s^2
+        public static final double MAX_VELOCITY = 4.0; // m/s
+        public static final double MAX_ACCELERATION = 3.0; // m/s^2
 
         public static final double SLOW_VELOCITY = 1.0; // m/s
 
@@ -172,7 +173,7 @@ public final class Constants {
 
         public static final double CLIMB_MOTOR_VOLTAGE = 11.0; // V
 
-        public static final double CLIMB_CURRENT_DEADBAND = 0.0; // amperes
+        public static final double CLIMB_CURRENT_DEADBAND = 0.0; // amps
     }
 
     public static final class AmpConstants {
@@ -242,6 +243,10 @@ public final class Constants {
         // Amp exit autonomous constants.
         public static final String AMP_EXIT_AUTO_KEY = "Amp Exit Auto";
         public static final String AMP_EXIT_AUTO_PATH_FILE_NAME = "Amp Exit Auto";
+
+        // Speaker score autonomous constants.
+        public static final String SPEAKER_SCORE_AUTO_KEY = "Speaker Score Auto";
+        public static final String SPEAKER_SCORE_AUTO_PATH_FILE_NAME = "Speaker Score Auto";
 
         // Pathplanner commands.
         public static final String INTAKE_NOTE_COMMAND = "Intake Note Command";

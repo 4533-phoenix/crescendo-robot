@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -31,11 +29,9 @@ import frc.robot.commands.AutoCommands;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Supplier<Command> autoSelected = () -> { return new InstantCommand(); };
-
   private Command autoCommand = new InstantCommand();
   
-  private final SendableChooser<Supplier<Command>> autoChooser = new SendableChooser<Supplier<Command>>();
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   private final Field2d field = new Field2d();
 
@@ -73,10 +69,15 @@ public class Robot extends TimedRobot {
     
     autoChooser.setDefaultOption(
       AutoConstants.SOURCE_EXIT_AUTO_KEY, 
-      () -> AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
+      AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
     );
     
-    autoChooser.addOption("Do Nothing", () -> { return new InstantCommand(); });
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+
+    autoChooser.addOption(
+      AutoConstants.SPEAKER_SCORE_AUTO_KEY,
+      AutoCommands.getSpeakerScoreAuto()
+    );
 
     // autoChooser.addOption(
     //   AutoConstants.AMP_EXIT_AUTO_KEY, 
@@ -129,9 +130,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    autoSelected = autoChooser.getSelected();
-
-    autoCommand = autoSelected.get();
+    autoCommand = autoChooser.getSelected();
 
     CommandScheduler.getInstance().schedule(autoCommand);
   }

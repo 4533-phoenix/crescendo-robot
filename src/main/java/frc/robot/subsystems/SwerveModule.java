@@ -342,10 +342,13 @@ public final class SwerveModule {
         state = SwerveModuleState.optimize(state, Rotation2d.fromRadians(getSteerEncoderAngle()));
 
         double speed = Math.abs(state.speedMetersPerSecond) <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND ? 0.0 : state.speedMetersPerSecond;
-
+        
         driveMotor.setVoltage(
-            driveFeedforward.calculate(speed) 
-            + drivePIDController.calculate(driveEncoder.getVelocity(), speed)
+            state.speedMetersPerSecond == 0.0 
+                ? 0.0
+                : driveFeedforward.calculate(speed) 
+                  + drivePIDController.calculate(driveEncoder.getVelocity(), speed)
+            
         );
 
         double angle = state.angle.getRadians() < 0.0 ? state.angle.getRadians() + (2.0 * Math.PI) : state.angle.getRadians();
@@ -353,6 +356,12 @@ public final class SwerveModule {
         steerMotor.setVoltage(
             steerPIDController.calculate(getSteerEncoderAngle(), angle)
         );
+    }
+
+    public void setVoltage(double voltage) {
+        driveMotor.setVoltage(voltage);
+
+        steerMotor.setVoltage(voltage);
     }
 
     /**

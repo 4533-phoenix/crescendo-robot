@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve;
@@ -37,35 +38,34 @@ public final class AutoCommands {
      * path file name.
      */
     public static Command followPathAuto(String pathFile) {
-        /*
-         * Check if the path file exists. If it does not,
-         * then print the stack trace of the error and
-         * return an empty instant command.
-         */
-        try {
-            PathPlannerPath.fromPathFile(pathFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return new InstantCommand();
-        }
-
-        // Get the current alliance from driver station.
-        Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
-
-        /*
-         * If the current alliance from driver station
-         * is not present, then return an empty instant
-         * command.
-         */
-        if (!driverStationAlliance.isPresent()) {
-            return new InstantCommand();
-        }
-
-        Alliance alliance = driverStationAlliance.get();
-
         return new InstantCommand(
             () -> {
+                /*
+                 * Check if the path file exists. If it does not,
+                 * then print the stack trace of the error and
+                 * return.
+                 */
+                try {
+                    PathPlannerPath.fromPathFile(pathFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    return;
+                }
+
+                // Get the current alliance from driver station.
+                Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
+
+                /*
+                * If the current alliance from driver station
+                * is not present, then return;
+                */
+                if (!driverStationAlliance.isPresent()) {
+                    return;
+                }
+
+                Alliance alliance = driverStationAlliance.get();
+
                 /*
                  * Get the path from the path file. If the alliance
                  * is the red alliance, then flip the path, and if not,
@@ -75,17 +75,17 @@ public final class AutoCommands {
                     ? PathPlannerPath.fromPathFile(pathFile).flipPath()
                     : PathPlannerPath.fromPathFile(pathFile);
 
+                /*
+                 * Reset the swerve drive pose estimator to be at the
+                 * first point on the trajectory.
+                 */
+                Swerve.getInstance().resetPoseEstimator(path.getPreviewStartingHolonomicPose());
+
                 // Create the trajectory from the path.
                 PathPlannerTrajectory trajectory = path.getTrajectory(
                     Swerve.getInstance().getChassisSpeeds(), 
                     Swerve.getInstance().getRobotPose().getRotation()
                 );
-
-                /*
-                 * Reset the swerve drive pose estimator to be at the
-                 * first point on the trajectory.
-                 */
-                Swerve.getInstance().resetPoseEstimator(trajectory.getInitialDifferentialPose());
 
                 // Get the event commands for the trajectory.
                 List<Pair<Double, Command>> eventCommands = trajectory.getEventCommands();
@@ -131,13 +131,17 @@ public final class AutoCommands {
 
                     // Set the swerve subsystem to drive at the swerve module states.
                     Swerve.getInstance().setSwerveModuleStates(swerveModuleStates);
+
+                    if (eventCommands.size() != 0) {
+                        System.out.println(eventCommands.get(0).getFirst());
+                    }
                     
                     /*
                      * If the frontmost event command is triggered, then schedule it
                      * with the command scheduler and remove it from the front
                      * of the event commands list.
                      */
-                    if (eventCommands.size() != 0 && eventCommands.get(0).getFirst() >= trajectoryState.timeSeconds) {
+                    if (eventCommands.size() != 0 && eventCommands.get(0).getFirst() <= trajectoryState.timeSeconds) {
                         CommandScheduler.getInstance().schedule(eventCommands.remove(0).getSecond());
                     }
 
@@ -146,32 +150,16 @@ public final class AutoCommands {
                 }
 
                 // Set the swerve subsystem to stop after the path has finished.
-                Swerve.getInstance().setSwerveModuleStates(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds()));
+                Swerve.getInstance().setVoltage(0.0);
             },
             Swerve.getInstance()
         );
     }
 
-    public static Pose2d getAutoPosition(Pose2d blueAlliancePose) {
-        // Get the current alliance from driver station.
-        Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
-
-        /*
-         * If the current alliance from driver station
-         * is not present, then return the given blue
-         * alliance position. 
-         */
-        if (!driverStationAlliance.isPresent()) {
-            return blueAlliancePose;
-        }
-
-        Alliance alliance = driverStationAlliance.get();
-
-        return alliance == Alliance.Red
-            ? new Pose2d(
-                AutoConstants.FIELD_LENGTH - blueAlliancePose.getX(),
-                blueAlliancePose.getY(),
-                new Rotation2d(Math.PI).minus(blueAlliancePose.getRotation()))
-            : blueAlliancePose;
+    public static Command getSpeakerScoreAuto() {
+        return new SequentialCommandGroup(
+            ShooterCommands.getShootNoteCommand(),
+            followPathAuto(AutoConstants.SPEAKER_SCORE_AUTO_PATH_FILE_NAME)
+        );
     }
 }

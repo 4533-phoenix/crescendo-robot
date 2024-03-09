@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -32,6 +33,10 @@ public final class Shooter extends SubsystemBase {
     private Shooter() {
         leftShooterMotor.setInverted(true);
         rightShooterMotor.setInverted(true);
+    }
+
+    public void setLeftShooterIdleMode(IdleMode idleMode) {
+        leftShooterMotor.setIdleMode(idleMode);
     }
 
     public void runLeftShooterForwards() {
@@ -70,6 +75,21 @@ public final class Shooter extends SubsystemBase {
         leftShooterMotor.setVoltage(0.0);
     }
 
+    public void runShooterForwards() {
+        leftShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        rightShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+    }
+
+    public void runShooterBackwards() {
+        leftShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+        rightShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
+    }
+
+    public void stopShooter() {
+        leftShooterMotor.setVoltage(0.0);
+        rightShooterMotor.setVoltage(0.0);
+    }
+    
     public boolean isLimitSwitchPressed() {
         return shooterLimitSwitch.get();
     }

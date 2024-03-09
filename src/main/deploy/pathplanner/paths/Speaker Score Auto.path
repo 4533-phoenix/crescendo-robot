@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.9263275506607991,
-        "y": 6.993104356579084
+        "x": 0.7041386162544403,
+        "y": 4.408696224799858
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.926327550660798,
-        "y": 6.993104356579084
+        "x": 0.938021705103239,
+        "y": 3.3796106338651435
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.61028579037215,
-        "y": 1.262968679783513
+        "x": 2.9260279603180286,
+        "y": 1.6839582397113522
       },
       "prevControl": {
-        "x": 1.6102857903721501,
-        "y": 1.262968679783513
+        "x": 2.2360728482140724,
+        "y": 2.17511272629383
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Start Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake Note Command"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -39,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 120.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

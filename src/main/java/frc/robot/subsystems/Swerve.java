@@ -440,6 +440,12 @@ public final class Swerve extends SubsystemBase {
         }
     }
 
+    public void setVoltage(double voltage) {
+        for (SwerveModule swerveModule : swerveModules) {
+            swerveModule.setVoltage(voltage);
+        }
+    }
+
     /**
      * The drive test method for the SysID drive routine.
      * Sets the drive motors of each swerve module to the 

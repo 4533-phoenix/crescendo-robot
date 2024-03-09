@@ -12,7 +12,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.AmpCommands;
-import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
 import frc.robot.commands.IntakeCommands;
 import frc.robot.commands.ShooterCommands;
@@ -84,14 +83,10 @@ public final class RobotContainer {
         JoystickButton runIntakeBackwardsButton = new JoystickButton(driverController, ControllerConstants.BUTTON_RB);
         runIntakeBackwardsButton.whileTrue(IntakeCommands.getRunIntakeBackwardsCommand());
         runIntakeBackwardsButton.onFalse(IntakeCommands.getStopIntakeCommand());
-        
-        Trigger runRightShooterForwardsTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
-        runRightShooterForwardsTrigger.whileTrue(ShooterCommands.getRunRightShooterForwardsCommand());
-        runRightShooterForwardsTrigger.onFalse(ShooterCommands.getStopRightShooterCommand());
 
-        JoystickButton runLeftShooterForwardsButton = new JoystickButton(driverController, ControllerConstants.BUTTON_A);
-        runLeftShooterForwardsButton.whileTrue(ShooterCommands.getRunLeftShooterForwardsCommand());
-        runLeftShooterForwardsButton.onFalse(ShooterCommands.getStopLeftShooterCommand());
+        Trigger runShootNoteTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
+        runShootNoteTrigger.whileTrue(ShooterCommands.getShootNoteCommand());
+        runShootNoteTrigger.onFalse(ShooterCommands.getStopShooterCommand());
 
         JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
         runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
