@@ -4,7 +4,6 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -95,7 +94,7 @@ public final class Constants {
         public static final double BACK_RIGHT_DRIVE_MOTOR_KP = 0.0; // V / m/s
 
         public static final double FRONT_LEFT_STEER_MOTOR_KP = 3.5; // V / rad
-        public static final double FRONT_RIGHT_STEER_MOTOR_KP = 5.0; // V / rad
+        public static final double FRONT_RIGHT_STEER_MOTOR_KP = 4.0; // V / rad
         public static final double BACK_LEFT_STEER_MOTOR_KP = 4.5; // V / rad
         public static final double BACK_RIGHT_STEER_MOTOR_KP = 4.5; // V / rad
 

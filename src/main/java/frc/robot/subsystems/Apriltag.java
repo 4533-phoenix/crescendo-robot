@@ -56,7 +56,7 @@ public final class Apriltag extends SubsystemBase {
                 System.out.println("PhotonCamera " + camera.getName() + " is not connected!");
             }
 
-            SmartDashboard.putBoolean(camera.getName() + "Connected", camera.isConnected());
+            SmartDashboard.putBoolean(camera.getName() + " Connected", camera.isConnected());
         }
     }
 
@@ -76,7 +76,7 @@ public final class Apriltag extends SubsystemBase {
         for (Pair<PhotonCamera, PhotonPoseEstimator> estimator : estimators) {
             PhotonCamera camera = estimator.getFirst();
 
-            SmartDashboard.putBoolean(camera.getName() + "Connected", camera.isConnected());
+            SmartDashboard.putBoolean(camera.getName() + " Connected", camera.isConnected());
             if (!camera.isConnected()) continue;
 
             PhotonPoseEstimator poseEstimator = estimator.getSecond();

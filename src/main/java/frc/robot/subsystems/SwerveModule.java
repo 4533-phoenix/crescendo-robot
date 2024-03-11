@@ -341,7 +341,9 @@ public final class SwerveModule {
     public void setState(SwerveModuleState state) {
         state = SwerveModuleState.optimize(state, Rotation2d.fromRadians(getSteerEncoderAngle()));
 
-        double speed = Math.abs(state.speedMetersPerSecond) <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND ? 0.0 : state.speedMetersPerSecond;
+        double speed = Math.abs(state.speedMetersPerSecond) <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND 
+            ? 0.0 
+            : state.speedMetersPerSecond;
         
         driveMotor.setVoltage(
             state.speedMetersPerSecond == 0.0 
@@ -356,12 +358,6 @@ public final class SwerveModule {
         steerMotor.setVoltage(
             steerPIDController.calculate(getSteerEncoderAngle(), angle)
         );
-    }
-
-    public void setVoltage(double voltage) {
-        driveMotor.setVoltage(voltage);
-
-        steerMotor.setVoltage(voltage);
     }
 
     /**

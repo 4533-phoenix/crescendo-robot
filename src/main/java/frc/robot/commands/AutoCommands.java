@@ -150,7 +150,9 @@ public final class AutoCommands {
                 }
 
                 // Set the swerve subsystem to stop after the path has finished.
-                Swerve.getInstance().setVoltage(0.0);
+                Swerve.getInstance().setSwerveModuleStates(
+                    SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                        new ChassisSpeeds()));
             },
             Swerve.getInstance()
         );
