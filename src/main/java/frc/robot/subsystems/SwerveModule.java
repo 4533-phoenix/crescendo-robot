@@ -122,8 +122,6 @@ public final class SwerveModule {
         driveMotor.setInverted(driveMotorReversed);
         steerMotor.setInverted(steerMotorReversed);
 
-        driveMotor.setOpenLoopRampRate(SwerveModuleConstants.RAMP_RATE);
-
         /*
          * Set the swerve module drive encoder position
          * conversion factor to convert from rotations

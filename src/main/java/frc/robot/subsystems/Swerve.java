@@ -20,10 +20,8 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.NoteDetectorConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -182,12 +180,7 @@ public final class Swerve extends SubsystemBase {
     private SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
         SwerveConstants.SWERVE_DRIVE_KINEMATICS, 
         getGyroAngle(), 
-        new SwerveModulePosition[]{
-            new SwerveModulePosition(),
-            new SwerveModulePosition(),
-            new SwerveModulePosition(),
-            new SwerveModulePosition()
-        },
+        getSwerveModulePositions(),
         new Pose2d()
     );
 
@@ -242,6 +235,11 @@ public final class Swerve extends SubsystemBase {
         swerveController.getThetaController().enableContinuousInput(0.0, (2.0 * Math.PI));
     }
 
+    /**
+     * Gets the swerve modules of the swerve drive subsystem.
+     * 
+     * @return The swerve modules of the swerve drive subsystem.
+     */
     public SwerveModule[] getSwerveModules() {
         return swerveModules;
     }
@@ -258,10 +256,22 @@ public final class Swerve extends SubsystemBase {
         return swerveModules[index];
     }
 
+    /**
+     * Gets the current chassis speeds of the swerve drive subsystem.
+     * 
+     * @return The current chassis speeds of the swerve drive subsystem.
+     */
     public ChassisSpeeds getChassisSpeeds() {
         return SwerveConstants.SWERVE_DRIVE_KINEMATICS.toChassisSpeeds(getSwerveModuleStates());
     }
 
+    /**
+     * Gets the current swerve module states of the
+     * swerve drive subsystem swerve modules.
+     * 
+     * @return The current swerve module states of the
+     * swerve drive subsystem swerve modules.
+     */
     public SwerveModuleState[] getSwerveModuleStates() {
         SwerveModuleState[] swerveModuleStates = new SwerveModuleState[swerveModules.length];
 
@@ -270,6 +280,23 @@ public final class Swerve extends SubsystemBase {
         }
 
         return swerveModuleStates;
+    }
+
+    /**
+     * Gets the current swerve module positions of the 
+     * swerve drive subsystem swerve modules.
+     * 
+     * @return The current swerve module positions of the 
+     * swerve drive subsystem swerve modules.
+     */
+    public SwerveModulePosition[] getSwerveModulePositions() {
+        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[swerveModules.length];
+
+        for (int i = 0; i < swerveModules.length; i++) {
+            swerveModulePositions[i] = swerveModules[i].getSwerveModulePosition();
+        }
+
+        return swerveModulePositions;
     }
 
     /**
@@ -295,19 +322,14 @@ public final class Swerve extends SubsystemBase {
     /**
      * Resets the swerve drive position estimator. This is done
      * because the initial position of the robot is only known
-     * at the beginning of the autonomous period.
+     * during the autonomous period.
      * 
      * @param initialPose The initial position of the robot.
      */
     public void resetPoseEstimator(Pose2d initialPose) {
         poseEstimator.resetPosition(
             getGyroAngle(), 
-            new SwerveModulePosition[]{
-                new SwerveModulePosition(),
-                new SwerveModulePosition(),
-                new SwerveModulePosition(),
-                new SwerveModulePosition()
-            }, 
+            getSwerveModulePositions(), 
             initialPose
         );
     }
@@ -551,24 +573,11 @@ public final class Swerve extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        // Create an array to store the current swerve module positions.
-        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[swerveModules.length];
-
-        /*
-         * Loop over the swerve modules and set the corresponding current
-         * swerve module positions.
-         */
-        for (int i = 0; i < swerveModules.length; i++) {
-            SwerveModule swerveModule = swerveModules[i];
-
-            swerveModulePositions[i] = swerveModule.getSwerveModulePosition();
-        }
-
         /*
          * Update the swerve drive position estimator 
          * with the current robot angle and the current
          * swerve module positions.
          */
-        poseEstimator.update(getGyroAngle(), swerveModulePositions);
+        poseEstimator.update(getGyroAngle(), getSwerveModulePositions());
     }
 }

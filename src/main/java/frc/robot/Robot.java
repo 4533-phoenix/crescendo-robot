@@ -21,6 +21,7 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AutoCommands;
+import frc.robot.commands.ShooterCommands;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -74,10 +75,21 @@ public class Robot extends TimedRobot {
     
     autoChooser.addOption("Do Nothing", new InstantCommand());
 
+    autoChooser.addOption("Only Shoot", ShooterCommands.getShootNoteCommand());
+
     autoChooser.addOption(
       AutoConstants.SPEAKER_SCORE_AUTO_KEY,
       AutoCommands.getSpeakerScoreAuto()
     );
+
+    autoChooser.addOption(
+      AutoConstants.AMP_SCORE_AUTO_KEY,
+      AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
+    );
+
+    autoChooser.addOption("Straight Test Path", AutoCommands.followPathAuto("Straight Test Path"));
+
+    autoChooser.addOption("Curved Test Path", AutoCommands.followPathAuto("Curved Test Path"));
 
     // autoChooser.addOption(
     //   AutoConstants.AMP_EXIT_AUTO_KEY, 
@@ -90,18 +102,37 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Field", field);
 
-    // SmartDashboard.putNumber("Swerve Module ID", 0);
+    SmartDashboard.putBoolean("Auto PID Test", false);
 
-    // SmartDashboard.putBoolean("PID Test", false);
+    SmartDashboard.putNumber(
+      "X Kp", 
+      Swerve.getInstance().getHolonomicDriveController().getXController().getP());
+    SmartDashboard.putNumber(
+      "X Ki", 
+      Swerve.getInstance().getHolonomicDriveController().getXController().getI());
+    SmartDashboard.putNumber(
+      "X Kd", 
+      Swerve.getInstance().getHolonomicDriveController().getXController().getD());
 
-    // int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
-
-    // SmartDashboard.putNumber("Current Velocity", Swerve.getInstance().getSwerveModule(swerveModuleID).getDriveMotorLinearVelocity());
-    // SmartDashboard.putNumber("Velocity Setpoint", 0.0);
-
-    // SmartDashboard.putNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getP());
-    // SmartDashboard.putNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getI());
-    // SmartDashboard.putNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getD());
+    SmartDashboard.putNumber(
+      "Y Kp", 
+      Swerve.getInstance().getHolonomicDriveController().getYController().getP());
+    SmartDashboard.putNumber(
+      "Y Ki",
+      Swerve.getInstance().getHolonomicDriveController().getYController().getI());
+    SmartDashboard.putNumber(
+      "Y Kd", 
+      Swerve.getInstance().getHolonomicDriveController().getYController().getD());
+    
+    SmartDashboard.putNumber(
+      "Theta Kp", 
+      Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
+    SmartDashboard.putNumber(
+      "Theta Ki", 
+      Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
+    SmartDashboard.putNumber(
+      "Theta Kd", 
+      Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
   }
 
   /**
@@ -116,6 +147,50 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     field.setRobotPose(Swerve.getInstance().getRobotPose());
+
+    if (SmartDashboard.getBoolean("Auto PID Test", false)) {
+      double xKp = SmartDashboard.getNumber(
+        "X Kp", 
+        Swerve.getInstance().getHolonomicDriveController().getXController().getP());
+      double xKi = SmartDashboard.getNumber(
+        "X Ki", 
+        Swerve.getInstance().getHolonomicDriveController().getXController().getI());
+      double xKd = SmartDashboard.getNumber(
+        "X Kd", 
+        Swerve.getInstance().getHolonomicDriveController().getXController().getD());
+
+      double yKp = SmartDashboard.getNumber(
+        "Y Kp", 
+        Swerve.getInstance().getHolonomicDriveController().getYController().getP());
+      double yKi = SmartDashboard.getNumber(
+        "Y Ki", 
+        Swerve.getInstance().getHolonomicDriveController().getYController().getI());
+      double yKd = SmartDashboard.getNumber(
+        "Y Kd", 
+        Swerve.getInstance().getHolonomicDriveController().getYController().getD());
+      
+      double thetaKp = SmartDashboard.getNumber(
+        "Theta Kp", 
+        Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
+      double thetaKi = SmartDashboard.getNumber(
+        "Theta Ki", 
+        Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
+      double thetaKd = SmartDashboard.getNumber(
+        "Theta Kd", 
+        Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
+
+      Swerve.getInstance().getHolonomicDriveController().getXController().setP(xKp);
+      Swerve.getInstance().getHolonomicDriveController().getXController().setI(xKi);
+      Swerve.getInstance().getHolonomicDriveController().getXController().setD(xKd);
+
+      Swerve.getInstance().getHolonomicDriveController().getYController().setP(yKp);
+      Swerve.getInstance().getHolonomicDriveController().getYController().setI(yKi);
+      Swerve.getInstance().getHolonomicDriveController().getYController().setD(yKd);
+
+      Swerve.getInstance().getHolonomicDriveController().getThetaController().setP(thetaKp);
+      Swerve.getInstance().getHolonomicDriveController().getThetaController().setI(thetaKi);
+      Swerve.getInstance().getHolonomicDriveController().getThetaController().setD(thetaKd);
+    }
   }
 
   /**
@@ -153,19 +228,19 @@ public class Robot extends TimedRobot {
     // if (SmartDashboard.getBoolean("PID Test", false)) {
     //   int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
 
-    //   double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getP());
-    //   double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getI());
-    //   double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().getD());
+    //   double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
+    //   double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
+    //   double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
 
-    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().setP(Kp);
-    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().setI(Ki);
-    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getDrivePIDController().setD(Kd);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setP(Kp);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setI(Ki);
+    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setD(Kd);
 
-    //   SwerveModuleState swerveModuleState = new SwerveModuleState(SmartDashboard.getNumber("Velocity Setpoint", 0.0), new Rotation2d());
+    //   SwerveModuleState swerveModuleState = new SwerveModuleState(0.0, Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle Setpoint", 0.0)));
 
     //   Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
 
-    //   SmartDashboard.putNumber("Current Velocity", Swerve.getInstance().getSwerveModule(swerveModuleID).getDriveMotorLinearVelocity());
+    //   SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
     // }
 
     // for (SwerveModule swerveModule : Swerve.getInstance().getSwerveModules()) {

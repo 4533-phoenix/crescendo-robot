@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7041386162544403,
-        "y": 4.408696224799858
+        "x": 1.171904793952038,
+        "y": 1.8944530196752711
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.938021705103239,
-        "y": 3.3796106338651435
+        "x": 2.1719047939520375,
+        "y": 1.8944530196752711
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9260279603180286,
-        "y": 1.6839582397113522
+        "x": 2.8675571881058293,
+        "y": 2.8416795295129056
       },
       "prevControl": {
-        "x": 2.2360728482140724,
-        "y": 2.17511272629383
+        "x": 1.9084244336561857,
+        "y": 2.8535206746295683
+      },
+      "nextControl": {
+        "x": 3.814783697943464,
+        "y": 2.829985375070465
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.551515427817179,
+        "y": 1.8944530196752711
+      },
+      "prevControl": {
+        "x": 3.551515427817179,
+        "y": 1.8944530196752711
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,25 +46,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Start Intake",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake Note Command"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -57,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.0,
-    "rotateFast": false
+    "rotation": 180.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -60.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

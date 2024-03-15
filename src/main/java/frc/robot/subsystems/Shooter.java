@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -11,6 +10,8 @@ import frc.robot.Constants.ShooterConstants;
 
 public final class Shooter extends SubsystemBase {
     private static Shooter shooter = null;
+
+    private final CANSparkMax liftMotor = new CANSparkMax(ShooterConstants.LIFT_MOTOR_ID, MotorType.kBrushless);
 
     /**
      * The left shooter motor.
@@ -31,48 +32,19 @@ public final class Shooter extends SubsystemBase {
     }
 
     private Shooter() {
-        leftShooterMotor.setInverted(true);
         rightShooterMotor.setInverted(true);
     }
 
-    public void setLeftShooterIdleMode(IdleMode idleMode) {
-        leftShooterMotor.setIdleMode(idleMode);
-    }
-
-    public void runLeftShooterForwards() {
-        leftShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
-    }
-
-    public void runLeftShooterBackwards() {
-        leftShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
-    }
-
-    public void runRightShooterForwards() {
-        rightShooterMotor.setVoltage(ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
-    }
-
-    public void runRightShooterBackwards() {
-        rightShooterMotor.setVoltage(-ShooterConstants.SHOOTER_MOTOR_VOLTAGE);
-    }
-
-    public void stopLeftShooter() {
-        leftShooterMotor.setVoltage(0.0);
-    }
-
-    public void stopRightShooter() {
-        rightShooterMotor.setVoltage(0.0);
-    }
-
     public void runLiftForwards() {
-        leftShooterMotor.setVoltage(ShooterConstants.LIFT_MOTOR_VOLTAGE);
+        liftMotor.setVoltage(ShooterConstants.LIFT_MOTOR_VOLTAGE);
     }
 
     public void runLiftBackwards() {
-        leftShooterMotor.setVoltage(-ShooterConstants.LIFT_MOTOR_VOLTAGE);
+        liftMotor.setVoltage(-ShooterConstants.LIFT_MOTOR_VOLTAGE);
     }
 
     public void stopLift() {
-        leftShooterMotor.setVoltage(0.0);
+        liftMotor.setVoltage(0.0);
     }
 
     public void runShooterForwards() {

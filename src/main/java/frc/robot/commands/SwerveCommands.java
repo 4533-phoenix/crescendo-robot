@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -38,21 +39,34 @@ public final class SwerveCommands {
         );
     }
 
+    public static Command getStopCommand() {
+        return new InstantCommand(
+            () -> {
+                Swerve.getInstance().setSwerveModuleStates(
+                    SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                        new ChassisSpeeds()));
+            },
+            Swerve.getInstance()
+        );
+    }
+
     public static Command getTrackNoteCommand() {
         return new FunctionalCommand(
             () -> {},
             () -> {
                 double deltaX = Swerve.getInstance().getNoteDetector().getNoteX();
 
-                // System.out.println(deltaX);
-
                 Swerve.getInstance().setSwerveModuleStates(
                     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                         new ChassisSpeeds(
                             0.0,
                             0.0,
-                            -Math.signum(deltaX)
-                                * SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY
+                            MathUtil.clamp(
+                                -Math.signum(deltaX) 
+                                    * Math.pow(deltaX, 2.0) 
+                                    * SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY,
+                                SwerveConstants.TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY,
+                                SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY)
                         )
                     )
                 );
@@ -64,7 +78,8 @@ public final class SwerveCommands {
                     )
                 );
             },
-            () -> Math.abs(Swerve.getInstance().getNoteDetector().getNoteX()) <= SwerveConstants.TRACK_NOTE_OFFSET_DEADBAND,
+            () -> Math.abs(Swerve.getInstance().getNoteDetector().getNoteX()) <= SwerveConstants.TRACK_NOTE_OFFSET_DEADBAND
+                || !Swerve.getInstance().getNoteDetector().canSeeNote(),
             Swerve.getInstance()
         );
     }
@@ -78,11 +93,10 @@ public final class SwerveCommands {
 
                 Swerve.getInstance().setSwerveModuleStates(
                     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-                        ChassisSpeeds.fromRobotRelativeSpeeds(
+                        new ChassisSpeeds(
                             SwerveConstants.ACQUIRE_NOTE_LINEAR_VELOCITY, 
                             0.0, 
-                            0.0, 
-                            Swerve.getInstance().getRobotPose().getRotation()
+                            0.0
                         )
                     )
                 );                

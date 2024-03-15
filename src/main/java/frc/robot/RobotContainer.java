@@ -2,7 +2,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -10,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.AmpCommands;
+import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ClimbCommands;
 import frc.robot.commands.IntakeCommands;
 import frc.robot.commands.ShooterCommands;
@@ -37,16 +36,6 @@ public final class RobotContainer {
      * The manipulator controller.
      */
     private static final XboxController manipulatorController = new XboxController(ControllerConstants.MANIPULATOR_CONTROLLER_ID);
-
-    /**
-     * The driver joystick.
-     */
-    private static final Joystick driverJoystick = new Joystick(JoystickConstants.DRIVER_JOYSTICK_ID);
-
-    /**
-     * The manipulator joystick.
-     */
-    private static final Joystick manipulatorJoystick = new Joystick(JoystickConstants.MANIPULATOR_JOYSTICK_ID);
 
     /**
      * This method registers the controller buttons with their corresponding commands.
@@ -86,7 +75,7 @@ public final class RobotContainer {
 
         Trigger runShootNoteTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runShootNoteTrigger.whileTrue(ShooterCommands.getShootNoteCommand());
-        runShootNoteTrigger.onFalse(ShooterCommands.getStopShooterCommand());
+        runShootNoteTrigger.onFalse(ShooterCommands.getStopShootNoteCommand());
 
         JoystickButton runClimbUpButton = new JoystickButton(manipulatorController, ControllerConstants.BUTTON_RB);
         runClimbUpButton.whileTrue(ClimbCommands.getRunClimbUpCommand());
@@ -107,9 +96,13 @@ public final class RobotContainer {
         JoystickButton runToggleRobotRelativeModeButton = new JoystickButton(driverController, ControllerConstants.BUTTON_START);
         runToggleRobotRelativeModeButton.onTrue(SwerveCommands.getToggleRobotRelativeModeCommand());
 
-        // JoystickButton runTrackAndAcquireNoteButton = new JoystickButton(driverController, ControllerConstants.BUTTON_Y);
-        // runTrackAndAcquireNoteButton.whileTrue(SwerveCommands.getTrackAndAcquireNoteCommand());
-        // runTrackAndAcquireNoteButton.onFalse(SwerveCommands.getStopTrackAndAcquireNoteCommand());
+        JoystickButton runTrackAndAcquireNoteButton = new JoystickButton(driverController, ControllerConstants.BUTTON_Y);
+        runTrackAndAcquireNoteButton.whileTrue(SwerveCommands.getTrackAndAcquireNoteCommand());
+        runTrackAndAcquireNoteButton.onFalse(SwerveCommands.getStopTrackAndAcquireNoteCommand());
+
+        JoystickButton runDriveToPointOfInterestButton = new JoystickButton(driverController, ControllerConstants.BUTTON_A);
+        runDriveToPointOfInterestButton.whileTrue(AutoCommands.getDriveToPointOfInterestCommand());
+        runDriveToPointOfInterestButton.onFalse(SwerveCommands.getStopCommand());
     }
 
     /**

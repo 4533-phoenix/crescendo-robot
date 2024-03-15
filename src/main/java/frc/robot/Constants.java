@@ -4,6 +4,8 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,8 +22,6 @@ public final class Constants {
 
         public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO; // m / rot
         public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0); // m/s / rpm
-
-        public static final double RAMP_RATE = 0.5; // s
 
         public static final double DRIVE_MOTOR_VELOCITY_DEADBAND = 0.2; // m/s
 
@@ -118,19 +118,19 @@ public final class Constants {
         public static final double BACK_LEFT_STEER_MOTOR_KD = 0.075; // V / ω(t)
         public static final double BACK_RIGHT_STEER_MOTOR_KD = 0.075; // V / ω(t)
 
-        public static final double X_CONTROLLER_KP = 0.0; // m/s / m
+        public static final double X_CONTROLLER_KP = 0.05; // m/s / m
         public static final double X_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
         public static final double X_CONTROLLER_KD = 0.0; // m/s / v(t)
 
-        public static final double Y_CONTROLLER_KP = 0.0; // m/s / m
+        public static final double Y_CONTROLLER_KP = 0.05; // m/s / m
         public static final double Y_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
         public static final double Y_CONTROLLER_KD = 0.0; // m/s / v(t)
 
-        public static final double THETA_CONTROLLER_KP = 0.0; // rad/s / rad
+        public static final double THETA_CONTROLLER_KP = 2.2; // rad/s / rad
         public static final double THETA_CONTROLLER_KI = 0.0; // rad/s / ∫ θ(t) dt
         public static final double THETA_CONTROLLER_KD = 0.0; // rad/s / ω(t)
 
-        public static final double MAX_VELOCITY = 4.0; // m/s
+        public static final double MAX_VELOCITY = 4.4; // m/s
         public static final double MAX_ACCELERATION = 3.0; // m/s^2
 
         public static final double SLOW_VELOCITY = 1.0; // m/s
@@ -138,10 +138,11 @@ public final class Constants {
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
         public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI; // rad/s^2
 
-        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.1;
+        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.075;
         public static final double TRACK_NOTE_ROTATIONAL_VELOCITY = Math.PI / 4.0; // rad/s
+        public static final double TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY = Math.PI / 12.0; // rad/s
         
-        public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 0.5; // m/s
+        public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 1.0; // m/s
         public static final double ACQUIRE_NOTE_TIMEOUT = 5.0; // s
 
         public static final double NOTE_DIMENSIONS_DEADBAND = 0.0; // px^2
@@ -150,16 +151,17 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final int INTAKE_MOTOR_ID = 13;
 
-        public static final double INTAKE_MOTOR_VOLTAGE = 10.0; // V
+        public static final double INTAKE_MOTOR_VOLTAGE = 12.0; // V
     }
 
     public static final class ShooterConstants {
-        public static final int LEFT_SHOOTER_MOTOR_ID = 14;
+        public static final int LIFT_MOTOR_ID = 14;
+        public static final int LEFT_SHOOTER_MOTOR_ID = 19;
         public static final int RIGHT_SHOOTER_MOTOR_ID = 15;
 
         public static final int SHOOTER_LIMIT_SWITCH_ID = 0;
 
-        public static final double LIFT_MOTOR_VOLTAGE = 5.0; // V
+        public static final double LIFT_MOTOR_VOLTAGE = 8.0; // V
         public static final double SHOOTER_MOTOR_VOLTAGE = 12.0; // V
     }
 
@@ -235,13 +237,18 @@ public final class Constants {
     public static final class AutoConstants {
         public static final double FIELD_LENGTH = 16.54; // m
 
+        public static final double MAX_VELOCITY = 4.0; // m/s
+        public static final double MAX_ACCELERATION = 3.0; // m/s^2
+        public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
+        public static final double MAX_ROTATIONAL_ACCELERATION = 2.0 * Math.PI; // rad/s^2
+
         // Source exit autonomous constants.
         public static final String SOURCE_EXIT_AUTO_KEY = "Source Exit Auto";
         public static final String SOURCE_EXIT_AUTO_PATH_FILE_NAME = "Source Exit Auto";
 
         // Amp exit autonomous constants.
-        public static final String AMP_EXIT_AUTO_KEY = "Amp Exit Auto";
-        public static final String AMP_EXIT_AUTO_PATH_FILE_NAME = "Amp Exit Auto";
+        public static final String AMP_SCORE_AUTO_KEY = "Amp Score Auto";
+        public static final String AMP_SCORE_AUTO_PATH_FILE_NAME = "Amp Score Auto";
 
         // Speaker score autonomous constants.
         public static final String SPEAKER_SCORE_AUTO_KEY = "Speaker Score Auto";
@@ -249,6 +256,23 @@ public final class Constants {
 
         // Pathplanner commands.
         public static final String INTAKE_NOTE_COMMAND = "Intake Note Command";
+
+        /**
+         * Points of interest on the field. These points
+         * are in front of amp, in front of source, 
+         * in front of subwoofer center, in front of 
+         * subwoofer left, and in front of subwoofer 
+         * right, in that order.
+         */
+        public static final Pose2d[] POINTS_OF_INTEREST = new Pose2d[]{
+            new Pose2d(1.83, 7.68, new Rotation2d((3.0 * Math.PI) / 2.0)), // In front of amp.
+            new Pose2d(14.85, 0.60, new Rotation2d((2.0 * Math.PI) / 3.0)), // In front of source.
+            new Pose2d(1.32, 5.52, new Rotation2d()), // In front of subwoofer center.
+            new Pose2d(0.81, 4.47, new Rotation2d((5.0 * Math.PI) / 3.0)), // In front of subwoofer left.
+            new Pose2d(0.81, 6.62, new Rotation2d(Math.PI / 3.0)) // In front of subwoofer right.
+        };
+
+        public static final double POINT_OF_INTEREST_DISTANCE_DEADBAND = 4.0; // m
     }
 
     public static final class ControllerConstants {
