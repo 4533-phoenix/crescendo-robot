@@ -56,17 +56,19 @@ public final class SwerveCommands {
             () -> {
                 double deltaX = Swerve.getInstance().getNoteDetector().getNoteX();
 
+                System.out.println(deltaX);
+
                 Swerve.getInstance().setSwerveModuleStates(
                     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                         new ChassisSpeeds(
                             0.0,
                             0.0,
-                            MathUtil.clamp(
-                                -Math.signum(deltaX) 
-                                    * Math.pow(deltaX, 2.0) 
-                                    * SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY,
-                                SwerveConstants.TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY,
-                                SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY)
+                            -Math.signum(deltaX)
+                                * MathUtil.clamp(
+                                    Math.pow(deltaX, 2.0)
+                                        * SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY,
+                                    SwerveConstants.TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY,
+                                    SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY)
                         )
                     )
                 );

@@ -87,6 +87,11 @@ public class Robot extends TimedRobot {
       AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
     );
 
+    autoChooser.addOption(
+      "Double Speaker Score Auto", 
+      AutoCommands.getDoubleSpeakerScoreAuto()
+    );
+
     autoChooser.addOption("Straight Test Path", AutoCommands.followPathAuto("Straight Test Path"));
 
     autoChooser.addOption("Curved Test Path", AutoCommands.followPathAuto("Curved Test Path"));

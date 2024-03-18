@@ -80,6 +80,28 @@ public class ShooterCommands {
         );
     }
 
+    public static Command getEjectNoteCommand() {
+        return new RunCommand(
+            () -> {
+                Intake.getInstance().runIntakeBackwards();
+                Shooter.getInstance().runLiftBackwards();
+            },
+            Intake.getInstance(),
+            Shooter.getInstance()
+        );
+    }
+
+    public static Command getStopEjectNoteCommand() {
+        return new InstantCommand(
+            () -> {
+                Intake.getInstance().stopIntake();
+                Shooter.getInstance().stopLift();
+            },
+            Intake.getInstance(),
+            Shooter.getInstance()
+        );
+    }
+
     public static Command getIntakeNoteCommand() {
         return new FunctionalCommand(
             () -> {},

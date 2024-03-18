@@ -70,8 +70,8 @@ public final class RobotContainer {
         runIntakeNoteTrigger.onFalse(ShooterCommands.stopIntakeNoteCommand());
 
         JoystickButton runIntakeBackwardsButton = new JoystickButton(driverController, ControllerConstants.BUTTON_RB);
-        runIntakeBackwardsButton.whileTrue(IntakeCommands.getRunIntakeBackwardsCommand());
-        runIntakeBackwardsButton.onFalse(IntakeCommands.getStopIntakeCommand());
+        runIntakeBackwardsButton.whileTrue(ShooterCommands.getEjectNoteCommand());
+        runIntakeBackwardsButton.onFalse(ShooterCommands.getStopEjectNoteCommand());
 
         Trigger runShootNoteTrigger = new Trigger(() -> { return driverController.getRightTriggerAxis() >= ControllerConstants.ANALOG_INPUT_DEADBAND; });
         runShootNoteTrigger.whileTrue(ShooterCommands.getShootNoteCommand());

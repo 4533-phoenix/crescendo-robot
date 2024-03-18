@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -275,6 +276,44 @@ public final class AutoCommands {
         return new SequentialCommandGroup(
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.SPEAKER_SCORE_AUTO_PATH_FILE_NAME)
+        );
+    }
+
+    public static Command getDoubleSpeakerScoreAuto() {
+        return new SequentialCommandGroup(
+            new InstantCommand(
+                () -> {
+                    // Get the current alliance from driver station.
+                    Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
+
+                    // Create the alliance.
+                    Alliance alliance = null;
+                    
+                    /*
+                    * If the current alliance from driver station is present, 
+                    * then set the alliance to the current alliance from driver 
+                    * station, and if not, then set it to the blue alliance.
+                    */
+                    alliance = driverStationAlliance.isPresent() 
+                        ? driverStationAlliance.get()
+                        : Alliance.Blue;
+
+                    Pose2d[] pointsOfInterest = alliance == Alliance.Red
+                        ? flipPoses(AutoConstants.POINTS_OF_INTEREST)
+                        : AutoConstants.POINTS_OF_INTEREST;
+
+                    Swerve.getInstance().resetPoseEstimator(pointsOfInterest[2]);
+                },
+                Swerve.getInstance()
+            ),
+            ShooterCommands.getShootNoteCommand(),
+            SwerveCommands.getTrackAndAcquireNoteCommand(),
+            getDriveToPointOfInterestCommand(),
+            ShooterCommands.getShootNoteCommand()
+            // followPathAuto("Top Note Score Path"),
+            // SwerveCommands.getTrackAndAcquireNoteCommand(),
+            // getDriveToPointOfInterestCommand(),
+            // ShooterCommands.getShootNoteCommand()
         );
     }
 

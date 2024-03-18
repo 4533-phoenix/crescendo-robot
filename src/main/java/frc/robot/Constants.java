@@ -138,9 +138,9 @@ public final class Constants {
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
         public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI; // rad/s^2
 
-        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.075;
+        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.05;
         public static final double TRACK_NOTE_ROTATIONAL_VELOCITY = Math.PI / 4.0; // rad/s
-        public static final double TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY = Math.PI / 12.0; // rad/s
+        public static final double TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY = Math.PI / 6.0; // rad/s
         
         public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 1.0; // m/s
         public static final double ACQUIRE_NOTE_TIMEOUT = 5.0; // s
