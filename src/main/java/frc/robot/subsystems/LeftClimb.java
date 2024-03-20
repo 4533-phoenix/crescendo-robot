@@ -27,11 +27,6 @@ public class LeftClimb extends SubsystemBase {
     private final DigitalInput leftClimbLimitSwitch = new DigitalInput(ClimbConstants.LEFT_CLIMB_LIMIT_SWITCH_ID);
 
     /**
-     * The current of the left climb motor, in amps.
-     */
-    private double leftClimbCurrent = leftClimbMotor.getOutputCurrent();
-
-    /**
      * Gets the instance of the {@link LeftClimb} class.
      * 
      * @return The instance of the {@link LeftClimb} class.
@@ -79,14 +74,5 @@ public class LeftClimb extends SubsystemBase {
      */
     public boolean isLeftClimbLimitSwitchAtMagnet() {
         return !leftClimbLimitSwitch.get();
-    }
-
-    /**
-     * The periodic method for the left climb subsystem. This method
-     * is run by the command scheduler every 20 ms.
-     */
-    @Override
-    public void periodic() {
-        leftClimbCurrent = leftClimbMotor.getOutputCurrent();
     }
 }

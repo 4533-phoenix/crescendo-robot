@@ -118,11 +118,11 @@ public final class Constants {
         public static final double BACK_LEFT_STEER_MOTOR_KD = 0.075; // V / ω(t)
         public static final double BACK_RIGHT_STEER_MOTOR_KD = 0.075; // V / ω(t)
 
-        public static final double X_CONTROLLER_KP = 0.05; // m/s / m
+        public static final double X_CONTROLLER_KP = 0.08; // m/s / m
         public static final double X_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
         public static final double X_CONTROLLER_KD = 0.0; // m/s / v(t)
 
-        public static final double Y_CONTROLLER_KP = 0.05; // m/s / m
+        public static final double Y_CONTROLLER_KP = 0.08; // m/s / m
         public static final double Y_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
         public static final double Y_CONTROLLER_KD = 0.0; // m/s / v(t)
 
@@ -224,7 +224,7 @@ public final class Constants {
 
         public static final ApriltagCameraConfig[] PHOTON_CAMERAS = {
             new ApriltagCameraConfig("Front_Camera", new Transform3d(new Translation3d(0.0381, 0.29845, 0.4953), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
-            new ApriltagCameraConfig("Back_Camera", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0, Math.PI, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+            new ApriltagCameraConfig("Back_Camera", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0.0, -Math.PI / 6.0, Math.PI)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
         };
 
         public static final AprilTagFieldLayout FIELD_LAYOUT = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();

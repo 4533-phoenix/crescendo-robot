@@ -107,37 +107,37 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Field", field);
 
-    SmartDashboard.putBoolean("Auto PID Test", false);
+    // SmartDashboard.putBoolean("Auto PID Test", false);
 
-    SmartDashboard.putNumber(
-      "X Kp", 
-      Swerve.getInstance().getHolonomicDriveController().getXController().getP());
-    SmartDashboard.putNumber(
-      "X Ki", 
-      Swerve.getInstance().getHolonomicDriveController().getXController().getI());
-    SmartDashboard.putNumber(
-      "X Kd", 
-      Swerve.getInstance().getHolonomicDriveController().getXController().getD());
+    // SmartDashboard.putNumber(
+    //   "X Kp", 
+    //   Swerve.getInstance().getHolonomicDriveController().getXController().getP());
+    // SmartDashboard.putNumber(
+    //   "X Ki", 
+    //   Swerve.getInstance().getHolonomicDriveController().getXController().getI());
+    // SmartDashboard.putNumber(
+    //   "X Kd", 
+    //   Swerve.getInstance().getHolonomicDriveController().getXController().getD());
 
-    SmartDashboard.putNumber(
-      "Y Kp", 
-      Swerve.getInstance().getHolonomicDriveController().getYController().getP());
-    SmartDashboard.putNumber(
-      "Y Ki",
-      Swerve.getInstance().getHolonomicDriveController().getYController().getI());
-    SmartDashboard.putNumber(
-      "Y Kd", 
-      Swerve.getInstance().getHolonomicDriveController().getYController().getD());
+    // SmartDashboard.putNumber(
+    //   "Y Kp", 
+    //   Swerve.getInstance().getHolonomicDriveController().getYController().getP());
+    // SmartDashboard.putNumber(
+    //   "Y Ki",
+    //   Swerve.getInstance().getHolonomicDriveController().getYController().getI());
+    // SmartDashboard.putNumber(
+    //   "Y Kd", 
+    //   Swerve.getInstance().getHolonomicDriveController().getYController().getD());
     
-    SmartDashboard.putNumber(
-      "Theta Kp", 
-      Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
-    SmartDashboard.putNumber(
-      "Theta Ki", 
-      Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
-    SmartDashboard.putNumber(
-      "Theta Kd", 
-      Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
+    // SmartDashboard.putNumber(
+    //   "Theta Kp", 
+    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
+    // SmartDashboard.putNumber(
+    //   "Theta Ki", 
+    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
+    // SmartDashboard.putNumber(
+    //   "Theta Kd", 
+    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
   }
 
   /**
@@ -153,49 +153,49 @@ public class Robot extends TimedRobot {
 
     field.setRobotPose(Swerve.getInstance().getRobotPose());
 
-    if (SmartDashboard.getBoolean("Auto PID Test", false)) {
-      double xKp = SmartDashboard.getNumber(
-        "X Kp", 
-        Swerve.getInstance().getHolonomicDriveController().getXController().getP());
-      double xKi = SmartDashboard.getNumber(
-        "X Ki", 
-        Swerve.getInstance().getHolonomicDriveController().getXController().getI());
-      double xKd = SmartDashboard.getNumber(
-        "X Kd", 
-        Swerve.getInstance().getHolonomicDriveController().getXController().getD());
+    // if (SmartDashboard.getBoolean("Auto PID Test", false)) {
+    //   double xKp = SmartDashboard.getNumber(
+    //     "X Kp", 
+    //     Swerve.getInstance().getHolonomicDriveController().getXController().getP());
+    //   double xKi = SmartDashboard.getNumber(
+    //     "X Ki", 
+    //     Swerve.getInstance().getHolonomicDriveController().getXController().getI());
+    //   double xKd = SmartDashboard.getNumber(
+    //     "X Kd", 
+    //     Swerve.getInstance().getHolonomicDriveController().getXController().getD());
 
-      double yKp = SmartDashboard.getNumber(
-        "Y Kp", 
-        Swerve.getInstance().getHolonomicDriveController().getYController().getP());
-      double yKi = SmartDashboard.getNumber(
-        "Y Ki", 
-        Swerve.getInstance().getHolonomicDriveController().getYController().getI());
-      double yKd = SmartDashboard.getNumber(
-        "Y Kd", 
-        Swerve.getInstance().getHolonomicDriveController().getYController().getD());
+    //   double yKp = SmartDashboard.getNumber(
+    //     "Y Kp", 
+    //     Swerve.getInstance().getHolonomicDriveController().getYController().getP());
+    //   double yKi = SmartDashboard.getNumber(
+    //     "Y Ki", 
+    //     Swerve.getInstance().getHolonomicDriveController().getYController().getI());
+    //   double yKd = SmartDashboard.getNumber(
+    //     "Y Kd", 
+    //     Swerve.getInstance().getHolonomicDriveController().getYController().getD());
       
-      double thetaKp = SmartDashboard.getNumber(
-        "Theta Kp", 
-        Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
-      double thetaKi = SmartDashboard.getNumber(
-        "Theta Ki", 
-        Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
-      double thetaKd = SmartDashboard.getNumber(
-        "Theta Kd", 
-        Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
+    //   double thetaKp = SmartDashboard.getNumber(
+    //     "Theta Kp", 
+    //     Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
+    //   double thetaKi = SmartDashboard.getNumber(
+    //     "Theta Ki", 
+    //     Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
+    //   double thetaKd = SmartDashboard.getNumber(
+    //     "Theta Kd", 
+    //     Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
 
-      Swerve.getInstance().getHolonomicDriveController().getXController().setP(xKp);
-      Swerve.getInstance().getHolonomicDriveController().getXController().setI(xKi);
-      Swerve.getInstance().getHolonomicDriveController().getXController().setD(xKd);
+    //   Swerve.getInstance().getHolonomicDriveController().getXController().setP(xKp);
+    //   Swerve.getInstance().getHolonomicDriveController().getXController().setI(xKi);
+    //   Swerve.getInstance().getHolonomicDriveController().getXController().setD(xKd);
 
-      Swerve.getInstance().getHolonomicDriveController().getYController().setP(yKp);
-      Swerve.getInstance().getHolonomicDriveController().getYController().setI(yKi);
-      Swerve.getInstance().getHolonomicDriveController().getYController().setD(yKd);
+    //   Swerve.getInstance().getHolonomicDriveController().getYController().setP(yKp);
+    //   Swerve.getInstance().getHolonomicDriveController().getYController().setI(yKi);
+    //   Swerve.getInstance().getHolonomicDriveController().getYController().setD(yKd);
 
-      Swerve.getInstance().getHolonomicDriveController().getThetaController().setP(thetaKp);
-      Swerve.getInstance().getHolonomicDriveController().getThetaController().setI(thetaKi);
-      Swerve.getInstance().getHolonomicDriveController().getThetaController().setD(thetaKd);
-    }
+    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().setP(thetaKp);
+    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().setI(thetaKi);
+    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().setD(thetaKd);
+    // }
   }
 
   /**

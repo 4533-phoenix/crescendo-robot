@@ -27,11 +27,6 @@ public class RightClimb extends SubsystemBase {
     private final DigitalInput rightClimbLimitSwitch = new DigitalInput(ClimbConstants.RIGHT_CLIMB_LIMIT_SWITCH_ID);
 
     /**
-     * The current of the right climb motor, in amps.
-     */
-    private double rightClimbCurrent = rightClimbMotor.getOutputCurrent();
-
-    /**
      * Gets the instance of the {@link RightClimb} class.
      * 
      * @return The instance of the {@link RightClimb} class.
@@ -79,14 +74,5 @@ public class RightClimb extends SubsystemBase {
      */
     public boolean isRightClimbLimitSwitchAtMagnet() {
         return !rightClimbLimitSwitch.get();
-    }
-
-    /**
-     * The periodic method for the right climb subsystem. This method
-     * is run by the command scheduler every 20 ms.
-     */
-    @Override
-    public void periodic() {
-        rightClimbCurrent = rightClimbMotor.getOutputCurrent();
     }
 }
