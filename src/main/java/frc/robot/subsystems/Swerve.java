@@ -429,14 +429,12 @@ public final class Swerve extends SubsystemBase {
             ? new ChassisSpeeds(
                 xVelocity, 
                 yVelocity, 
-                rotationalVelocity
-            )
+                rotationalVelocity)
             : ChassisSpeeds.fromFieldRelativeSpeeds(
                 xVelocity, 
                 yVelocity, 
                 rotationalVelocity, 
-                getRobotPose().getRotation()
-            );
+                getRobotPose().getRotation());
 
         // Convert the chassis speeds to swerve module states.
         SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
@@ -459,6 +457,24 @@ public final class Swerve extends SubsystemBase {
          */
         for (int i = 0; i < swerveModules.length; i++) {
             swerveModules[i].setState(swerveModuleStates[i]);
+        }
+    }
+
+    /**
+     * Sets the swerve modules of the swerve drive subsystem
+     * to be at the given swerve module angles.
+     * 
+     * @param swerveModuleAngles The swerve module angles for
+     * the swerve modules of the swevre drive subsystem
+     * to be at.
+     */
+    public void setSwerveModuleAngles(double[] swerveModuleAngles) {
+        /*
+         * Loop over the swerve modules and set the corresponding
+         * swevre module angles.
+         */
+        for (int i = 0; i < swerveModules.length; i++) {
+            swerveModules[i].setAngle(swerveModuleAngles[i]);
         }
     }
 

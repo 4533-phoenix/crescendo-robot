@@ -21,12 +21,14 @@ public final class Amp extends SubsystemBase {
     /**
      * The amp motor.
      */
-    private final CANSparkMax ampMotor = new CANSparkMax(AmpConstants.AMP_MOTOR_ID, MotorType.kBrushless);
+    private final CANSparkMax ampMotor = 
+        new CANSparkMax(AmpConstants.AMP_MOTOR_ID, MotorType.kBrushless);
 
     /**
      * The amp limit switch.
      */
-    private final DigitalInput ampLimitSwitch = new DigitalInput(AmpConstants.AMP_LIMIT_SWITCH_ID);
+    private final DigitalInput ampLimitSwitch = 
+        new DigitalInput(AmpConstants.AMP_LIMIT_SWITCH_ID);
 
     /**
      * The current position of the amp subsystem.

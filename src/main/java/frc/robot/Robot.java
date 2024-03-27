@@ -4,10 +4,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +39,9 @@ public class Robot extends TimedRobot {
 
   private final Field2d field = new Field2d();
 
+  private final NetworkTable robotTable 
+    = NetworkTableInstance.getDefault().getTable("Robot");
+
   public static final SysIdRoutine sysIDDriveRoutine = new SysIdRoutine(
     new Config(), 
     new Mechanism(
@@ -43,16 +49,6 @@ public class Robot extends TimedRobot {
       Swerve.getInstance()::sysIDDriveLog, 
       Swerve.getInstance(), 
       "Test Drive Motors"
-    )
-  );
-
-  public static final SysIdRoutine sysIDSteerRoutine = new SysIdRoutine(
-    new Config(), 
-    new Mechanism(
-      Swerve.getInstance()::sysIDSteerTest, 
-      Swerve.getInstance()::sysIDSteerLog, 
-      Swerve.getInstance(), 
-      "Test Steer Motors"
     )
   );
 
@@ -69,37 +65,32 @@ public class Robot extends TimedRobot {
     RobotContainer.registerButtons();
     
     autoChooser.setDefaultOption(
-      AutoConstants.SOURCE_EXIT_AUTO_KEY, 
-      AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
-    );
+      AutoConstants.DO_NOTHING_AUTO_KEY, 
+      new InstantCommand());
     
-    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption(
+      AutoConstants.SOURCE_EXIT_AUTO_KEY, 
+      AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME));
 
-    autoChooser.addOption("Only Shoot", ShooterCommands.getShootNoteCommand());
+    autoChooser.addOption(
+      AutoConstants.ONLY_SHOOT_AUTO_KEY,
+      ShooterCommands.getShootNoteCommand());
 
     autoChooser.addOption(
       AutoConstants.SPEAKER_SCORE_AUTO_KEY,
-      AutoCommands.getSpeakerScoreAuto()
-    );
+      AutoCommands.getSpeakerScoreAuto());
 
     autoChooser.addOption(
-      AutoConstants.AMP_SCORE_AUTO_KEY,
-      AutoCommands.followPathAuto(AutoConstants.SOURCE_EXIT_AUTO_PATH_FILE_NAME)
-    );
+      AutoConstants.SPEAKER_SCORE_TO_CENTER_AUTO_KEY, 
+      AutoCommands.getSpeakerScoreToCenterAuto());
 
     autoChooser.addOption(
-      "Double Speaker Score Auto", 
-      AutoCommands.getDoubleSpeakerScoreAuto()
-    );
+      AutoConstants.DOUBLE_SPEAKER_SCORE_AUTO_KEY,
+      AutoCommands.getDoubleSpeakerScoreAuto());
 
-    autoChooser.addOption("Straight Test Path", AutoCommands.followPathAuto("Straight Test Path"));
-
-    autoChooser.addOption("Curved Test Path", AutoCommands.followPathAuto("Curved Test Path"));
-
-    // autoChooser.addOption(
-    //   AutoConstants.AMP_EXIT_AUTO_KEY, 
-    //   () -> AutoCommands.followPathAuto(AutoConstants.AMP_EXIT_AUTO_PATH_FILE_NAME)
-    // );
+    autoChooser.addOption(
+      AutoConstants.TRIPLE_SPEAKER_SCORE_AUTO_KEY, 
+      AutoCommands.getTripleSpeakerScoreAuto());
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -138,6 +129,36 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber(
     //   "Theta Kd", 
     //   Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
+
+    // SmartDashboard.putBoolean("Drive PID Test", false);
+
+    // SmartDashboard.putNumber("Swerve Module ID", 0.0);
+
+    // SwerveModule swerveModule = Swerve.getInstance().getSwerveModule(0);
+
+    // SmartDashboard.putNumber("Current Velocity", swerveModule.getDriveMotorLinearVelocity());
+    
+    // SmartDashboard.putNumber("Velocity Setpoint", 0.0);
+
+    // SmartDashboard.putNumber("kP", swerveModule.getDrivePIDController().getP());
+    // SmartDashboard.putNumber("kI", swerveModule.getDrivePIDController().getI());
+    // SmartDashboard.putNumber("kD", swerveModule.getDrivePIDController().getD());
+
+    // SmartDashboard.putBoolean("Steer PID Test", false);
+
+    // SmartDashboard.putNumber("Swerve Module ID", 0.0);
+
+    // SwerveModule swerveModule = Swerve.getInstance().getSwerveModule(0);
+
+    // SmartDashboard.putNumber(
+    //   "Current Angle",
+    //   swerveModule.getSteerEncoderAngle() * (180.0 / Math.PI));
+    
+    // SmartDashboard.putNumber("Angle Setpoint", 0.0);
+
+    // SmartDashboard.putNumber("kP", swerveModule.getSteerPIDController().getP());
+    // SmartDashboard.putNumber("kI", swerveModule.getSteerPIDController().getI());
+    // SmartDashboard.putNumber("kD", swerveModule.getSteerPIDController().getD());
   }
 
   /**
@@ -152,6 +173,11 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     field.setRobotPose(Swerve.getInstance().getRobotPose());
+
+    robotTable.putValue(
+      "time", 
+      NetworkTableValue.makeDouble(
+        Timer.getFPGATimestamp()));
 
     // if (SmartDashboard.getBoolean("Auto PID Test", false)) {
     //   double xKp = SmartDashboard.getNumber(
@@ -230,7 +256,30 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    // if (SmartDashboard.getBoolean("PID Test", false)) {
+    // if (SmartDashboard.getBoolean("Drive PID Test", false)) {
+    //   SwerveModule swerveModule = Swerve.getInstance().getSwerveModule(
+    //     (int) SmartDashboard.getNumber("Swerve Module ID", 0.0));
+
+    //   swerveModule.getDrivePIDController().setP(
+    //     SmartDashboard.getNumber(
+    //       "kP", swerveModule.getDrivePIDController().getP()));
+      
+    //   swerveModule.getDrivePIDController().setI(
+    //     SmartDashboard.getNumber(
+    //       "kI", swerveModule.getDrivePIDController().getI()));
+
+    //   swerveModule.getDrivePIDController().setD(
+    //     SmartDashboard.getNumber(
+    //       "kD", swerveModule.getDrivePIDController().getD()));
+
+    //   swerveModule.setState(
+    //     new SwerveModuleState(
+    //       SmartDashboard.getNumber("Velocity Setpoint", 0.0), new Rotation2d()));
+      
+    //   SmartDashboard.putNumber("Current Velocity", swerveModule.getDriveMotorLinearVelocity());
+    // }
+
+    // if (SmartDashboard.getBoolean("Steer PID Test", false)) {
     //   int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
 
     //   double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
@@ -246,10 +295,6 @@ public class Robot extends TimedRobot {
     //   Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
 
     //   SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
-    // }
-
-    // for (SwerveModule swerveModule : Swerve.getInstance().getSwerveModules()) {
-    //   swerveModule.setState(new SwerveModuleState(0.0, new Rotation2d(0.0)));
     // }
   }
 

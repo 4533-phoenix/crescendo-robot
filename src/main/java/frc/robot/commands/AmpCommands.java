@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AmpConstants;
 import frc.robot.Constants.AmpConstants.AMP_MOVEMENT_DIRECTION;
@@ -15,50 +14,49 @@ import frc.robot.subsystems.Amp;
  */
 public final class AmpCommands {
     /**
-     * Gets the command that runs the amp subsystem forwards.
+     * Gets the run amp forwards command, which runs the 
+     * amp subsystem forwards.
      * 
-     * @return The command that runs the amp subsystem forwards.
+     * @return The run amp forwards command.
      */
     public static Command getRunAmpForwardsCommand() {
-        return new RunCommand(
+        return new InstantCommand(
             () -> Amp.getInstance().runAmpForwards(),
-            Amp.getInstance()
-        );
+            Amp.getInstance());
     }
 
     /**
-     * Gets the command that runs the amp subsystem backwards.
+     * Gets the run amp backwards command, which runs the
+     * amp subsystem backwards.
      * 
-     * @return The command that runs the amp subsystem backwards.
+     * @return The run amp backwards command.
      */
     public static Command getRunAmpBackwardsCommand() {
-        return new RunCommand(
+        return new InstantCommand(
             () -> Amp.getInstance().runAmpBackwards(),
-            Amp.getInstance()
-        );
+            Amp.getInstance());
     }
 
     /**
-     * Gets the command that stops the amp subsystem.
+     * Gets the stop amp command, which stops the
+     * amp subsystem.
      * 
-     * @return The command that stops the amp subsystem.
+     * @return The stop amp command.
      */
     public static Command getStopAmpCommand() {
         return new InstantCommand(
             () -> Amp.getInstance().stopAmp(),
-            Amp.getInstance()
-        );
+            Amp.getInstance());
     }
 
     /**
-     * Gets the command that sets the amp subsystem position
-     * to the receive position. Delay added to allow the amp
+     * Gets the amp receive command, which sets the amp subsystem 
+     * position to the receive position. Delay added to allow the amp
      * subsystem position to be updated after the amp
      * subsystem stops moving in the event that the command
      * is canceled abruptly.
      * 
-     * @return The command that sets the amp subsystem position
-     * to the receive position.
+     * @return The amp receive command.
      */
     public static Command getAmpReceiveCommand() {
         return new FunctionalCommand(
@@ -67,19 +65,18 @@ public final class AmpCommands {
             (isFinished) -> Amp.getInstance().stopAmp(), 
             () -> Amp.getInstance().isAmpLimitSwitchAtPosition(AMP_POSITION.RECEIVE_POSITION)
                 && Amp.getInstance().isAmpLimitSwitchAtMagnet(), 
-            Amp.getInstance()
-        ).andThen(new WaitCommand(AmpConstants.AMP_POSITION_DELAY));
+            Amp.getInstance())
+                .andThen(new WaitCommand(AmpConstants.AMP_POSITION_DELAY));
     }
 
     /**
-     * Gets the command that sets the amp subsystem position
-     * to the drop position. Delay added to allow the amp
+     * Gets the amp drop command, which sets the amp subsystem 
+     * position to the drop position. Delay added to allow the amp
      * subsystem position to be updated after the amp
      * subsystem stops moving in the event that the command
      * is canceled abruptly.
      * 
-     * @return The command that sets the amp subsystem position
-     * to the drop position.
+     * @return The amp drop command.
      */
     public static Command getAmpDropCommand() {
         return new FunctionalCommand(
@@ -88,7 +85,7 @@ public final class AmpCommands {
             (isFinished) -> Amp.getInstance().stopAmp(), 
             () -> Amp.getInstance().isAmpLimitSwitchAtPosition(AMP_POSITION.DROP_POSITION)
                 && Amp.getInstance().isAmpLimitSwitchAtMagnet(), 
-            Amp.getInstance()
-        ).andThen(new WaitCommand(AmpConstants.AMP_POSITION_DELAY));
+            Amp.getInstance())
+                .andThen(new WaitCommand(AmpConstants.AMP_POSITION_DELAY));
     }
 }

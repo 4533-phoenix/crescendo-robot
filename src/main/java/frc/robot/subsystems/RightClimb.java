@@ -19,12 +19,14 @@ public class RightClimb extends SubsystemBase {
     /**
      * The right climb motor.
      */
-    private final CANSparkMax rightClimbMotor = new CANSparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, MotorType.kBrushed);
+    private final CANSparkMax rightClimbMotor = 
+        new CANSparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, MotorType.kBrushed);
 
     /**
      * The right climb limit switch.
      */
-    private final DigitalInput rightClimbLimitSwitch = new DigitalInput(ClimbConstants.RIGHT_CLIMB_LIMIT_SWITCH_ID);
+    private final DigitalInput rightClimbLimitSwitch = 
+        new DigitalInput(ClimbConstants.RIGHT_CLIMB_LIMIT_SWITCH_ID);
 
     /**
      * Gets the instance of the {@link RightClimb} class.

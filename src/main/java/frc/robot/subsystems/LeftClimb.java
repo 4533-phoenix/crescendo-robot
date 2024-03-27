@@ -19,12 +19,14 @@ public class LeftClimb extends SubsystemBase {
     /**
      * The left climb motor.
      */
-    private final CANSparkMax leftClimbMotor = new CANSparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_ID, MotorType.kBrushed);
+    private final CANSparkMax leftClimbMotor = 
+        new CANSparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_ID, MotorType.kBrushed);
 
     /**
      * The left climb limit switch.
      */
-    private final DigitalInput leftClimbLimitSwitch = new DigitalInput(ClimbConstants.LEFT_CLIMB_LIMIT_SWITCH_ID);
+    private final DigitalInput leftClimbLimitSwitch = 
+        new DigitalInput(ClimbConstants.LEFT_CLIMB_LIMIT_SWITCH_ID);
 
     /**
      * Gets the instance of the {@link LeftClimb} class.

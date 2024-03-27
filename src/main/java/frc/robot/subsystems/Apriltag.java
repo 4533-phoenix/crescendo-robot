@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ApriltagConstants;
 
 /**
- * The class for photonlib pose estimator.
+ * The class for the Photonlib pose estimator.
  */
 public final class Apriltag extends SubsystemBase {
     /**

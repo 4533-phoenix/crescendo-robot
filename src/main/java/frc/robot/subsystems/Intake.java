@@ -18,7 +18,8 @@ public final class Intake extends SubsystemBase {
     /**
      * The intake motor.
      */
-    private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+    private final CANSparkMax intakeMotor = 
+        new CANSparkMax(IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
 
     /**
      * Gets the instance of the {@link Intake} class.

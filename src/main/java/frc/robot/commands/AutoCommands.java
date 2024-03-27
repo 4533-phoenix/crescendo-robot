@@ -191,30 +191,57 @@ public final class AutoCommands {
                  * Reset the swerve drive pose estimator to be at the
                  * first point on the path.
                  */
-                Swerve.getInstance().resetPoseEstimator(path.getPreviewStartingHolonomicPose());
+                Swerve.getInstance().resetPoseEstimator(
+                    path.getPreviewStartingHolonomicPose());
+
+                /*
+                 * Reset the theta controller of the swerve drive
+                 * holonomic drive controller to be at the rotation
+                 * of the first point on the path.
+                 */
+                Swerve.getInstance()
+                    .getHolonomicDriveController()
+                    .getThetaController()
+                        .reset(
+                            path.getPreviewStartingHolonomicPose()
+                                .getRotation()
+                                .getRadians());
 
                 // Set the trajectory from the path.
                 AutoCommands.setTrajectory(
                     path.getTrajectory(
                         Swerve.getInstance().getChassisSpeeds(), 
-                        Swerve.getInstance().getRobotPose().getRotation())); 
+                        Swerve.getInstance().getRobotPose().getRotation()));
 
                 // Get the event commands for the trajectory.
                 AutoCommands.setEventCommands(
                     AutoCommands.getTrajectory().getEventCommands());
 
+                // Set the current time.
                 AutoCommands.setCurrTime(Timer.getFPGATimestamp());
 
+                // Set the end time.
                 AutoCommands.setEndTime(
                     AutoCommands.getCurrTime() 
                     + AutoCommands.getTrajectory().getTotalTimeSeconds());
             },
             () -> {
+                // Get the trajectory.
                 PathPlannerTrajectory trajectory = AutoCommands.getTrajectory();
+
+                // Get the event commands.
                 List<Pair<Double, Command>> eventCommands = AutoCommands.getEventCommands();
+
+                // Get the current time.
                 double currTime = AutoCommands.getCurrTime();
+
+                // Get the end time.
                 double endTime = AutoCommands.getEndTime();
 
+                /*
+                 * Get the trajectory state at the current time
+                 * along the path.
+                 */
                 State trajectoryState = trajectory.sample(
                     trajectory.getTotalTimeSeconds() - (endTime - currTime));
 
@@ -254,8 +281,11 @@ public final class AutoCommands {
                  * with the command scheduler and remove it from the front
                  * of the event commands list.
                  */
-                if (eventCommands.size() != 0 && eventCommands.get(0).getFirst() <= trajectoryState.timeSeconds) {
-                    // CommandScheduler.getInstance().schedule(eventCommands.remove(0).getSecond());
+                if (eventCommands.size() != 0 
+                        && eventCommands.get(0).getFirst() 
+                            <= trajectoryState.timeSeconds) {
+                    // CommandScheduler.getInstance().schedule(
+                    //     eventCommands.remove(0).getSecond());
                 }
 
                 // Update the current time.
@@ -268,17 +298,51 @@ public final class AutoCommands {
                         new ChassisSpeeds()));
             },
             () -> AutoCommands.getCurrTime() > AutoCommands.getEndTime(),
-            Swerve.getInstance()
-        );
+            Swerve.getInstance());
     }
 
+    /**
+     * Gets the speaker score auto, which scores
+     * one note at subwoofer left on blue
+     * alliance or one note at subwoofer right
+     * on red alliance, and then leaves the
+     * robot starting zone by curving downwards
+     * and right.
+     * 
+     * @return The speaker score auto.
+     */
     public static Command getSpeakerScoreAuto() {
         return new SequentialCommandGroup(
             ShooterCommands.getShootNoteCommand(),
-            followPathAuto(AutoConstants.SPEAKER_SCORE_AUTO_PATH_FILE_NAME)
-        );
+            followPathAuto(AutoConstants.SPEAKER_SCORE_AUTO_PATH_FILE_NAME));
     }
 
+    /**
+     * Gets the speaker score auto, which scores
+     * one note at subwoofer left on blue
+     * alliance or one note at subwoofer right
+     * on red alliance, then leaves the
+     * robot starting zone by curving downwards
+     * and right to the bottom center note, and
+     * then intakes the bottom center note.
+     * 
+     * @return The speaker score to center auto.
+     */
+    public static Command getSpeakerScoreToCenterAuto() {
+        return new SequentialCommandGroup(
+            ShooterCommands.getShootNoteCommand(),
+            followPathAuto(AutoConstants.SPEAKER_SCORE_TO_CENTER_AUTO_PATH_FILE_NAME),
+            SwerveCommands.getTrackAndAcquireNoteCommand());
+    }
+
+    /**
+     * Gets the double speaker score auto, which scores
+     * one note at subwoofer center, then intakes the
+     * middle alliance note, drives back to subwoofer
+     * center, and then scores the middle alliance note.
+     * 
+     * @return The double speaker score auto.
+     */
     public static Command getDoubleSpeakerScoreAuto() {
         return new SequentialCommandGroup(
             new InstantCommand(
@@ -298,25 +362,98 @@ public final class AutoCommands {
                         ? driverStationAlliance.get()
                         : Alliance.Blue;
 
-                    Pose2d[] pointsOfInterest = alliance == Alliance.Red
-                        ? flipPoses(AutoConstants.POINTS_OF_INTEREST)
-                        : AutoConstants.POINTS_OF_INTEREST;
+                    /*
+                     * If the alliance is the red alliance, then
+                     * flip the subwoofer center pose to the red alliance
+                     * side, and if not, then keep the subwoofer center
+                     * pose the same.
+                     */
+                    Pose2d initialPose = alliance == Alliance.Red
+                        ? flipPose(AutoConstants.SUBWOOFER_CENTER_POSE)
+                        : AutoConstants.SUBWOOFER_CENTER_POSE;
 
-                    Swerve.getInstance().resetPoseEstimator(pointsOfInterest[2]);
+                    /*
+                     * Reset the pose estimator to the initial pose,
+                     * which is the subwoofer center pose.
+                     */
+                    Swerve.getInstance().resetPoseEstimator(initialPose);
                 },
                 Swerve.getInstance()
             ),
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPointOfInterestCommand(),
-            ShooterCommands.getShootNoteCommand()
-            // followPathAuto("Top Note Score Path"),
-            // SwerveCommands.getTrackAndAcquireNoteCommand(),
-            // getDriveToPointOfInterestCommand(),
-            // ShooterCommands.getShootNoteCommand()
-        );
+            ShooterCommands.getShootNoteCommand());
     }
 
+    /**
+     * Gets the triple speaker score auto, which scores
+     * one note at subwoofer center, then intakes the
+     * middle alliance note, drives back to subwoofer
+     * center, scores the middle alliance note, then
+     * intakes the top alliance note, drives back to
+     * subwoofer center, and scores the top alliance
+     * note.
+     * 
+     * @return The triple speaker score auto.
+     */
+    public static Command getTripleSpeakerScoreAuto() {
+        return new SequentialCommandGroup(
+            new InstantCommand(
+                () -> {
+                    // Get the current alliance from driver station.
+                    Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
+
+                    // Create the alliance.
+                    Alliance alliance = null;
+                    
+                    /*
+                     * If the current alliance from driver station is present, 
+                     * then set the alliance to the current alliance from driver 
+                     * station, and if not, then set it to the blue alliance.
+                     */
+                    alliance = driverStationAlliance.isPresent() 
+                        ? driverStationAlliance.get()
+                        : Alliance.Blue;
+
+                    /*
+                     * If the alliance is the red alliance, then
+                     * flip the subwoofer center pose to the red alliance
+                     * side, and if not, then keep the subwoofer center
+                     * pose the same.
+                     */
+                    Pose2d initialPose = alliance == Alliance.Red
+                        ? flipPose(AutoConstants.SUBWOOFER_CENTER_POSE)
+                        : AutoConstants.SUBWOOFER_CENTER_POSE;
+
+                    /*
+                     * Reset the pose estimator to the initial pose,
+                     * which is the subwoofer center pose.
+                     */
+                    Swerve.getInstance().resetPoseEstimator(initialPose);
+                },
+                Swerve.getInstance()),
+            ShooterCommands.getShootNoteCommand(),
+            SwerveCommands.getTrackAndAcquireNoteCommand(),
+            getDriveToPointOfInterestCommand(),
+            ShooterCommands.getShootNoteCommand(),
+            followPathAuto(AutoConstants.TOP_NOTE_PATH),
+            SwerveCommands.getTrackAndAcquireNoteCommand(),
+            getDriveToPointOfInterestCommand(),
+            ShooterCommands.getShootNoteCommand());
+    }
+
+    /**
+     * Gets the drive to point of interest command, which
+     * will drive to either the amp or source without a
+     * note in the shooter and will drive to one of the
+     * subwoofer positions with a note in the shooter.
+     * The point of interest that will be driven to
+     * will be the nearer of the available points of
+     * interest to drive to.
+     * 
+     * @return The drive to point of interest command.
+     */
     public static Command getDriveToPointOfInterestCommand() {
         return new FunctionalCommand(
             () -> {
@@ -335,24 +472,49 @@ public final class AutoCommands {
                     ? driverStationAlliance.get()
                     : Alliance.Blue;
 
+                // Get the current robot pose.
                 Pose2d robotPose = Swerve.getInstance().getRobotPose();
 
-                Pose2d[] pointsOfInterest = alliance == Alliance.Red
-                    ? flipPoses(AutoConstants.POINTS_OF_INTEREST)
-                    : AutoConstants.POINTS_OF_INTEREST;
+                /*
+                 * If there is a note in the shooter, then set the
+                 * points of interest to only be the shooter points
+                 * of interest, and if not, then set the points of
+                 * interest to only be the default points of interest.
+                 */
+                Pose2d[] pointsOfInterest = Shooter.getInstance().isLimitSwitchPressed()
+                    ? AutoConstants.SHOOTER_POINTS_OF_INTEREST
+                    : AutoConstants.DEFAULT_POINTS_OF_INTEREST;
 
-                pointsOfInterest = Shooter.getInstance().isLimitSwitchPressed()
-                    ? new Pose2d[]{
-                        pointsOfInterest[2],
-                        pointsOfInterest[3],
-                        pointsOfInterest[4]}
-                    : new Pose2d[]{pointsOfInterest[0], pointsOfInterest[1]};
+                /*
+                 * If the alliance is the red alliance, then
+                 * flip the points of interest to the red alliance
+                 * side, and if not, then keep the points of interest
+                 * the same.
+                 */
+                pointsOfInterest = alliance == Alliance.Red
+                    ? flipPoses(pointsOfInterest)
+                    : pointsOfInterest;
                 
+                /*
+                 * Get the point of interest to drive to as
+                 * the points of interest nearest to the
+                 * current robot pose.
+                 */
                 Pose2d pointOfInterest = 
                     robotPose.nearest(Arrays.asList(pointsOfInterest));
-
+                
+                // Create the path.
                 PathPlannerPath path = null;
-
+                
+                /*
+                 * If the distance from the current robot pose
+                 * to the point of interest is greater than the
+                 * point of interest distance deadband, then
+                 * set the path as a path that drives nowhere,
+                 * and if not, then set the path as a path
+                 * that drives from the current robot pose
+                 * to the point of interest.
+                 */
                 if (robotPose.getTranslation().getDistance(pointOfInterest.getTranslation())
                         > AutoConstants.POINT_OF_INTEREST_DISTANCE_DEADBAND) {
                     path = new PathPlannerPath(
@@ -371,13 +533,10 @@ public final class AutoCommands {
                             0.0, 
                             new Rotation2d()));
                 } else {
-                    List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(
-                        robotPose,
-                        pointOfInterest
-                    );
-
                     path = new PathPlannerPath(
-                        bezierPoints, 
+                        PathPlannerPath.bezierFromPoses(
+                            robotPose,
+                            pointOfInterest), 
                         new PathConstraints(
                             AutoConstants.MAX_VELOCITY, 
                             AutoConstants.MAX_ACCELERATION, 
@@ -388,30 +547,52 @@ public final class AutoCommands {
                             pointOfInterest.getRotation(), 
                             true));
                 }
-                
+
+                /*
+                 * Reset the theta controller of the swerve drive
+                 * holonomic drive controller to be at the rotation
+                 * of the current robot pose.
+                 */
+                Swerve.getInstance()
+                    .getHolonomicDriveController()
+                    .getThetaController()
+                        .reset(robotPose.getRotation().getRadians());
                 
                 // Set the trajectory from the path.
                 AutoCommands.setTrajectory(
                     path.getTrajectory(
-                        Swerve.getInstance().getChassisSpeeds(), 
+                        Swerve.getInstance().getChassisSpeeds(),
                         robotPose.getRotation())); 
 
                 // Get the event commands for the trajectory.
                 AutoCommands.setEventCommands(
                     AutoCommands.getTrajectory().getEventCommands());
 
+                // Set the current time.
                 AutoCommands.setCurrTime(Timer.getFPGATimestamp());
 
+                // Set the end time.
                 AutoCommands.setEndTime(
                     AutoCommands.getCurrTime() 
                     + AutoCommands.getTrajectory().getTotalTimeSeconds());
             }, 
             () -> {
+                // Get the trajectory.
                 PathPlannerTrajectory trajectory = AutoCommands.getTrajectory();
-                List<Pair<Double, Command>> eventCommands = AutoCommands.getEventCommands();
-                double currTime = AutoCommands.getCurrTime();
-                double endTime = AutoCommands.getEndTime();
 
+                // Get the event commands.
+                List<Pair<Double, Command>> eventCommands = AutoCommands.getEventCommands();
+
+                // Get the current time.
+                double currTime = AutoCommands.getCurrTime();
+
+                // Get the end time.
+                double endTime = AutoCommands.getEndTime();
+                
+                /*
+                 * Get the trajectory state at the current time
+                 * along the path.
+                 */
                 State trajectoryState = trajectory.sample(
                     trajectory.getTotalTimeSeconds() - (endTime - currTime));
 
@@ -430,18 +611,20 @@ public final class AutoCommands {
                 Rotation2d trajectoryStateDesiredHeading = trajectoryState.targetHolonomicRotation;
 
                 // Get the chassis speeds as calculated by the swerve subsystem holonomic drive controller.
-                ChassisSpeeds chassisSpeeds = Swerve.getInstance().getHolonomicDriveController().calculate(
-                    Swerve.getInstance().getRobotPose(), 
-                    new Pose2d(trajectoryStateTranslation, trajectoryStateRotation), 
-                    trajectoryStateDesiredVelocity, 
-                    trajectoryStateDesiredHeading
-                );
+                ChassisSpeeds chassisSpeeds = 
+                    Swerve.getInstance().getHolonomicDriveController().calculate(
+                        Swerve.getInstance().getRobotPose(), 
+                        new Pose2d(trajectoryStateTranslation, trajectoryStateRotation), 
+                        trajectoryStateDesiredVelocity, 
+                        trajectoryStateDesiredHeading);
 
                 /*
                  * Get the swerve module states as calculated by the swerve drive kinematics 
                  * given the chassis speeds.
                  */
-                SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+                SwerveModuleState[] swerveModuleStates = 
+                    SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                        chassisSpeeds);
 
                 // Set the swerve subsystem to drive at the swerve module states.
                 Swerve.getInstance().setSwerveModuleStates(swerveModuleStates);
@@ -451,7 +634,9 @@ public final class AutoCommands {
                  * with the command scheduler and remove it from the front
                  * of the event commands list.
                  */
-                if (eventCommands.size() != 0 && eventCommands.get(0).getFirst() <= trajectoryState.timeSeconds) {
+                if (eventCommands.size() != 0 
+                        && eventCommands.get(0).getFirst() 
+                            <= trajectoryState.timeSeconds) {
                     // CommandScheduler.getInstance().schedule(eventCommands.remove(0).getSecond());
                 }
 
@@ -468,16 +653,224 @@ public final class AutoCommands {
             Swerve.getInstance());
     }
 
+    /**
+     * Gets the drive to pose command, which will
+     * drive the robot to the given pose.
+     * 
+     * @param pose The pose to drive to. This
+     * should be on the blue alliance side,
+     * as the command will automatically
+     * flip it to the red alliance side
+     * if the current alliance is the red
+     * alliance.
+     */
+    public Command driveToPose(Pose2d pose) {
+        return new FunctionalCommand(
+            () -> {
+                // Get the current alliance from driver station.
+                Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
+
+                // Create the alliance.
+                Alliance alliance = null;
+                
+                /*
+                 * If the current alliance from driver station is present, 
+                 * then set the alliance to the current alliance from driver 
+                 * station, and if not, then set it to the blue alliance.
+                 */
+                alliance = driverStationAlliance.isPresent() 
+                    ? driverStationAlliance.get()
+                    : Alliance.Blue;
+
+                // Get the current robot pose.
+                Pose2d robotPose = Swerve.getInstance().getRobotPose();
+
+                /*
+                 * If the alliance is the red alliance, then
+                 * flip the pose to drive to, and if not,
+                 * then keep it the same.
+                 */
+                Pose2d endPose = alliance == Alliance.Red
+                    ? flipPose(pose)
+                    : pose;
+
+                /*
+                 * Create the path as a path that drives
+                 * from the current robot pose to the
+                 * end pose.
+                 */
+                PathPlannerPath path = new PathPlannerPath(
+                    PathPlannerPath.bezierFromPoses(
+                        robotPose,
+                        endPose), 
+                    new PathConstraints(
+                        AutoConstants.MAX_VELOCITY, 
+                        AutoConstants.MAX_ACCELERATION, 
+                        AutoConstants.MAX_ROTATIONAL_VELOCITY, 
+                        AutoConstants.MAX_ROTATIONAL_ACCELERATION),
+                    new GoalEndState(
+                        0.0, 
+                        endPose.getRotation(), 
+                        true));
+                
+                /*
+                 * Reset the theta controller of the swerve drive
+                 * holonomic drive controller to be at the rotation
+                 * of the current robot pose.
+                 */
+                Swerve.getInstance()
+                    .getHolonomicDriveController()
+                    .getThetaController()
+                        .reset(robotPose.getRotation().getRadians());
+                
+                // Set the trajectory from the path.
+                AutoCommands.setTrajectory(
+                    path.getTrajectory(
+                        Swerve.getInstance().getChassisSpeeds(), 
+                        robotPose.getRotation())); 
+
+                // Get the event commands for the trajectory.
+                AutoCommands.setEventCommands(
+                    AutoCommands.getTrajectory().getEventCommands());
+
+                // Set the current time.
+                AutoCommands.setCurrTime(Timer.getFPGATimestamp());
+
+                // Set the end time.
+                AutoCommands.setEndTime(
+                    AutoCommands.getCurrTime() 
+                    + AutoCommands.getTrajectory().getTotalTimeSeconds());
+            },
+            () -> {
+                // Get the trajectory.
+                PathPlannerTrajectory trajectory = AutoCommands.getTrajectory();
+
+                // Get the event commands.
+                List<Pair<Double, Command>> eventCommands = AutoCommands.getEventCommands();
+
+                // Get the current time.
+                double currTime = AutoCommands.getCurrTime();
+
+                // Get the end time.
+                double endTime = AutoCommands.getEndTime();
+                
+                /*
+                 * Get the trajectory state at the current time
+                 * along the path.
+                 */
+                State trajectoryState = trajectory.sample(
+                    trajectory.getTotalTimeSeconds() - (endTime - currTime));
+
+                // Get the trajectory state velocity and translation.
+                double trajectoryStateDesiredVelocity = trajectoryState.velocityMps;
+                Translation2d trajectoryStateTranslation = trajectoryState.positionMeters;
+
+                /*
+                 * Get the trajectory state rotation and heading.
+                 * 
+                 * In PathPlannerLib, heading is the rotation of the
+                 * state, while target holonomic rotation is the 
+                 * desired heading.
+                 */
+                Rotation2d trajectoryStateRotation = trajectoryState.heading;
+                Rotation2d trajectoryStateDesiredHeading = trajectoryState.targetHolonomicRotation;
+
+                // Get the chassis speeds as calculated by the swerve subsystem holonomic drive controller.
+                ChassisSpeeds chassisSpeeds = 
+                    Swerve.getInstance().getHolonomicDriveController().calculate(
+                        Swerve.getInstance().getRobotPose(), 
+                        new Pose2d(trajectoryStateTranslation, trajectoryStateRotation), 
+                        trajectoryStateDesiredVelocity, 
+                        trajectoryStateDesiredHeading);
+
+                /*
+                 * Get the swerve module states as calculated by the swerve drive kinematics 
+                 * given the chassis speeds.
+                 */
+                SwerveModuleState[] swerveModuleStates = 
+                    SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                        chassisSpeeds);
+
+                // Set the swerve subsystem to drive at the swerve module states.
+                Swerve.getInstance().setSwerveModuleStates(swerveModuleStates);
+                   
+                /*
+                 * If the frontmost event command is triggered, then schedule it
+                 * with the command scheduler and remove it from the front
+                 * of the event commands list.
+                 */
+                if (eventCommands.size() != 0 
+                        && eventCommands.get(0).getFirst() 
+                            <= trajectoryState.timeSeconds) {
+                    // CommandScheduler.getInstance().schedule(eventCommands.remove(0).getSecond());
+                }
+
+                // Update the current time.
+                AutoCommands.setCurrTime(Timer.getFPGATimestamp());
+            },
+            (isFinished) -> {
+                // Set the swerve subsystem to stop after the path has finished.
+                Swerve.getInstance().setSwerveModuleStates(
+                    SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                        new ChassisSpeeds()));
+            },
+            () -> AutoCommands.getCurrTime() > AutoCommands.getEndTime(),
+            Swerve.getInstance());
+    }
+
+    /**
+     * Flips the given poses to the opposite alliance side
+     * of the field.
+     * 
+     * @param poses The poses to flip.
+     * 
+     * @return The flipped poses.
+     */
     public static Pose2d[] flipPoses(Pose2d[] poses) {
+        // Create an array to store the flipped poses.
         Pose2d[] flippedPoses = new Pose2d[poses.length];
 
+        /*
+         * Loop through the poses and add their
+         * flipped versions to the flipped poses
+         * array.
+         */
         for (int i = 0; i < poses.length; i++) {
+            /*
+             * Add the flipped pose to the flipped
+             * poses array.
+             */
             flippedPoses[i] = new Pose2d(
-                AutoConstants.FIELD_LENGTH - poses[i].getX(), 
-                poses[i].getY(), 
+                /*
+                 * Flip the x coordinate by subtracting
+                 * it from the field length.
+                 */
+                AutoConstants.FIELD_LENGTH - poses[i].getX(),
+                poses[i].getY(),
+                // Flip the angle by subtracting it from π.
                 new Rotation2d(Math.PI).minus(poses[i].getRotation()));
         }
 
         return flippedPoses;
+    }
+
+    /**
+     * Flips the given pose to the opposite alliance side
+     * of the field.
+     * 
+     * @param pose The pose to flip.
+     * 
+     * @return The flipped pose.
+     */
+    public static Pose2d flipPose(Pose2d pose) {
+        return new Pose2d(
+            /*
+             * Flip the x coordinate by subtracting
+             * it from the field length.
+             */
+            AutoConstants.FIELD_LENGTH - pose.getX(),
+            pose.getY(),
+            // Flip the angle by subtracting it from π.
+            new Rotation2d(Math.PI).minus(pose.getRotation()));
     }
 }

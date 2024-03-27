@@ -127,14 +127,16 @@ public final class SwerveModule {
          * conversion factor to convert from rotations
          * to meters.
          */
-        driveEncoder.setPositionConversionFactor(SwerveModuleConstants.DRIVE_MOTOR_REVOLUTIONS_TO_METERS);
+        driveEncoder.setPositionConversionFactor(
+            SwerveModuleConstants.DRIVE_MOTOR_REVOLUTIONS_TO_METERS);
 
         /*
          * Set the swerve module drive encoder velocity
          * conversion factor to convert from RPM to
          * meters per second.
          */
-        driveEncoder.setVelocityConversionFactor(SwerveModuleConstants.DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND);
+        driveEncoder.setVelocityConversionFactor(
+            SwerveModuleConstants.DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND);
         
         // Create the swerve module steer encoder.
         steerEncoder = new CANcoder(steerEncoderID, "rio");
@@ -147,7 +149,10 @@ public final class SwerveModule {
          */
         steerEncoder.getConfigurator().apply(
             new CANcoderConfiguration().withMagnetSensor(
-                new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1).withSensorDirection(SensorDirectionValue.CounterClockwise_Positive)
+                new MagnetSensorConfigs().withAbsoluteSensorRange(
+                    AbsoluteSensorRangeValue.Unsigned_0To1)
+                        .withSensorDirection(
+                            SensorDirectionValue.CounterClockwise_Positive)
             )
         );
 
@@ -171,7 +176,8 @@ public final class SwerveModule {
 
         /*
          * Set continuous input for the swerve module 
-         * steer PID controller. 
+         * steer PID controller where 0 radians and
+         * 2pi radians being at the same point.
          */
         steerPIDController.enableContinuousInput(0.0, (2.0 * Math.PI));
     }
@@ -317,7 +323,9 @@ public final class SwerveModule {
     }
 
     public SwerveModuleState getSwerveModuleState() {
-        return new SwerveModuleState(getDriveMotorLinearVelocity(), new Rotation2d(getSteerEncoderAngle()));
+        return new SwerveModuleState(
+            getDriveMotorLinearVelocity(),
+            new Rotation2d(getSteerEncoderAngle()));
     }
 
     /**
@@ -326,36 +334,85 @@ public final class SwerveModule {
      * @return The current swerve module position.
      */
     public SwerveModulePosition getSwerveModulePosition() {
-        return new SwerveModulePosition(driveEncoder.getPosition(), Rotation2d.fromRadians(getSteerEncoderAngle()));
+        return new SwerveModulePosition(
+            driveEncoder.getPosition(),
+            Rotation2d.fromRadians(getSteerEncoderAngle()));
     }
 
     /**
-     * Sets the swerve module to run at the given 
+     * Sets the swerve module to the given 
      * swerve module state.
      * 
-     * @param state The swerve module state to run
-     * the swerve module at.
+     * @param state The swerve module state to set
+     * the swerve module to.
      */
     public void setState(SwerveModuleState state) {
-        state = SwerveModuleState.optimize(state, Rotation2d.fromRadians(getSteerEncoderAngle()));
+        /*
+         * Optimize the swerve module state so that
+         * it will only ever have to turn a maximum
+         * of π/2 radians.
+         */
+        state = SwerveModuleState.optimize(
+            state, 
+            Rotation2d.fromRadians(getSteerEncoderAngle()));
 
-        double speed = Math.abs(state.speedMetersPerSecond) <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND 
-            ? 0.0 
-            : state.speedMetersPerSecond;
+        /*
+         * If the swerve module state speed is less than
+         * or equal to the drive motor velocity deadband,
+         * then set the speed to zero, and if not, then
+         * keep the speed as it is.
+         */
+        double speed = Math.abs(state.speedMetersPerSecond) 
+            <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND 
+                ? 0.0 
+                : state.speedMetersPerSecond;
         
+        /*
+         * Set the drive motor voltage. If the speed is zero,
+         * then set the drive motor voltage to zero, and 
+         * if not, then set the drive motor voltage to the drive
+         * feedforward calculation plus the drive PID controller
+         * calculation. 
+         */
         driveMotor.setVoltage(
             state.speedMetersPerSecond == 0.0 
                 ? 0.0
                 : driveFeedforward.calculate(speed) 
-                  + drivePIDController.calculate(driveEncoder.getVelocity(), speed)
-            
-        );
+                  + drivePIDController.calculate(driveEncoder.getVelocity(), speed));
 
-        double angle = state.angle.getRadians() < 0.0 ? state.angle.getRadians() + (2.0 * Math.PI) : state.angle.getRadians();
+        /*
+         * If the swerve module state angle is less
+         * than zero, then add 2π to the angle, and
+         * if not, then keep the angle as it is.
+         */
+        double angle = state.angle.getRadians() < 0.0 
+            ? state.angle.getRadians() + (2.0 * Math.PI) 
+            : state.angle.getRadians();
 
+        /*
+         * Set the steer motor voltage to the steer PID
+         * controller calculation.
+         */
         steerMotor.setVoltage(
-            steerPIDController.calculate(getSteerEncoderAngle(), angle)
-        );
+            steerPIDController.calculate(getSteerEncoderAngle(), angle));
+    }
+
+    /**
+     * Sets the swerve module to the given angle.
+     * This method is used when the angle of the
+     * swerve module needs to be set to a specific
+     * angle without optimizing a swerve module state.
+     * 
+     * @param angle The angle to set the swerve module
+     * to, in radians.
+     */
+    public void setAngle(double angle) {
+        /*
+         * Set the steer motor voltage to the steer PID
+         * controller calculation.
+         */
+        steerMotor.setVoltage(
+            steerPIDController.calculate(getSteerEncoderAngle(), angle));
     }
 
     /**

@@ -20,8 +20,11 @@ public final class Constants {
 
         public static final double DRIVE_GEAR_RATIO = 6.75 / 1.0;
 
-        public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO; // m / rot
-        public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0); // m/s / rpm
+        public static final double DRIVE_MOTOR_REVOLUTIONS_TO_METERS = 
+            WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO; // m / rot
+
+        public static final double DRIVE_MOTOR_RPM_TO_METERS_PER_SECOND = 
+            WHEEL_CIRCUMFERENCE / (DRIVE_GEAR_RATIO * 60.0); // m/s / rpm
 
         public static final double DRIVE_MOTOR_VELOCITY_DEADBAND = 0.2; // m/s
 
@@ -34,14 +37,13 @@ public final class Constants {
 
         public static final double WHEEL_BASE = Units.inchesToMeters(20.5); // m
 
-        public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
-            new Translation2d[]{
-                new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), 
-                new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), 
-                new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
-                new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)
-            }
-        );
+        public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = 
+            new SwerveDriveKinematics(
+                new Translation2d[]{
+                    new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), 
+                    new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), 
+                    new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
+                    new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)});
         
         public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 1;
         public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 3;
@@ -138,7 +140,7 @@ public final class Constants {
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
         public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI; // rad/s^2
 
-        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.05;
+        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.08;
         public static final double TRACK_NOTE_ROTATIONAL_VELOCITY = Math.PI / 4.0; // rad/s
         public static final double TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY = Math.PI / 6.0; // rad/s
         
@@ -161,7 +163,7 @@ public final class Constants {
 
         public static final int SHOOTER_LIMIT_SWITCH_ID = 0;
 
-        public static final double LIFT_MOTOR_VOLTAGE = 8.0; // V
+        public static final double LIFT_MOTOR_VOLTAGE = 9.0; // V
         public static final double SHOOTER_MOTOR_VOLTAGE = 12.0; // V
     }
 
@@ -198,12 +200,15 @@ public final class Constants {
     }
 
     public static final class ApriltagConstants {
-        public static final class  ApriltagCameraConfig {
+        public static final class ApriltagCameraConfig {
             private String name;
             private Transform3d transform;
             private PoseStrategy strategy;
 
-            public ApriltagCameraConfig(String name, Transform3d transform, PoseStrategy strategy) {
+            public ApriltagCameraConfig(
+                    String name, 
+                    Transform3d transform, 
+                    PoseStrategy strategy) {
                 this.name = name;
                 this.transform = transform;
                 this.strategy = strategy;
@@ -223,11 +228,34 @@ public final class Constants {
         }
 
         public static final ApriltagCameraConfig[] PHOTON_CAMERAS = {
-            new ApriltagCameraConfig("Front_Camera", new Transform3d(new Translation3d(0.0381, 0.29845, 0.4953), new Rotation3d(0, 0, 0)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
-            new ApriltagCameraConfig("Back_Camera", new Transform3d(new Translation3d(-0.3175, 0.0, 0.60325), new Rotation3d(0.0, -Math.PI / 6.0, Math.PI)), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
+            new ApriltagCameraConfig(
+                "Front_Camera", 
+                new Transform3d(
+                    new Translation3d(
+                        0.03, 
+                        0.57785, 
+                        0.5), 
+                    new Rotation3d(
+                        0, 
+                        0, 
+                        0)), 
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR),
+            new ApriltagCameraConfig(
+                "Back_Camera", 
+                new Transform3d(
+                    new Translation3d(
+                        -0.3175, 
+                        0.0, 
+                        0.60325), 
+                    new Rotation3d(
+                        0.0, 
+                        -Math.PI / 6.0, 
+                        Math.PI)), 
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR)
         };
 
-        public static final AprilTagFieldLayout FIELD_LAYOUT = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+        public static final AprilTagFieldLayout FIELD_LAYOUT = 
+            AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     }
 
     public static final class NoteDetectorConstants {
@@ -242,9 +270,15 @@ public final class Constants {
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
         public static final double MAX_ROTATIONAL_ACCELERATION = 2.0 * Math.PI; // rad/s^2
 
+        // Do nothing autonomous constants.
+        public static final String DO_NOTHING_AUTO_KEY = "Do Nothing Auto";
+
         // Source exit autonomous constants.
         public static final String SOURCE_EXIT_AUTO_KEY = "Source Exit Auto";
         public static final String SOURCE_EXIT_AUTO_PATH_FILE_NAME = "Source Exit Auto";
+
+        // Only shoot autonomous constants.
+        public static final String ONLY_SHOOT_AUTO_KEY = "Only Shoot Auto";
 
         // Amp exit autonomous constants.
         public static final String AMP_SCORE_AUTO_KEY = "Amp Score Auto";
@@ -254,23 +288,48 @@ public final class Constants {
         public static final String SPEAKER_SCORE_AUTO_KEY = "Speaker Score Auto";
         public static final String SPEAKER_SCORE_AUTO_PATH_FILE_NAME = "Speaker Score Auto";
 
+        // Speaker score to center autonomous constants.
+        public static final String SPEAKER_SCORE_TO_CENTER_AUTO_KEY = 
+            "Speaker Score To Center Auto";
+        
+        public static final String SPEAKER_SCORE_TO_CENTER_AUTO_PATH_FILE_NAME =
+            "Speaker Score To Center Auto";
+
+        // Double speaker score autonomous constants.
+        public static final String DOUBLE_SPEAKER_SCORE_AUTO_KEY = "Double Speaker Score Auto";
+
+        // Triple speaker score autonomous constants.
+        public static final String TRIPLE_SPEAKER_SCORE_AUTO_KEY = "Triple Speaker Score Auto";
+        public static final String TOP_NOTE_PATH = "Top Note Path";
+
         // Pathplanner commands.
         public static final String INTAKE_NOTE_COMMAND = "Intake Note Command";
-
-        /**
-         * Points of interest on the field. These points
-         * are in front of amp, in front of source, 
-         * in front of subwoofer center, in front of 
-         * subwoofer left, and in front of subwoofer 
-         * right, in that order.
-         */
-        public static final Pose2d[] POINTS_OF_INTEREST = new Pose2d[]{
-            new Pose2d(1.83, 7.68, new Rotation2d((3.0 * Math.PI) / 2.0)), // In front of amp.
-            new Pose2d(14.85, 0.60, new Rotation2d((2.0 * Math.PI) / 3.0)), // In front of source.
-            new Pose2d(1.32, 5.52, new Rotation2d()), // In front of subwoofer center.
-            new Pose2d(0.81, 4.47, new Rotation2d((5.0 * Math.PI) / 3.0)), // In front of subwoofer left.
-            new Pose2d(0.81, 6.62, new Rotation2d(Math.PI / 3.0)) // In front of subwoofer right.
-        };
+        
+        public static final Pose2d SUBWOOFER_CENTER_POSE =
+            new Pose2d(1.32, 5.52, new Rotation2d());
+        
+        public static final Pose2d SUBWOOFER_SOURCE_SIDE_POSE =
+            new Pose2d(0.81, 4.47, new Rotation2d((5.0 * Math.PI) / 3.0));
+        
+        public static final Pose2d SUBWOOFER_AMP_SIDE_POSE =
+            new Pose2d(0.81, 6.62, new Rotation2d(Math.PI / 3.0));
+        
+        public static final Pose2d SOURCE_POSE =
+            new Pose2d(14.85, 0.60, new Rotation2d((2.0 * Math.PI) / 3.0));
+        
+        public static final Pose2d AMP_POSE =
+            new Pose2d(1.83, 7.68, new Rotation2d((3.0 * Math.PI) / 2.0));
+        
+        public static final Pose2d[] SHOOTER_POINTS_OF_INTEREST =
+            new Pose2d[]{
+                SUBWOOFER_CENTER_POSE,
+                SUBWOOFER_SOURCE_SIDE_POSE,
+                SUBWOOFER_AMP_SIDE_POSE};
+        
+        public static final Pose2d[] DEFAULT_POINTS_OF_INTEREST =
+            new Pose2d[]{
+                SOURCE_POSE,
+                AMP_POSE};
 
         public static final double POINT_OF_INTEREST_DISTANCE_DEADBAND = 4.0; // m
     }

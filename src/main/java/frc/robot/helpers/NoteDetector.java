@@ -3,6 +3,9 @@ package frc.robot.helpers;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+/**
+ * The class for the note detector.
+ */
 public class NoteDetector {
     /**
      * The instance of the {@link NetworkTableInstance} class.
@@ -85,5 +88,16 @@ public class NoteDetector {
      */
     public double[] getNoteDimensions() {
         return new double[] { getNoteWidth(), getNoteHeight() };
+    }
+
+    /**
+     * Gets the timestamp of when the last camera
+     * frame was processed.
+     * 
+     * @return The timestamp of when the last
+     * camera frame was processed.
+     */
+    public double getTimestamp() {
+        return networkTable.getEntry("timestamp").getDouble(0.0);
     }
 }

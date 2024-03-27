@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 import frc.robot.subsystems.Intake;
 
@@ -10,38 +10,38 @@ import frc.robot.subsystems.Intake;
  */
 public final class IntakeCommands {
     /**
-     * Gets the command that runs the intake subsystem forwards.
+     * Gets the run intake forwards command, which runs
+     * the intake forwards.
      * 
-     * @return The command that runs the intake subsystem forwards.
+     * @return The run intake forwards command.
      */
-    public static RunCommand getRunIntakeForwardsCommand() {
-        return new RunCommand(
+    public static Command getRunIntakeForwardsCommand() {
+        return new InstantCommand(
             () -> Intake.getInstance().runIntakeForwards(), 
-            Intake.getInstance()
-        );
+            Intake.getInstance());
     }
 
     /**
-     * Gets the command that runs the intake subsystem backwards.
+     * Gets the run intake backwards command, which runs
+     * the intake backwards.
      * 
-     * @return The command that runs the intake subsystem backwards.
+     * @return The run intake backwards command.
      */
-    public static RunCommand getRunIntakeBackwardsCommand() {
-        return new RunCommand(
+    public static Command getRunIntakeBackwardsCommand() {
+        return new InstantCommand(
             () -> Intake.getInstance().runIntakeBackwards(),
-            Intake.getInstance()
-        );
+            Intake.getInstance());
     }
 
     /**
-     * Gets the command that stops the intake subsystem.
+     * Gets the stop intake command, which stops
+     * the intake.
      * 
-     * @return The commands that stops the intake subsystem.
+     * @return The stop intake command.
      */
-    public static InstantCommand getStopIntakeCommand() {
+    public static Command getStopIntakeCommand() {
         return new InstantCommand(
             () -> Intake.getInstance().stopIntake(),
-            Intake.getInstance()
-        );
+            Intake.getInstance());
     }
 }
