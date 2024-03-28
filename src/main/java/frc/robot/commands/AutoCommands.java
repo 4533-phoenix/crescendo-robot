@@ -256,22 +256,35 @@ public final class AutoCommands {
                  * state, while target holonomic rotation is the 
                  * desired heading.
                  */
-                Rotation2d trajectoryStateRotation = trajectoryState.heading;
-                Rotation2d trajectoryStateDesiredHeading = trajectoryState.targetHolonomicRotation;
+                Rotation2d trajectoryStateRotation = 
+                    trajectoryState.heading;
+                
+                Rotation2d trajectoryStateDesiredHeading = 
+                    trajectoryState.targetHolonomicRotation;
 
-                // Get the chassis speeds as calculated by the swerve subsystem holonomic drive controller.
-                ChassisSpeeds chassisSpeeds = Swerve.getInstance().getHolonomicDriveController().calculate(
-                    Swerve.getInstance().getRobotPose(), 
-                    new Pose2d(trajectoryStateTranslation, trajectoryStateRotation), 
-                    trajectoryStateDesiredVelocity, 
-                    trajectoryStateDesiredHeading
+                /*
+                 * Get the chassis speeds as calculated by the 
+                 * swerve subsystem holonomic drive controller.
+                 */
+                ChassisSpeeds chassisSpeeds = 
+                    Swerve.getInstance()
+                        .getHolonomicDriveController()
+                        .calculate(
+                            Swerve.getInstance().getRobotPose(), 
+                            new Pose2d(
+                                trajectoryStateTranslation, 
+                                trajectoryStateRotation), 
+                            trajectoryStateDesiredVelocity, 
+                            trajectoryStateDesiredHeading
                 );
 
                 /*
-                 * Get the swerve module states as calculated by the swerve drive kinematics 
-                 * given the chassis speeds.
+                 * Get the swerve module states as calculated by the 
+                 * swerve drive kinematics given the chassis speeds.
                  */
-                SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+                SwerveModuleState[] swerveModuleStates = 
+                    SwerveConstants.SWERVE_DRIVE_KINEMATICS
+                        .toSwerveModuleStates(chassisSpeeds);
 
                 // Set the swerve subsystem to drive at the swerve module states.
                 Swerve.getInstance().setSwerveModuleStates(swerveModuleStates);
@@ -607,20 +620,26 @@ public final class AutoCommands {
                  * state, while target holonomic rotation is the 
                  * desired heading.
                  */
-                Rotation2d trajectoryStateRotation = trajectoryState.heading;
-                Rotation2d trajectoryStateDesiredHeading = trajectoryState.targetHolonomicRotation;
+                Rotation2d trajectoryStateRotation = 
+                    trajectoryState.heading;
 
-                // Get the chassis speeds as calculated by the swerve subsystem holonomic drive controller.
+                Rotation2d trajectoryStateDesiredHeading = 
+                    trajectoryState.targetHolonomicRotation;
+
+                /*
+                 * Get the chassis speeds as calculated by the 
+                 * swerve subsystem holonomic drive controller.
+                 */
                 ChassisSpeeds chassisSpeeds = 
                     Swerve.getInstance().getHolonomicDriveController().calculate(
                         Swerve.getInstance().getRobotPose(), 
-                        new Pose2d(trajectoryStateTranslation, trajectoryStateRotation), 
+                        new Pose2d(trajectoryStateTranslation, trajectoryStateRotation),
                         trajectoryStateDesiredVelocity, 
                         trajectoryStateDesiredHeading);
 
                 /*
-                 * Get the swerve module states as calculated by the swerve drive kinematics 
-                 * given the chassis speeds.
+                 * Get the swerve module states as calculated by the 
+                 * swerve drive kinematics given the chassis speeds.
                  */
                 SwerveModuleState[] swerveModuleStates = 
                     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
@@ -637,7 +656,8 @@ public final class AutoCommands {
                 if (eventCommands.size() != 0 
                         && eventCommands.get(0).getFirst() 
                             <= trajectoryState.timeSeconds) {
-                    // CommandScheduler.getInstance().schedule(eventCommands.remove(0).getSecond());
+                    // CommandScheduler.getInstance().schedule(
+                    //     eventCommands.remove(0).getSecond());
                 }
 
                 // Update the current time.
@@ -772,10 +792,16 @@ public final class AutoCommands {
                  * state, while target holonomic rotation is the 
                  * desired heading.
                  */
-                Rotation2d trajectoryStateRotation = trajectoryState.heading;
-                Rotation2d trajectoryStateDesiredHeading = trajectoryState.targetHolonomicRotation;
+                Rotation2d trajectoryStateRotation = 
+                    trajectoryState.heading;
+                
+                Rotation2d trajectoryStateDesiredHeading = 
+                    trajectoryState.targetHolonomicRotation;
 
-                // Get the chassis speeds as calculated by the swerve subsystem holonomic drive controller.
+                /*
+                 * Get the chassis speeds as calculated by the 
+                 * swerve subsystem holonomic drive controller.
+                 */
                 ChassisSpeeds chassisSpeeds = 
                     Swerve.getInstance().getHolonomicDriveController().calculate(
                         Swerve.getInstance().getRobotPose(), 
@@ -784,8 +810,8 @@ public final class AutoCommands {
                         trajectoryStateDesiredHeading);
 
                 /*
-                 * Get the swerve module states as calculated by the swerve drive kinematics 
-                 * given the chassis speeds.
+                 * Get the swerve module states as calculated by the 
+                 * swerve drive kinematics given the chassis speeds.
                  */
                 SwerveModuleState[] swerveModuleStates = 
                     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
@@ -802,7 +828,8 @@ public final class AutoCommands {
                 if (eventCommands.size() != 0 
                         && eventCommands.get(0).getFirst() 
                             <= trajectoryState.timeSeconds) {
-                    // CommandScheduler.getInstance().schedule(eventCommands.remove(0).getSecond());
+                    // CommandScheduler.getInstance().schedule(
+                    //     eventCommands.remove(0).getSecond());
                 }
 
                 // Update the current time.

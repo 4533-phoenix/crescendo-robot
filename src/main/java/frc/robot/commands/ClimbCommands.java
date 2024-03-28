@@ -47,7 +47,7 @@ public class ClimbCommands {
             () -> {}, 
             () -> RightClimb.getInstance().runRightClimbUp(), 
             (isFinished) -> RightClimb.getInstance().stopRightClimb(), 
-            () -> RightClimb.getInstance().isRightClimbLimitSwitchAtMagnet(), 
+            () -> RightClimb.getInstance().isRightClimbLimitSwitchAtMagnet(),
             RightClimb.getInstance());
     }
 

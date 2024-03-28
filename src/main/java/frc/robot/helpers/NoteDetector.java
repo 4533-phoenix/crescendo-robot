@@ -10,7 +10,8 @@ public class NoteDetector {
     /**
      * The instance of the {@link NetworkTableInstance} class.
      */
-    private static final NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
+    private static final NetworkTableInstance networkTableInstance = 
+        NetworkTableInstance.getDefault();
 
     /**
      * The instance of the {@link NetworkTable} class.

@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
@@ -98,37 +101,44 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Field", field);
 
+    // Auto PID test code.
+
     // SmartDashboard.putBoolean("Auto PID Test", false);
+
+    // HolonomicDriveController holonomicDriveController =
+    //   Swerve.getInstance().getHolonomicDriveController();
 
     // SmartDashboard.putNumber(
     //   "X Kp", 
-    //   Swerve.getInstance().getHolonomicDriveController().getXController().getP());
+    //   holonomicDriveController.getXController().getP());
     // SmartDashboard.putNumber(
     //   "X Ki", 
-    //   Swerve.getInstance().getHolonomicDriveController().getXController().getI());
+    //   holonomicDriveController.getXController().getI());
     // SmartDashboard.putNumber(
     //   "X Kd", 
-    //   Swerve.getInstance().getHolonomicDriveController().getXController().getD());
+    //   holonomicDriveController.getXController().getD());
 
     // SmartDashboard.putNumber(
     //   "Y Kp", 
-    //   Swerve.getInstance().getHolonomicDriveController().getYController().getP());
+    //   holonomicDriveController.getYController().getP());
     // SmartDashboard.putNumber(
     //   "Y Ki",
-    //   Swerve.getInstance().getHolonomicDriveController().getYController().getI());
+    //   holonomicDriveController.getYController().getI());
     // SmartDashboard.putNumber(
     //   "Y Kd", 
-    //   Swerve.getInstance().getHolonomicDriveController().getYController().getD());
+    //   holonomicDriveController.getYController().getD());
     
     // SmartDashboard.putNumber(
     //   "Theta Kp", 
-    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
+    //   holonomicDriveController.getThetaController().getP());
     // SmartDashboard.putNumber(
     //   "Theta Ki", 
-    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
+    //   holonomicDriveController.getThetaController().getI());
     // SmartDashboard.putNumber(
     //   "Theta Kd", 
-    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
+    //   holonomicDriveController.getThetaController().getD());
+
+    // Drive PID test code.
 
     // SmartDashboard.putBoolean("Drive PID Test", false);
 
@@ -136,13 +146,20 @@ public class Robot extends TimedRobot {
 
     // SwerveModule swerveModule = Swerve.getInstance().getSwerveModule(0);
 
-    // SmartDashboard.putNumber("Current Velocity", swerveModule.getDriveMotorLinearVelocity());
+    // SmartDashboard.putNumber(
+    //   "Current Velocity", 
+    //   swerveModule.getDriveMotorLinearVelocity());
     
     // SmartDashboard.putNumber("Velocity Setpoint", 0.0);
 
-    // SmartDashboard.putNumber("kP", swerveModule.getDrivePIDController().getP());
-    // SmartDashboard.putNumber("kI", swerveModule.getDrivePIDController().getI());
-    // SmartDashboard.putNumber("kD", swerveModule.getDrivePIDController().getD());
+    // PIDController drivePIDController =
+    //   swerveModule.getDrivePIDController();
+
+    // SmartDashboard.putNumber("kP", drivePIDController.getP());
+    // SmartDashboard.putNumber("kI", drivePIDController.getI());
+    // SmartDashboard.putNumber("kD", drivePIDController.getD());
+
+    // Steer PID test code.
 
     // SmartDashboard.putBoolean("Steer PID Test", false);
 
@@ -156,9 +173,12 @@ public class Robot extends TimedRobot {
     
     // SmartDashboard.putNumber("Angle Setpoint", 0.0);
 
-    // SmartDashboard.putNumber("kP", swerveModule.getSteerPIDController().getP());
-    // SmartDashboard.putNumber("kI", swerveModule.getSteerPIDController().getI());
-    // SmartDashboard.putNumber("kD", swerveModule.getSteerPIDController().getD());
+    // ProfiledPIDController steerPIDController =
+    //   swerveModule.getSteerPIDController();
+
+    // SmartDashboard.putNumber("kP", steerPIDController.getP());
+    // SmartDashboard.putNumber("kI", steerPIDController.getI());
+    // SmartDashboard.putNumber("kD", steerPIDController.getD());
   }
 
   /**
@@ -179,48 +199,53 @@ public class Robot extends TimedRobot {
       NetworkTableValue.makeDouble(
         Timer.getFPGATimestamp()));
 
+    // Auto PID test code.
+
+    // HolonomicDriveController holonomicDriveController =
+    //   Swerve.getInstance().getHolonomicDriveController();
+
     // if (SmartDashboard.getBoolean("Auto PID Test", false)) {
     //   double xKp = SmartDashboard.getNumber(
     //     "X Kp", 
-    //     Swerve.getInstance().getHolonomicDriveController().getXController().getP());
+    //     holonomicDriveController.getXController().getP());
     //   double xKi = SmartDashboard.getNumber(
     //     "X Ki", 
-    //     Swerve.getInstance().getHolonomicDriveController().getXController().getI());
+    //     holonomicDriveController.getXController().getI());
     //   double xKd = SmartDashboard.getNumber(
     //     "X Kd", 
-    //     Swerve.getInstance().getHolonomicDriveController().getXController().getD());
+    //     holonomicDriveController.getXController().getD());
 
     //   double yKp = SmartDashboard.getNumber(
     //     "Y Kp", 
-    //     Swerve.getInstance().getHolonomicDriveController().getYController().getP());
+    //     holonomicDriveController.getYController().getP());
     //   double yKi = SmartDashboard.getNumber(
     //     "Y Ki", 
-    //     Swerve.getInstance().getHolonomicDriveController().getYController().getI());
+    //     holonomicDriveController.getYController().getI());
     //   double yKd = SmartDashboard.getNumber(
     //     "Y Kd", 
-    //     Swerve.getInstance().getHolonomicDriveController().getYController().getD());
+    //     holonomicDriveController.getYController().getD());
       
     //   double thetaKp = SmartDashboard.getNumber(
     //     "Theta Kp", 
-    //     Swerve.getInstance().getHolonomicDriveController().getThetaController().getP());
+    //     holonomicDriveController.getThetaController().getP());
     //   double thetaKi = SmartDashboard.getNumber(
     //     "Theta Ki", 
-    //     Swerve.getInstance().getHolonomicDriveController().getThetaController().getI());
+    //     holonomicDriveController.getThetaController().getI());
     //   double thetaKd = SmartDashboard.getNumber(
     //     "Theta Kd", 
-    //     Swerve.getInstance().getHolonomicDriveController().getThetaController().getD());
+    //     holonomicDriveController.getThetaController().getD());
 
-    //   Swerve.getInstance().getHolonomicDriveController().getXController().setP(xKp);
-    //   Swerve.getInstance().getHolonomicDriveController().getXController().setI(xKi);
-    //   Swerve.getInstance().getHolonomicDriveController().getXController().setD(xKd);
+    //   holonomicDriveController.getXController().setP(xKp);
+    //   holonomicDriveController.getXController().setI(xKi);
+    //   holonomicDriveController.getXController().setD(xKd);
 
-    //   Swerve.getInstance().getHolonomicDriveController().getYController().setP(yKp);
-    //   Swerve.getInstance().getHolonomicDriveController().getYController().setI(yKi);
-    //   Swerve.getInstance().getHolonomicDriveController().getYController().setD(yKd);
+    //   holonomicDriveController.getYController().setP(yKp);
+    //   holonomicDriveController.getYController().setI(yKi);
+    //   holonomicDriveController.getYController().setD(yKd);
 
-    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().setP(thetaKp);
-    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().setI(thetaKi);
-    //   Swerve.getInstance().getHolonomicDriveController().getThetaController().setD(thetaKd);
+    //   holonomicDriveController.getThetaController().setP(thetaKp);
+    //   holonomicDriveController.getThetaController().setI(thetaKi);
+    //   holonomicDriveController.getThetaController().setD(thetaKd);
     // }
   }
 
@@ -256,45 +281,68 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    // Drive PID test code.
+
     // if (SmartDashboard.getBoolean("Drive PID Test", false)) {
     //   SwerveModule swerveModule = Swerve.getInstance().getSwerveModule(
     //     (int) SmartDashboard.getNumber("Swerve Module ID", 0.0));
 
-    //   swerveModule.getDrivePIDController().setP(
-    //     SmartDashboard.getNumber(
-    //       "kP", swerveModule.getDrivePIDController().getP()));
-      
-    //   swerveModule.getDrivePIDController().setI(
-    //     SmartDashboard.getNumber(
-    //       "kI", swerveModule.getDrivePIDController().getI()));
+    //   PIDController drivePIDController =
+    //     swerveModule.getDrivePIDController();
 
-    //   swerveModule.getDrivePIDController().setD(
+    //   drivePIDController.setP(
     //     SmartDashboard.getNumber(
-    //       "kD", swerveModule.getDrivePIDController().getD()));
+    //       "kP", drivePIDController.getP()));
+      
+    //   drivePIDController.setI(
+    //     SmartDashboard.getNumber(
+    //       "kI", drivePIDController.getI()));
+
+    //   drivePIDController.setD(
+    //     SmartDashboard.getNumber(
+    //       "kD", drivePIDController.getD()));
 
     //   swerveModule.setState(
     //     new SwerveModuleState(
-    //       SmartDashboard.getNumber("Velocity Setpoint", 0.0), new Rotation2d()));
+    //       SmartDashboard.getNumber("Velocity Setpoint", 0.0), 
+    //       new Rotation2d()));
       
-    //   SmartDashboard.putNumber("Current Velocity", swerveModule.getDriveMotorLinearVelocity());
+    //   SmartDashboard.putNumber(
+    //     "Current Velocity", 
+    //     swerveModule.getDriveMotorLinearVelocity());
     // }
+    
+    // Steer PID test code.
 
     // if (SmartDashboard.getBoolean("Steer PID Test", false)) {
-    //   int swerveModuleID = (int) SmartDashboard.getNumber("Swerve Module ID", 0.0);
+    //   SwerveModule swerveModule = Swerve.getInstance().getSwerveModule(
+    //     (int) SmartDashboard.getNumber("Swerve Module ID", 0.0));
 
-    //   double Kp = SmartDashboard.getNumber("Kp", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getP());
-    //   double Ki = SmartDashboard.getNumber("Ki", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getI());
-    //   double Kd = SmartDashboard.getNumber("Kd", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().getD());
+    //   ProfiledPIDController steerPIDController =
+    //     swerveModule.getSteerPIDController();
 
-    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setP(Kp);
-    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setI(Ki);
-    //   Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerPIDController().setD(Kd);
+    //   steerPIDController.setP(
+    //     SmartDashboard.getNumber(
+    //       "Kp", steerPIDController.getP()));
+      
+    //   steerPIDController.setI(
+    //     SmartDashboard.getNumber(
+    //       "Ki", steerPIDController.getI()));
+      
+    //   steerPIDController.setD(
+    //     SmartDashboard.getNumber(
+    //       "Kd", steerPIDController.getD()));
 
-    //   SwerveModuleState swerveModuleState = new SwerveModuleState(0.0, Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle Setpoint", 0.0)));
+    //   swerveModule.setState(
+    //     new SwerveModuleState(
+    //       0.0, 
+    //       Rotation2d.fromDegrees(
+    //         SmartDashboard.getNumber("Angle Setpoint", 0.0))));
 
-    //   Swerve.getInstance().getSwerveModule(swerveModuleID).setState(swerveModuleState);
-
-    //   SmartDashboard.putNumber("Current Angle", Swerve.getInstance().getSwerveModule(swerveModuleID).getSteerEncoderAngle() * (180.0 / Math.PI));
+    //   SmartDashboard.putNumber(
+    //     "Current Angle", 
+    //     swerveModule.getSteerEncoderAngle() 
+    //       * (180.0 / Math.PI));
     // }
   }
 
