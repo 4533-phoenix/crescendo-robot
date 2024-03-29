@@ -9,19 +9,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.AmpCommands;
-import frc.robot.commands.AutoCommands;
-import frc.robot.commands.ClimbCommands;
-import frc.robot.commands.IntakeCommands;
-import frc.robot.commands.ShooterCommands;
-import frc.robot.commands.SwerveCommands;
-import frc.robot.subsystems.Amp;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.LeftClimb;
-import frc.robot.subsystems.RightClimb;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Apriltag;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * The class for setting up the subsystems, 
@@ -345,6 +334,43 @@ public final class RobotContainer {
          */
         runLockWheelsButton.whileTrue(
             SwerveCommands.getLockWheelsCommand());
+
+                /*
+         * While the run climb up button is pressed,
+         * run the run climb up command.
+         */
+        runClimbUpButton.whileTrue(
+            ClimbCommands.getRunClimbUpCommand());
+        
+        /*
+         * When the run climb up button is released,
+         * run the stop climb command.
+         */
+        runClimbUpButton.onFalse(
+            ClimbCommands.getStopClimbCommand());
+        
+        /*
+         * Create the run climb down button on the LB button
+         * of the manipulator controller.
+         */
+        JoystickButton runLimelightFlashButton = 
+            new JoystickButton(
+                manipulatorController, 
+                ControllerConstants.BUTTON_B);
+        
+        /*
+         * While the run climb down button is pressed,
+         * run the run climb down command.
+         */
+        runLimelightFlashButton.whileTrue(
+            LimelightCommands.getStartFlashLimelightCommand());
+
+        /*
+         * When the run climb down button is released,
+         * run the stop climb command.
+         */
+        runLimelightFlashButton.onFalse(
+            LimelightCommands.getStopFlashLimelightCommand());
     }
 
     /**
