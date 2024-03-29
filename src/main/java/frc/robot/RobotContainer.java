@@ -334,6 +334,20 @@ public final class RobotContainer {
          */
         runLockWheelsButton.whileTrue(
             SwerveCommands.getLockWheelsCommand());
+
+                /*
+         * While the run climb up button is pressed,
+         * run the run climb up command.
+         */
+        runClimbUpButton.whileTrue(
+            ClimbCommands.getRunClimbUpCommand());
+        
+        /*
+         * When the run climb up button is released,
+         * run the stop climb command.
+         */
+        runClimbUpButton.onFalse(
+            ClimbCommands.getStopClimbCommand());
         
         /*
          * Create the run climb down button on the LB button

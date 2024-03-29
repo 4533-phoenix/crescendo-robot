@@ -42,6 +42,9 @@ public class Robot extends TimedRobot {
 
   private final Field2d field = new Field2d();
 
+  private final NetworkTable robotTable 
+    = NetworkTableInstance.getDefault().getTable("Robot");
+
   public static final SysIdRoutine sysIDDriveRoutine = new SysIdRoutine(
     new Config(), 
     new Mechanism(
@@ -188,7 +191,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
     field.setRobotPose(Swerve.getInstance().getRobotPose());
+
+    robotTable.putValue(
+      "time", 
+      NetworkTableValue.makeDouble(
+        Timer.getFPGATimestamp()));
 
     // Auto PID test code.
 
