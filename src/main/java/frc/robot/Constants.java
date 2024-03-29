@@ -140,7 +140,7 @@ public final class Constants {
         public static final double MAX_ROTATIONAL_VELOCITY = Math.PI; // rad/s
         public static final double MAX_ROTATIONAL_ACCELERATION = Math.PI; // rad/s^2
 
-        public static final double TRACK_NOTE_OFFSET_DEADBAND = 0.08;
+        public static final double TRACK_NOTE_OFFSET_DEADBAND = 3.0; // deg
         public static final double TRACK_NOTE_ROTATIONAL_VELOCITY = Math.PI / 4.0; // rad/s
         public static final double TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY = Math.PI / 6.0; // rad/s
         
@@ -175,8 +175,6 @@ public final class Constants {
         public static final int RIGHT_CLIMB_LIMIT_SWITCH_ID = 1;
 
         public static final double CLIMB_MOTOR_VOLTAGE = 11.0; // V
-
-        public static final double CLIMB_CURRENT_DEADBAND = 0.0; // amps
     }
 
     public static final class AmpConstants {
