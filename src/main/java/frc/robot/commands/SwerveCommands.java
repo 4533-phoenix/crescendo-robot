@@ -3,14 +3,15 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.math.MathUtil;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.helpers.LimelightHelper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
@@ -25,9 +26,9 @@ public final class SwerveCommands {
     private static double prevNoteDetectorDeltaX = 0.0;
 
     /**
-     * The current previous note detector timestamp.
+     * The current previous note detector latency.
      */
-    private static double prevNoteDetectorTimestamp = 0.0;
+    private static double prevNoteDetectorLatency = 0.0;
 
     /**
      * The current expected note detector delta x.
@@ -48,13 +49,13 @@ public final class SwerveCommands {
     }
 
     /**
-     * Sets the current previous note detector timestamp.
+     * Sets the current previous note detector latency.
      * 
-     * @param prevNoteDetectorTimestamp The current previous
-     * note detector timestamp.
+     * @param prevNoteDetectorLatency The current previous
+     * note detector latency.
      */
-    public static void setPrevNoteDetectorTimestamp(double prevNoteDetectorTimestamp) {
-        SwerveCommands.prevNoteDetectorTimestamp = prevNoteDetectorTimestamp;
+    public static void setPrevNoteDetectorLatency(double prevNoteDetectorLatency) {
+        SwerveCommands.prevNoteDetectorLatency = prevNoteDetectorLatency;
     }
 
     /**
@@ -77,12 +78,12 @@ public final class SwerveCommands {
     }
 
     /**
-     * Gets the current previous note detector timestamp.
+     * Gets the current previous note detector latency.
      * 
-     * @return The current previous note detector timestamp.
+     * @return The current previous note detector latency.
      */
-    public static double getPrevNoteDetectorTimestamp() {
-        return SwerveCommands.prevNoteDetectorTimestamp;
+    public static double getPrevNoteDetectorLatency() {
+        return SwerveCommands.prevNoteDetectorLatency;
     }
 
     /**
@@ -149,10 +150,15 @@ public final class SwerveCommands {
         return new FunctionalCommand(
             () -> {
                 // Get the note detector delta x.
-                double deltaX = Swerve.getInstance().getNoteDetector().getNoteX();
+                double deltaX = 
+                    LimelightHelper.getTX(LimelightConstants.LIMELIGHT_NAME);
 
-                // Get the note detector timestamp.
-                double timestamp = Swerve.getInstance().getNoteDetector().getTimestamp();
+                // Get the note detector latency.
+                double latency =
+                    LimelightHelper.getLatency_Capture(
+                        LimelightConstants.LIMELIGHT_NAME)
+                    + LimelightHelper.getLatency_Pipeline(
+                        LimelightConstants.LIMELIGHT_NAME);
 
                 /*
                  * Set the current previous note detector delta x
@@ -161,10 +167,10 @@ public final class SwerveCommands {
                 setPrevNoteDetectorDeltaX(deltaX);
 
                 /*
-                 * Set the current previous note detector timestamp
-                 * to the current note detector timestamp.
+                 * Set the current previous note detector latency
+                 * to the current note detector latency.
                  */
-                setPrevNoteDetectorTimestamp(timestamp);
+                setPrevNoteDetectorLatency(latency);
 
                 /*
                  * Set the current expected note detector delta x
@@ -174,60 +180,59 @@ public final class SwerveCommands {
             },
             () -> {
                 // Get the note detector delta x.
-                double deltaX = Swerve.getInstance().getNoteDetector().getNoteX();
+                double deltaX = 
+                    LimelightHelper.getTX(LimelightConstants.LIMELIGHT_NAME);
 
-                // Get the note detector timestamp.
-                double timestamp = Swerve.getInstance().getNoteDetector().getTimestamp();
+                // Get the note detector latency.
+                double latency =
+                    LimelightHelper.getLatency_Capture(
+                        LimelightConstants.LIMELIGHT_NAME)
+                    + LimelightHelper.getLatency_Pipeline(
+                        LimelightConstants.LIMELIGHT_NAME);
 
                 // Create the expected delta x.
                 double expectedDeltaX = 0.0;
                 
                 /*
-                 * If the current note detector timestamp equals
-                 * the current previous note detector timestamp,
-                 * then set the expected delta x to the current
-                 * note detector delta x, and if not, then
-                 * calculate the expected delta x normally.
+                 * If the current previous note detector latency
+                 * equals zero, then set the expected delta x 
+                 * to the current note detector delta x, and if not, 
+                 * then calculate the expected delta x normally.
                  * This check is done in order to prevent a
                  * scenario wherein calculating the expected
-                 * delta x the current note detector timestamp
-                 * equals the current previous note detector
-                 * timestamp and the difference between them,
-                 * which would be zero, is divided by in
+                 * delta x the current previous note detector
+                 * latency equals zero and is divided by in
                  * calculating the delta x rate of change.
                  */
-                if (timestamp == getPrevNoteDetectorTimestamp()) {
+                if (getPrevNoteDetectorLatency() == 0) {
                     expectedDeltaX = deltaX;
                 } else {
                     /*
                      * Get the delta x rate of change, which
                      * is approximately how fast the note
                      * detector delta x is changing at
-                     * the current moment of time.
+                     * the current moment of time. Uses
+                     * the current previous note detector
+                     * latency due to that being the
+                     * difference in time between
+                     * the current note detector delta x
+                     * and the current previous note detector
+                     * delta x.
                      */
                     double deltaXRateOfChange = 
                         (deltaX - getPrevNoteDetectorDeltaX())
-                            / (timestamp - getPrevNoteDetectorTimestamp());
-
-                    /*
-                     * Get the time offset, which is the difference
-                     * in time between the current moment in time
-                     * and when the last note detector frame was
-                     * processed.
-                     */
-                    double timeOffset =
-                        Timer.getFPGATimestamp() - timestamp;
+                            / getPrevNoteDetectorLatency();
                     
                     /*
                      * Get the expected delta x, which multiplies
-                     * the delta x rate of change by the time offset
-                     * in order to get the approximate change in
-                     * delta x from the current note detector
+                     * the delta x rate of change by the current
+                     * latency in order to get the approximate 
+                     * change in delta x from the current note detector
                      * delta x to the actual delta x, which is
                      * then added to the current note detector
                      * delta x to get the expected delta x.
                      */
-                    expectedDeltaX = deltaX + (deltaXRateOfChange * timeOffset);
+                    expectedDeltaX = deltaX + (deltaXRateOfChange * latency);
                 }
 
                 /*
@@ -237,10 +242,10 @@ public final class SwerveCommands {
                 setPrevNoteDetectorDeltaX(deltaX);
 
                 /*
-                 * Set the current previous note detector timestamp
-                 * to the current note detector timestamp.
+                 * Set the current previous note detector latency
+                 * to the current note detector latency.
                  */
-                setPrevNoteDetectorTimestamp(timestamp);
+                setPrevNoteDetectorLatency(latency);
 
                 /*
                  * Set the current expected note detector delta x
@@ -283,7 +288,7 @@ public final class SwerveCommands {
             },
             () -> Math.abs(getExpectedNoteDetectorDeltaX()) 
                     <= SwerveConstants.TRACK_NOTE_OFFSET_DEADBAND
-                || !Swerve.getInstance().getNoteDetector().canSeeNote(),
+                || !LimelightHelper.getTV(LimelightConstants.LIMELIGHT_NAME),
             Swerve.getInstance());
     }
 
@@ -346,27 +351,20 @@ public final class SwerveCommands {
      * of the robot and if the note is within a
      * certain distance of the robot, which is done
      * by checking the area that the note takes up
-     * in the camera frame.
+     * in the camera frame and comparing it to
+     * the note dimensions deadband.
      * 
      * @return The track and acquire note command.
      */
     public static Command getTrackAndAcquireNoteCommand() {
-        /*
-         * Return the sequential command group. Note height is
-         * divided by 3.0 because if notes are vertical then
-         * they make the note seem closer than they are by
-         * increasing their dimensions, as notes' dimensions
-         * should correlate to how they look on the ground.
-         */
         return new SequentialCommandGroup(
             getTrackNoteCommand(),
             getAcquireNoteCommand())
                 .onlyIf(
                     () -> 
-                        Swerve.getInstance().getNoteDetector().canSeeNote()
-                        && (Swerve.getInstance().getNoteDetector().getNoteHeight() / 3.0)
-                            * Swerve.getInstance().getNoteDetector().getNoteWidth()
-                        >= SwerveConstants.NOTE_DIMENSIONS_DEADBAND);
+                        LimelightHelper.getTV(LimelightConstants.LIMELIGHT_NAME)
+                            && LimelightHelper.getTA(LimelightConstants.LIMELIGHT_NAME)
+                                >= SwerveConstants.NOTE_DIMENSIONS_DEADBAND);
     }
 
     /**

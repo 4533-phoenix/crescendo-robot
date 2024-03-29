@@ -258,8 +258,8 @@ public final class Constants {
             AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     }
 
-    public static final class NoteDetectorConstants {
-        public static final String NOTE_DETECTOR_NAME = "note-detector";
+    public static final class LimelightConstants {
+        public static final String LIMELIGHT_NAME = "note-detector";
     }
 
     public static final class AutoConstants {

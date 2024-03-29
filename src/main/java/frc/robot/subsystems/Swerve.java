@@ -212,7 +212,8 @@ public final class Swerve extends SubsystemBase {
     /**
      * The note detector for the swerve drive subsystem.
      */
-    private final NoteDetector noteDetector = new NoteDetector(NoteDetectorConstants.NOTE_DETECTOR_NAME);
+    private final NoteDetector noteDetector = 
+        new NoteDetector(NoteDetectorConstants.NOTE_DETECTOR_NAME);
 
     /**
      * Gets the instance of the {@link Swerve} class.
