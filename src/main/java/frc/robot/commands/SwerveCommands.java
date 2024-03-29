@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.helpers.LimelightHelper;
@@ -37,6 +38,8 @@ public final class SwerveCommands {
      * after adjusting for latency.
      */
     private static double expectedNoteDetectorDeltaX = 0.0;
+
+    private static double robotDeltaX = 0.0;
 
     /**
      * Sets the current previous note detector delta x.
@@ -68,6 +71,10 @@ public final class SwerveCommands {
         SwerveCommands.expectedNoteDetectorDeltaX = expectedNoteDetectorDeltaX;
     }
 
+    public static void setRobotDeltaX(double robotDeltaX) {
+        SwerveCommands.robotDeltaX = robotDeltaX;
+    }
+
     /**
      * Gets the current previous note detector delta x.
      * 
@@ -93,6 +100,10 @@ public final class SwerveCommands {
      */
     public static double getExpectedNoteDetectorDeltaX() {
         return SwerveCommands.expectedNoteDetectorDeltaX;
+    }
+
+    public static double getRobotDeltaX() {
+        return SwerveCommands.robotDeltaX;
     }
 
     /**
@@ -177,8 +188,59 @@ public final class SwerveCommands {
                  * to the current note detector delta x.
                  */
                 setExpectedNoteDetectorDeltaX(deltaX);
+
+                // double distToNote =
+                //     Math.tan(LimelightConstants.LIMELIGHT_ANGLE + deltaY)
+                //         * LimelightConstants.LIMELIGHT_HEIGHT;
+                
+                // double xOffsetFromNote = 
+                //     (Math.sin(Math.abs(deltaX)) * distToNote)
+                //         / Math.sin((Math.PI / 2.0) - Math.abs(deltaX));
+                
+                // double robotDeltaX = 
+                //     Math.signum(deltaX) 
+                //         * Math.atan(
+                //             xOffsetFromNote
+                //                 / (LimelightConstants.LIMELIGHT_OFFSET_FROM_CENTER
+                //                     + distToNote));
+
+                // setRobotDeltaX(robotDeltaX);
+
+                // setExpectedNoteDetectorDeltaX(
+                //     LimelightHelper.getTX(LimelightConstants.LIMELIGHT_NAME));
             },
             () -> {
+                // // Get the note detector delta x.
+                // double deltaX = 
+                //     LimelightHelper.getTX(LimelightConstants.LIMELIGHT_NAME)
+                //         * (Math.PI / 180.0);
+
+                // // Get the note detector delta y.
+                // double deltaY =
+                //     Math.abs(
+                //         LimelightHelper.getTY(LimelightConstants.LIMELIGHT_NAME)
+                //             * (Math.PI / 180.0));
+                
+                // double distToNote =
+                //     Math.tan(LimelightConstants.LIMELIGHT_ANGLE + deltaY)
+                //         * LimelightConstants.LIMELIGHT_HEIGHT;
+                
+                // double xOffsetFromNote = 
+                //     (Math.sin(Math.abs(deltaX)) * distToNote)
+                //         / Math.sin((Math.PI / 2.0) - Math.abs(deltaX));
+                
+                // double robotDeltaX = 
+                //     Math.signum(deltaX) 
+                //         * Math.atan(
+                //             xOffsetFromNote
+                //                 / (LimelightConstants.LIMELIGHT_OFFSET_FROM_CENTER
+                //                     + distToNote));
+
+                // setRobotDeltaX(robotDeltaX);
+
+                // setExpectedNoteDetectorDeltaX(
+                //     LimelightHelper.getTX(LimelightConstants.LIMELIGHT_NAME));
+
                 // Get the note detector delta x.
                 double deltaX = 
                     LimelightHelper.getTX(LimelightConstants.LIMELIGHT_NAME);
@@ -276,6 +338,25 @@ public final class SwerveCommands {
                                         * SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY,
                                     SwerveConstants.TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY,
                                     SwerveConstants.TRACK_NOTE_ROTATIONAL_VELOCITY))));
+                
+                // double robotAngle =
+                //     Swerve.getInstance().getRobotPose()
+                //         .getRotation()
+                //         .getRadians();
+
+                // double desiredRobotAngle = 
+                //     robotAngle - getRobotDeltaX();
+                
+                // Swerve.getInstance().setSwerveModuleStates(
+                //     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                //         new ChassisSpeeds(
+                //             0.0,
+                //             0.0,
+                //             Swerve.getInstance().getHolonomicDriveController()
+                //                 .getThetaController()
+                //                 .calculate(
+                //                     robotAngle,
+                //                     desiredRobotAngle))));
             },
             (isFinished) -> {
                 /*

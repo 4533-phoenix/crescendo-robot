@@ -120,13 +120,13 @@ public final class Constants {
         public static final double BACK_LEFT_STEER_MOTOR_KD = 0.075; // V / ω(t)
         public static final double BACK_RIGHT_STEER_MOTOR_KD = 0.075; // V / ω(t)
 
-        public static final double X_CONTROLLER_KP = 0.08; // m/s / m
+        public static final double X_CONTROLLER_KP = 1.5; // m/s / m
         public static final double X_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
-        public static final double X_CONTROLLER_KD = 0.0; // m/s / v(t)
+        public static final double X_CONTROLLER_KD = 0.5; // m/s / v(t)
 
-        public static final double Y_CONTROLLER_KP = 0.08; // m/s / m
+        public static final double Y_CONTROLLER_KP = 1.5; // m/s / m
         public static final double Y_CONTROLLER_KI = 0.0; // m/s / ∫ s(t) dt
-        public static final double Y_CONTROLLER_KD = 0.0; // m/s / v(t)
+        public static final double Y_CONTROLLER_KD = 0.5; // m/s / v(t)
 
         public static final double THETA_CONTROLLER_KP = 2.2; // rad/s / rad
         public static final double THETA_CONTROLLER_KI = 0.0; // rad/s / ∫ θ(t) dt
@@ -144,7 +144,7 @@ public final class Constants {
         public static final double TRACK_NOTE_ROTATIONAL_VELOCITY = Math.PI / 4.0; // rad/s
         public static final double TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY = Math.PI / 6.0; // rad/s
         
-        public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 1.0; // m/s
+        public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 2.0; // m/s
         public static final double ACQUIRE_NOTE_TIMEOUT = 5.0; // s
 
         public static final double NOTE_DIMENSIONS_DEADBAND = 0.0; // px^2
@@ -258,6 +258,10 @@ public final class Constants {
 
     public static final class LimelightConstants {
         public static final String LIMELIGHT_NAME = "limelight-front";
+
+        public static final double LIMELIGHT_ANGLE = 15.0 * (Math.PI / 180.0); // rad
+        public static final double LIMELIGHT_HEIGHT = 0.43; // m
+        public static final double LIMELIGHT_OFFSET_FROM_CENTER = 0.23; // m
     }
 
     public static final class AutoConstants {

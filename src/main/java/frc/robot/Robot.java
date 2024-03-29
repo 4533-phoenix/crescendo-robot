@@ -26,8 +26,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.ShooterCommands;
+import frc.robot.helpers.LimelightHelper;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -41,9 +43,6 @@ public class Robot extends TimedRobot {
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   private final Field2d field = new Field2d();
-
-  private final NetworkTable robotTable 
-    = NetworkTableInstance.getDefault().getTable("Robot");
 
   public static final SysIdRoutine sysIDDriveRoutine = new SysIdRoutine(
     new Config(), 
@@ -94,6 +93,10 @@ public class Robot extends TimedRobot {
     autoChooser.addOption(
       AutoConstants.TRIPLE_SPEAKER_SCORE_AUTO_KEY, 
       AutoCommands.getTripleSpeakerScoreAuto());
+
+    autoChooser.addOption(
+      "Quadruple Speaker Score Auto",
+      AutoCommands.getQuadrupleSpeakerScoreAuto());
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -193,11 +196,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     field.setRobotPose(Swerve.getInstance().getRobotPose());
-
-    robotTable.putValue(
-      "time", 
-      NetworkTableValue.makeDouble(
-        Timer.getFPGATimestamp()));
 
     // Auto PID test code.
 

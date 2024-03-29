@@ -275,8 +275,7 @@ public final class AutoCommands {
                                 trajectoryStateTranslation, 
                                 trajectoryStateRotation), 
                             trajectoryStateDesiredVelocity, 
-                            trajectoryStateDesiredHeading
-                );
+                            trajectoryStateDesiredHeading);
 
                 /*
                  * Get the swerve module states as calculated by the 
@@ -448,11 +447,72 @@ public final class AutoCommands {
                 Swerve.getInstance()),
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPointOfInterestCommand(),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.TOP_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPointOfInterestCommand(),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            ShooterCommands.getShootNoteCommand());
+    }
+
+    /**
+     * Gets the triple speaker score auto, which scores
+     * one note at subwoofer center, then intakes the
+     * middle alliance note, drives back to subwoofer
+     * center, scores the middle alliance note, then
+     * intakes the top alliance note, drives back to
+     * subwoofer center, and scores the top alliance
+     * note.
+     * 
+     * @return The triple speaker score auto.
+     */
+    public static Command getQuadrupleSpeakerScoreAuto() {
+        return new SequentialCommandGroup(
+            new InstantCommand(
+                () -> {
+                    // Get the current alliance from driver station.
+                    Optional<Alliance> driverStationAlliance = DriverStation.getAlliance();
+
+                    // Create the alliance.
+                    Alliance alliance = null;
+                    
+                    /*
+                     * If the current alliance from driver station is present, 
+                     * then set the alliance to the current alliance from driver 
+                     * station, and if not, then set it to the blue alliance.
+                     */
+                    alliance = driverStationAlliance.isPresent() 
+                        ? driverStationAlliance.get()
+                        : Alliance.Blue;
+
+                    /*
+                     * If the alliance is the red alliance, then
+                     * flip the subwoofer center pose to the red alliance
+                     * side, and if not, then keep the subwoofer center
+                     * pose the same.
+                     */
+                    Pose2d initialPose = alliance == Alliance.Red
+                        ? flipPose(AutoConstants.SUBWOOFER_CENTER_POSE)
+                        : AutoConstants.SUBWOOFER_CENTER_POSE;
+
+                    /*
+                     * Reset the pose estimator to the initial pose,
+                     * which is the subwoofer center pose.
+                     */
+                    Swerve.getInstance().resetPoseEstimator(initialPose);
+                },
+                Swerve.getInstance()),
+            ShooterCommands.getShootNoteCommand(),
+            SwerveCommands.getTrackAndAcquireNoteCommand(),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            ShooterCommands.getShootNoteCommand(),
+            followPathAuto(AutoConstants.TOP_NOTE_PATH),
+            SwerveCommands.getTrackAndAcquireNoteCommand(),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            ShooterCommands.getShootNoteCommand(),
+            followPathAuto("Bottom Note Path"),
+            SwerveCommands.getTrackAndAcquireNoteCommand(),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
             ShooterCommands.getShootNoteCommand());
     }
 
@@ -684,7 +744,7 @@ public final class AutoCommands {
      * if the current alliance is the red
      * alliance.
      */
-    public Command driveToPose(Pose2d pose) {
+    public static Command getDriveToPoseCommand(Pose2d pose) {
         return new FunctionalCommand(
             () -> {
                 // Get the current alliance from driver station.

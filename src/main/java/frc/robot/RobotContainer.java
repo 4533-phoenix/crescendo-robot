@@ -4,6 +4,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -137,6 +138,19 @@ public final class RobotContainer {
          */
         runIntakeBackwardsButton.onFalse(
             ShooterCommands.getStopEjectNoteCommand());
+
+        Trigger runShooterForwardsTrigger =
+            new Trigger(
+                () -> {
+                    return manipulatorController.getRightTriggerAxis()
+                        >= ControllerConstants.ANALOG_INPUT_DEADBAND;
+                });
+        
+        runShooterForwardsTrigger.whileTrue(
+            ShooterCommands.getRunShooterForwardsCommand());
+
+        runShooterForwardsTrigger.onFalse(
+            ShooterCommands.getStopShooterCommand());
         
         /*
          * Create the run shoot note trigger on the right trigger
@@ -154,7 +168,15 @@ public final class RobotContainer {
          * run the shoot note command.
          */
         runShootNoteTrigger.whileTrue(
-            ShooterCommands.getShootNoteCommand());
+            new SequentialCommandGroup(
+                ShooterCommands.getRunLiftForwardsCommand()
+                    .onlyIf(
+                        () -> manipulatorController.getRightTriggerAxis()
+                            >= ControllerConstants.ANALOG_INPUT_DEADBAND),
+                ShooterCommands.getShootNoteCommand()
+                    .onlyIf(
+                        () -> !(manipulatorController.getRightTriggerAxis()
+                            >= ControllerConstants.ANALOG_INPUT_DEADBAND))));
 
         /*
          * When the run shoot note trigger is released,
@@ -334,20 +356,6 @@ public final class RobotContainer {
          */
         runLockWheelsButton.whileTrue(
             SwerveCommands.getLockWheelsCommand());
-
-                /*
-         * While the run climb up button is pressed,
-         * run the run climb up command.
-         */
-        runClimbUpButton.whileTrue(
-            ClimbCommands.getRunClimbUpCommand());
-        
-        /*
-         * When the run climb up button is released,
-         * run the stop climb command.
-         */
-        runClimbUpButton.onFalse(
-            ClimbCommands.getStopClimbCommand());
         
         /*
          * Create the run climb down button on the LB button
