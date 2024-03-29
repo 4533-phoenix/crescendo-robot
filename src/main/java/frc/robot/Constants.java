@@ -259,7 +259,7 @@ public final class Constants {
     }
 
     public static final class LimelightConstants {
-        public static final String LIMELIGHT_NAME = "note-detector";
+        public static final String LIMELIGHT_NAME = "limelight-front";
     }
 
     public static final class AutoConstants {

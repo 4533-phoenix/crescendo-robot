@@ -23,10 +23,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.NoteDetectorConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveModuleConstants;
-import frc.robot.helpers.NoteDetector;
 
 /**
  * The class for the swerve drive subsystem.
@@ -208,12 +206,6 @@ public final class Swerve extends SubsystemBase {
             )
         )
     );
-    
-    /**
-     * The note detector for the swerve drive subsystem.
-     */
-    private final NoteDetector noteDetector = 
-        new NoteDetector(NoteDetectorConstants.NOTE_DETECTOR_NAME);
 
     /**
      * Gets the instance of the {@link Swerve} class.
@@ -307,10 +299,6 @@ public final class Swerve extends SubsystemBase {
      */
     public HolonomicDriveController getHolonomicDriveController() {
         return swerveController;
-    }
-
-    public NoteDetector getNoteDetector() {
-        return noteDetector;
     }
 
     /**

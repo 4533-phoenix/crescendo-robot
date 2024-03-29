@@ -151,8 +151,8 @@ public final class SwerveModule {
             new CANcoderConfiguration().withMagnetSensor(
                 new MagnetSensorConfigs().withAbsoluteSensorRange(
                     AbsoluteSensorRangeValue.Unsigned_0To1)
-                        .withSensorDirection(
-                            SensorDirectionValue.CounterClockwise_Positive)
+                .withSensorDirection(
+                    SensorDirectionValue.CounterClockwise_Positive)
             )
         );
 
@@ -363,9 +363,9 @@ public final class SwerveModule {
          * keep the speed as it is.
          */
         double speed = Math.abs(state.speedMetersPerSecond) 
-            <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND 
-                ? 0.0 
-                : state.speedMetersPerSecond;
+                <= SwerveModuleConstants.DRIVE_MOTOR_VELOCITY_DEADBAND 
+            ? 0.0 
+            : state.speedMetersPerSecond;
         
         /*
          * Set the drive motor voltage. If the speed is zero,
