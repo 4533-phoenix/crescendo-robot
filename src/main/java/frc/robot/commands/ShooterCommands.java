@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
@@ -108,7 +109,7 @@ public class ShooterCommands {
     public static Command getShootNoteCommand() {
         return new SequentialCommandGroup(
             getRunShooterForwardsCommand(),
-            new WaitCommand(0.7),
+            new WaitUntilCommand(() -> Shooter.getInstance().isShooterReady()),
             getRunShooterAndLiftForwardsCommand(),
             new WaitCommand(1.3),
             getStopShooterCommand(),

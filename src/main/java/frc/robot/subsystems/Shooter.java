@@ -121,6 +121,16 @@ public final class Shooter extends SubsystemBase {
     }
 
     /**
+     * Gets if the shooter is ready to shoot
+     * 
+     * @return Whether or not the shooter is ready to be shot
+     */
+    public boolean isShooterReady() {
+        return (Math.min(rightShooterMotor.getEncoder().getVelocity(),
+        leftShooterMotor.getEncoder().getVelocity()) > ShooterConstants.SHOOTER_VELOCITY);
+    }
+
+    /**
      * The periodic method for the shooter subsystem. This method
      * is run by the command scheduler every 20 ms.
      */

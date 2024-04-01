@@ -165,6 +165,8 @@ public final class Constants {
 
         public static final double LIFT_MOTOR_VOLTAGE = 9.0; // V
         public static final double SHOOTER_MOTOR_VOLTAGE = 12.0; // V
+
+        public static final double SHOOTER_VELOCITY = 1000.0; // RPM
     }
 
     public static final class ClimbConstants {

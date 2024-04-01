@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.*;
@@ -171,12 +170,10 @@ public final class RobotContainer {
             new SequentialCommandGroup(
                 ShooterCommands.getRunLiftForwardsCommand()
                     .onlyIf(
-                        () -> manipulatorController.getRightTriggerAxis()
-                            >= ControllerConstants.ANALOG_INPUT_DEADBAND),
+                        () -> Shooter.getInstance().isShooterReady()),
                 ShooterCommands.getShootNoteCommand()
                     .onlyIf(
-                        () -> !(manipulatorController.getRightTriggerAxis()
-                            >= ControllerConstants.ANALOG_INPUT_DEADBAND))));
+                        () -> !Shooter.getInstance().isShooterReady())));
 
         /*
          * When the run shoot note trigger is released,

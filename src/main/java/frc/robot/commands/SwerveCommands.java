@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.helpers.LimelightHelper;
@@ -383,7 +382,48 @@ public final class SwerveCommands {
      * @return The acquire note command.
      */
     public static Command getAcquireNoteCommand() {
-        return new FunctionalCommand(
+        // return new FunctionalCommand(
+        //     () -> {}, 
+        //     () -> {
+        //         // Run the intake forwards and the lift forwards.
+        //         Intake.getInstance().runIntakeForwards();
+        //         Shooter.getInstance().runLiftForwards();
+
+        //         /*
+        //          * Set the swerve drive subsystem to drive forward
+        //          * at the acquire note linear velocity.
+        //          */
+        //         Swerve.getInstance().setSwerveModuleStates(
+        //             SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+        //                 new ChassisSpeeds(
+        //                     SwerveConstants.ACQUIRE_NOTE_LINEAR_VELOCITY, 
+        //                     0.0, 
+        //                     0.0)));                
+        //     }, 
+        //     (isFinished) -> {
+        //         /*
+        //          * Stop the intake and the lift after the note
+        //          * has been acquired.
+        //          */
+        //         // Intake.getInstance().stopIntake();
+        //         // Shooter.getInstance().stopLift();
+
+        //         /*
+        //          * Set the swerve drive subsystem to stop after
+        //          * the note has been acquired.
+        //          */
+        //         Swerve.getInstance().setSwerveModuleStates(
+        //             SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+        //                 new ChassisSpeeds()));
+        //     }, 
+        //     () -> !LimelightHelper.getTV(LimelightConstants.LIMELIGHT_NAME),
+        //     Intake.getInstance(),
+        //     Shooter.getInstance(),
+        //     Swerve.getInstance())
+        //         .withTimeout(SwerveConstants.ACQUIRE_NOTE_TIMEOUT);
+
+        return new SequentialCommandGroup(
+            new FunctionalCommand(
             () -> {}, 
             () -> {
                 // Run the intake forwards and the lift forwards.
@@ -406,8 +446,8 @@ public final class SwerveCommands {
                  * Stop the intake and the lift after the note
                  * has been acquired.
                  */
-                Intake.getInstance().stopIntake();
-                Shooter.getInstance().stopLift();
+                // Intake.getInstance().stopIntake();
+                // Shooter.getInstance().stopLift();
 
                 /*
                  * Set the swerve drive subsystem to stop after
@@ -417,11 +457,13 @@ public final class SwerveCommands {
                     SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                         new ChassisSpeeds()));
             }, 
-            () -> Shooter.getInstance().isLimitSwitchPressed(),
+            () -> !LimelightHelper.getTV(LimelightConstants.LIMELIGHT_NAME),
             Intake.getInstance(),
             Shooter.getInstance(),
             Swerve.getInstance())
-                .withTimeout(SwerveConstants.ACQUIRE_NOTE_TIMEOUT);
+                .withTimeout(SwerveConstants.ACQUIRE_NOTE_TIMEOUT),
+            ShooterCommands.getIntakeNoteCommand()
+        );
     }
 
     /**
@@ -443,9 +485,7 @@ public final class SwerveCommands {
             getAcquireNoteCommand())
                 .onlyIf(
                     () -> 
-                        LimelightHelper.getTV(LimelightConstants.LIMELIGHT_NAME)
-                            && LimelightHelper.getTA(LimelightConstants.LIMELIGHT_NAME)
-                                >= SwerveConstants.NOTE_DIMENSIONS_DEADBAND);
+                        LimelightHelper.getTV(LimelightConstants.LIMELIGHT_NAME));
     }
 
     /**
