@@ -144,7 +144,7 @@ public final class Constants {
         public static final double TRACK_NOTE_ROTATIONAL_VELOCITY = Math.PI / 4.0; // rad/s
         public static final double TRACK_NOTE_SLOW_ROTATIONAL_VELOCITY = Math.PI / 6.0; // rad/s
         
-        public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 2.0; // m/s
+        public static final double ACQUIRE_NOTE_LINEAR_VELOCITY = 3.0; // m/s
         public static final double ACQUIRE_NOTE_TIMEOUT = 5.0; // s
 
         public static final double NOTE_DIMENSIONS_DEADBAND = 0.0; // px^2
@@ -304,7 +304,14 @@ public final class Constants {
 
         // Triple speaker score autonomous constants.
         public static final String TRIPLE_SPEAKER_SCORE_AUTO_KEY = "Triple Speaker Score Auto";
+
+        // Quadruple speaker score autonomous constants.
+        public static final String QUADRUPLE_SPEAKER_SCORE_AUTO_KEY = 
+            "Quadruple Speaker Score Auto";
+        
+        // Alliance wing note paths.
         public static final String TOP_NOTE_PATH = "Top Note Path";
+        public static final String BOTTOM_NOTE_PATH = "Bottom Note Path";
 
         // Pathplanner commands.
         public static final String INTAKE_NOTE_COMMAND = "Intake Note Command";

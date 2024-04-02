@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
       AutoCommands.getTripleSpeakerScoreAuto());
 
     autoChooser.addOption(
-      "Quadruple Speaker Score Auto",
+      AutoConstants.QUADRUPLE_SPEAKER_SCORE_AUTO_KEY,
       AutoCommands.getQuadrupleSpeakerScoreAuto());
 
     SmartDashboard.putData("Auto Chooser", autoChooser);

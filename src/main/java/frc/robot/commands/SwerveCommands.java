@@ -382,46 +382,6 @@ public final class SwerveCommands {
      * @return The acquire note command.
      */
     public static Command getAcquireNoteCommand() {
-        // return new FunctionalCommand(
-        //     () -> {}, 
-        //     () -> {
-        //         // Run the intake forwards and the lift forwards.
-        //         Intake.getInstance().runIntakeForwards();
-        //         Shooter.getInstance().runLiftForwards();
-
-        //         /*
-        //          * Set the swerve drive subsystem to drive forward
-        //          * at the acquire note linear velocity.
-        //          */
-        //         Swerve.getInstance().setSwerveModuleStates(
-        //             SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-        //                 new ChassisSpeeds(
-        //                     SwerveConstants.ACQUIRE_NOTE_LINEAR_VELOCITY, 
-        //                     0.0, 
-        //                     0.0)));                
-        //     }, 
-        //     (isFinished) -> {
-        //         /*
-        //          * Stop the intake and the lift after the note
-        //          * has been acquired.
-        //          */
-        //         // Intake.getInstance().stopIntake();
-        //         // Shooter.getInstance().stopLift();
-
-        //         /*
-        //          * Set the swerve drive subsystem to stop after
-        //          * the note has been acquired.
-        //          */
-        //         Swerve.getInstance().setSwerveModuleStates(
-        //             SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-        //                 new ChassisSpeeds()));
-        //     }, 
-        //     () -> !LimelightHelper.getTV(LimelightConstants.LIMELIGHT_NAME),
-        //     Intake.getInstance(),
-        //     Shooter.getInstance(),
-        //     Swerve.getInstance())
-        //         .withTimeout(SwerveConstants.ACQUIRE_NOTE_TIMEOUT);
-
         return new SequentialCommandGroup(
             new FunctionalCommand(
             () -> {}, 
@@ -443,13 +403,6 @@ public final class SwerveCommands {
             }, 
             (isFinished) -> {
                 /*
-                 * Stop the intake and the lift after the note
-                 * has been acquired.
-                 */
-                // Intake.getInstance().stopIntake();
-                // Shooter.getInstance().stopLift();
-
-                /*
                  * Set the swerve drive subsystem to stop after
                  * the note has been acquired.
                  */
@@ -461,9 +414,7 @@ public final class SwerveCommands {
             Intake.getInstance(),
             Shooter.getInstance(),
             Swerve.getInstance())
-                .withTimeout(SwerveConstants.ACQUIRE_NOTE_TIMEOUT),
-            ShooterCommands.getIntakeNoteCommand()
-        );
+                .withTimeout(SwerveConstants.ACQUIRE_NOTE_TIMEOUT));
     }
 
     /**

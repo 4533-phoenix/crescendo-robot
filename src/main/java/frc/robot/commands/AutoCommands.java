@@ -394,7 +394,8 @@ public final class AutoCommands {
             ),
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPointOfInterestCommand(),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
+                .alongWith(ShooterCommands.getIntakeNoteCommand()),
             ShooterCommands.getShootNoteCommand());
     }
 
@@ -447,24 +448,28 @@ public final class AutoCommands {
                 Swerve.getInstance()),
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
+                .alongWith(ShooterCommands.getIntakeNoteCommand()),
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.TOP_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
+                .alongWith(ShooterCommands.getIntakeNoteCommand()),
             ShooterCommands.getShootNoteCommand());
     }
 
     /**
-     * Gets the triple speaker score auto, which scores
+     * Gets the quadruple speaker score auto, which scores
      * one note at subwoofer center, then intakes the
      * middle alliance note, drives back to subwoofer
      * center, scores the middle alliance note, then
      * intakes the top alliance note, drives back to
-     * subwoofer center, and scores the top alliance
-     * note.
+     * subwoofer center, scores the top alliance
+     * note, then intakes the bottom alliance note,
+     * drives back to subwoofer center, and scores
+     * the bottom alliance note.
      * 
-     * @return The triple speaker score auto.
+     * @return The quadruple speaker score auto.
      */
     public static Command getQuadrupleSpeakerScoreAuto() {
         return new SequentialCommandGroup(
@@ -504,15 +509,18 @@ public final class AutoCommands {
                 Swerve.getInstance()),
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
+                .alongWith(ShooterCommands.getIntakeNoteCommand()),
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.TOP_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
+                .alongWith(ShooterCommands.getIntakeNoteCommand()),
             ShooterCommands.getShootNoteCommand(),
-            followPathAuto("Bottom Note Path"),
+            followPathAuto(AutoConstants.BOTTOM_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
-            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE),
+            getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
+                .alongWith(ShooterCommands.getIntakeNoteCommand()),
             ShooterCommands.getShootNoteCommand());
     }
 

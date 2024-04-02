@@ -126,8 +126,10 @@ public final class Shooter extends SubsystemBase {
      * @return Whether or not the shooter is ready to be shot
      */
     public boolean isShooterReady() {
-        return (Math.min(rightShooterMotor.getEncoder().getVelocity(),
-        leftShooterMotor.getEncoder().getVelocity()) > ShooterConstants.SHOOTER_VELOCITY);
+        return Math.min(
+                leftShooterMotor.getEncoder().getVelocity(),
+                rightShooterMotor.getEncoder().getVelocity()) 
+            > ShooterConstants.SHOOTER_VELOCITY;
     }
 
     /**

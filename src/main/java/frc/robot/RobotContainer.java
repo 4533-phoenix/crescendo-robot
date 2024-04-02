@@ -4,7 +4,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoConstants;
@@ -137,19 +136,6 @@ public final class RobotContainer {
          */
         runIntakeBackwardsButton.onFalse(
             ShooterCommands.getStopEjectNoteCommand());
-
-        Trigger runShooterForwardsTrigger =
-            new Trigger(
-                () -> {
-                    return manipulatorController.getRightTriggerAxis()
-                        >= ControllerConstants.ANALOG_INPUT_DEADBAND;
-                });
-        
-        runShooterForwardsTrigger.whileTrue(
-            ShooterCommands.getRunShooterForwardsCommand());
-
-        runShooterForwardsTrigger.onFalse(
-            ShooterCommands.getStopShooterCommand());
         
         /*
          * Create the run shoot note trigger on the right trigger
@@ -167,13 +153,7 @@ public final class RobotContainer {
          * run the shoot note command.
          */
         runShootNoteTrigger.whileTrue(
-            new SequentialCommandGroup(
-                ShooterCommands.getRunLiftForwardsCommand()
-                    .onlyIf(
-                        () -> Shooter.getInstance().isShooterReady()),
-                ShooterCommands.getShootNoteCommand()
-                    .onlyIf(
-                        () -> !Shooter.getInstance().isShooterReady())));
+            ShooterCommands.getShootNoteCommand());
 
         /*
          * When the run shoot note trigger is released,
@@ -310,10 +290,14 @@ public final class RobotContainer {
         
         /*
          * When the run track and acquire note button is released,
-         * run the stop track and acquire note command.
+         * run the stop track and acquire note command and then
+         * run the intake note command, which is done to intake
+         * the note up to the shooter limit switch after the track 
+         * and acquire note command has run.
          */
         runTrackAndAcquireNoteButton.onFalse(
-            SwerveCommands.getStopTrackAndAcquireNoteCommand());
+            SwerveCommands.getStopTrackAndAcquireNoteCommand()
+                .andThen(ShooterCommands.getIntakeNoteCommand()));
         
         /*
          * Create the run drive to point of interest button on the A button
