@@ -59,8 +59,7 @@ public final class Swerve extends SubsystemBase {
             SwerveConstants.FRONT_LEFT_STEER_MOTOR_KD, 
             new Constraints(
                 SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
-                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
-    );
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION)));
 
     /**
      * The front right swerve module.
@@ -86,8 +85,7 @@ public final class Swerve extends SubsystemBase {
             SwerveConstants.FRONT_RIGHT_STEER_MOTOR_KD, 
             new Constraints(
                 SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
-                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
-    );
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION)));
 
     /**
      * The back left swerve module.
@@ -113,8 +111,7 @@ public final class Swerve extends SubsystemBase {
             SwerveConstants.BACK_LEFT_STEER_MOTOR_KD, 
             new Constraints(
                 SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
-                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
-    );
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION)));
 
     /**
      * The back right swerve module.
@@ -140,8 +137,7 @@ public final class Swerve extends SubsystemBase {
             SwerveConstants.BACK_RIGHT_STEER_MOTOR_KD, 
             new Constraints(
                 SwerveModuleConstants.STEER_MOTOR_MAX_VELOCITY, 
-                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION))
-    );
+                SwerveModuleConstants.STEER_MOTOR_MAX_ACCELERATION)));
 
     /**
      * The array that contains the swerve modules.
@@ -152,8 +148,7 @@ public final class Swerve extends SubsystemBase {
         frontLeftSwerveModule,
         frontRightSwerveModule,
         backLeftSwerveModule,
-        backRightSwerveModule
-    };
+        backRightSwerveModule};
     
     /**
      * Whether or not the swerve drive subsystem
@@ -179,8 +174,7 @@ public final class Swerve extends SubsystemBase {
         SwerveConstants.SWERVE_DRIVE_KINEMATICS, 
         getGyroAngle(), 
         getSwerveModulePositions(),
-        new Pose2d()
-    );
+        new Pose2d());
 
     /**
      * The swerve drive holonomic drive controller.
@@ -189,23 +183,18 @@ public final class Swerve extends SubsystemBase {
         new PIDController(
             SwerveConstants.X_CONTROLLER_KP, 
             SwerveConstants.X_CONTROLLER_KI, 
-            SwerveConstants.X_CONTROLLER_KD
-        ), 
+            SwerveConstants.X_CONTROLLER_KD), 
         new PIDController(
             SwerveConstants.Y_CONTROLLER_KP, 
             SwerveConstants.Y_CONTROLLER_KI, 
-            SwerveConstants.Y_CONTROLLER_KD
-        ), 
+            SwerveConstants.Y_CONTROLLER_KD), 
         new ProfiledPIDController(
             SwerveConstants.THETA_CONTROLLER_KP, 
             SwerveConstants.THETA_CONTROLLER_KI, 
             SwerveConstants.THETA_CONTROLLER_KD, 
             new Constraints(
                 SwerveConstants.MAX_ROTATIONAL_VELOCITY, 
-                SwerveConstants.MAX_ROTATIONAL_ACCELERATION
-            )
-        )
-    );
+                SwerveConstants.MAX_ROTATIONAL_ACCELERATION)));
 
     /**
      * Gets the instance of the {@link Swerve} class.
@@ -225,7 +214,10 @@ public final class Swerve extends SubsystemBase {
      */
     private Swerve() {
         // Set continous input for the theta controller.
-        swerveController.getThetaController().enableContinuousInput(0.0, (2.0 * Math.PI));
+        swerveController.getThetaController()
+            .enableContinuousInput(
+                0.0, 
+                2.0 * Math.PI);
     }
 
     /**
@@ -255,7 +247,8 @@ public final class Swerve extends SubsystemBase {
      * @return The current chassis speeds of the swerve drive subsystem.
      */
     public ChassisSpeeds getChassisSpeeds() {
-        return SwerveConstants.SWERVE_DRIVE_KINEMATICS.toChassisSpeeds(getSwerveModuleStates());
+        return SwerveConstants.SWERVE_DRIVE_KINEMATICS
+            .toChassisSpeeds(getSwerveModuleStates());
     }
 
     /**
@@ -266,7 +259,8 @@ public final class Swerve extends SubsystemBase {
      * swerve drive subsystem swerve modules.
      */
     public SwerveModuleState[] getSwerveModuleStates() {
-        SwerveModuleState[] swerveModuleStates = new SwerveModuleState[swerveModules.length];
+        SwerveModuleState[] swerveModuleStates = 
+            new SwerveModuleState[swerveModules.length];
 
         for (int i = 0; i < swerveModules.length; i++) {
             swerveModuleStates[i] = swerveModules[i].getSwerveModuleState();
@@ -283,7 +277,8 @@ public final class Swerve extends SubsystemBase {
      * swerve drive subsystem swerve modules.
      */
     public SwerveModulePosition[] getSwerveModulePositions() {
-        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[swerveModules.length];
+        SwerveModulePosition[] swerveModulePositions = 
+            new SwerveModulePosition[swerveModules.length];
 
         for (int i = 0; i < swerveModules.length; i++) {
             swerveModulePositions[i] = swerveModules[i].getSwerveModulePosition();
@@ -391,13 +386,17 @@ public final class Swerve extends SubsystemBase {
          * then set the velocity to the slow mode velocity,
          * and if it is not, then set it to the max velocity.
          */
-        double velocity = isSlow ? SwerveConstants.SLOW_VELOCITY : SwerveConstants.MAX_VELOCITY;
+        double velocity = isSlow 
+            ? SwerveConstants.SLOW_VELOCITY 
+            : SwerveConstants.MAX_VELOCITY;
 
         /*
          * If the alliance is the red alliance, then reverse
          * the velocity, and if it is not, keep it the same.
          */
-        velocity *= (alliance == Alliance.Red && !isRobotRelative) ? -1.0 : 1.0;
+        velocity *= (alliance == Alliance.Red && !isRobotRelative) 
+            ? -1.0 
+            : 1.0;
 
         /*
          * Get the velocities as the x, y, and rotation velocity factors
@@ -426,7 +425,8 @@ public final class Swerve extends SubsystemBase {
                 getRobotPose().getRotation());
 
         // Convert the chassis speeds to swerve module states.
-        SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+        SwerveModuleState[] swerveModuleStates = 
+            SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
         // Set the swerve drive subsystem to drive at the swerve module states.
         setSwerveModuleStates(swerveModuleStates);
@@ -536,7 +536,8 @@ public final class Swerve extends SubsystemBase {
             log.motor(motorName)
                 .voltage(Units.Volts.of(swerveModule.getDriveMotorVoltage()))
                 .linearPosition(Units.Meters.of(swerveModule.getDriveMotorLinearPosition()))
-                .linearVelocity(Units.MetersPerSecond.of(swerveModule.getDriveMotorLinearVelocity()));
+                .linearVelocity(Units.MetersPerSecond.of(
+                    swerveModule.getDriveMotorLinearVelocity()));
         }
     }
 
@@ -568,7 +569,8 @@ public final class Swerve extends SubsystemBase {
             log.motor(motorName)
                 .voltage(Units.Volts.of(swerveModule.getSteerMotorVoltage()))
                 .angularPosition(Units.Radians.of(swerveModule.getSteerEncoderAngle()))
-                .angularVelocity(Units.RadiansPerSecond.of(swerveModule.getSteerEncoderAngularVelocity()));
+                .angularVelocity(Units.RadiansPerSecond.of(
+                    swerveModule.getSteerEncoderAngularVelocity()));
         }
     }
 

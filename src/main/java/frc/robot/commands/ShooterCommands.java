@@ -109,7 +109,8 @@ public class ShooterCommands {
     public static Command getShootNoteCommand() {
         return new SequentialCommandGroup(
             getRunShooterForwardsCommand(),
-            new WaitUntilCommand(() -> Shooter.getInstance().isShooterReady()),
+            new WaitUntilCommand(
+                () -> Shooter.getInstance().isShooterReady()),
             getRunShooterAndLiftForwardsCommand(),
             new WaitCommand(0.4),
             getStopShooterCommand(),

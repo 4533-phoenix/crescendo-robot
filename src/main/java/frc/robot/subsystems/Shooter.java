@@ -121,9 +121,11 @@ public final class Shooter extends SubsystemBase {
     }
 
     /**
-     * Gets if the shooter is ready to shoot
+     * Gets whether or not the shooter is ready to shoot,
+     * which is determined by if the slower shooter motor
+     * is above the required shooter velocity.
      * 
-     * @return Whether or not the shooter is ready to be shot
+     * @return Whether or not the shooter is ready to shoot.
      */
     public boolean isShooterReady() {
         return Math.min(
