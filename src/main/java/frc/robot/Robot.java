@@ -48,6 +48,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    for (SwerveModule swerveModule : Swerve.getInstance().getSwerveModules()) {
+      swerveModule.getSteerPIDController().reset(
+        swerveModule.getSteerEncoderAngle());
+    }
+    
     Swerve.getInstance().resetGyro();
 
     RobotContainer.registerSubsystems();
@@ -79,8 +84,12 @@ public class Robot extends TimedRobot {
       AutoCommands.getDoubleSpeakerScoreAuto());
 
     autoChooser.addOption(
-      AutoConstants.TRIPLE_SPEAKER_SCORE_AUTO_KEY, 
-      AutoCommands.getTripleSpeakerScoreAuto());
+      AutoConstants.TRIPLE_SPEAKER_SCORE_TOP_AUTO_KEY, 
+      AutoCommands.getTripleSpeakerScoreTopAuto());
+    
+    autoChooser.addOption(
+      AutoConstants.TRIPLE_SPEAKER_SCORE_BOTTOM_AUTO_KEY,
+      AutoCommands.getTripleSpeakerScoreBottomAuto());
 
     autoChooser.addOption(
       AutoConstants.QUADRUPLE_SPEAKER_SCORE_AUTO_KEY,

@@ -166,7 +166,7 @@ public final class Constants {
         public static final double LIFT_MOTOR_VOLTAGE = 9.0; // V
         public static final double SHOOTER_MOTOR_VOLTAGE = 12.0; // V
 
-        public static final double SHOOTER_VELOCITY = 1000.0; // RPM
+        public static final double SHOOTER_VELOCITY = 1500.0; // RPM
     }
 
     public static final class ClimbConstants {
@@ -303,7 +303,11 @@ public final class Constants {
         public static final String DOUBLE_SPEAKER_SCORE_AUTO_KEY = "Double Speaker Score Auto";
 
         // Triple speaker score autonomous constants.
-        public static final String TRIPLE_SPEAKER_SCORE_AUTO_KEY = "Triple Speaker Score Auto";
+        public static final String TRIPLE_SPEAKER_SCORE_TOP_AUTO_KEY = 
+            "Triple Speaker Score Top Auto";
+        
+        public static final String TRIPLE_SPEAKER_SCORE_BOTTOM_AUTO_KEY = 
+            "Triple Speaker Score Bottom Auto";
 
         // Quadruple speaker score autonomous constants.
         public static final String QUADRUPLE_SPEAKER_SCORE_AUTO_KEY = 

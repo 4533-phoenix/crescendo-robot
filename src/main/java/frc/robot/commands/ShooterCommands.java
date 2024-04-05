@@ -112,6 +112,8 @@ public class ShooterCommands {
             new WaitUntilCommand(
                 () -> Shooter.getInstance().isShooterReady()),
             getRunShooterAndLiftForwardsCommand(),
+            // new WaitUntilCommand(
+            //     () -> !Shooter.getInstance().isLimitSwitchPressed()),
             new WaitCommand(0.4),
             getStopShooterCommand(),
             getStopLiftCommand());
