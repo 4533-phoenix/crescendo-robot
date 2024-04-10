@@ -395,7 +395,8 @@ public final class AutoCommands {
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand());
     }
 
@@ -449,12 +450,14 @@ public final class AutoCommands {
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.TOP_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand());
     }
 
@@ -508,12 +511,14 @@ public final class AutoCommands {
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.BOTTOM_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand());
     }
 
@@ -569,17 +574,20 @@ public final class AutoCommands {
             ShooterCommands.getShootNoteCommand(),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.TOP_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand(),
             followPathAuto(AutoConstants.BOTTOM_NOTE_PATH),
             SwerveCommands.getTrackAndAcquireNoteCommand(),
             getDriveToPoseCommand(AutoConstants.SUBWOOFER_CENTER_POSE)
-                .alongWith(ShooterCommands.getIntakeNoteCommand()),
+                .alongWith(ShooterCommands.getIntakeNoteCommand()
+                    .withTimeout(2.0)),
             ShooterCommands.getShootNoteCommand());
     }
 
